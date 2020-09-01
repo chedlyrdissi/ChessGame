@@ -1,0 +1,9 @@
+<ng-template [ngSwitch]="this.piece">
+  <pawn *ngSwitchCase="">...</pawn>
+  <knight *ngSwitchCase="">...</knight>
+  <rook *ngSwitchCase="">...</rook>
+  <queen *ngSwitchCase="">...</queen>
+  <bishop *ngSwitchCase="">...</bishop>
+  
+  <span *ngSwitchDefault>...</span>
+</ng-template>
