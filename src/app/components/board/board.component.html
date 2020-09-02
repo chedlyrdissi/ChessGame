@@ -1,1 +1,15 @@
-<p>board works!</p>
+<table ng-class="table table-bordered">
+  <tbody>
+    <tr *ngFor="let row of this.gameBoard; index as r">
+      <td *ngFor="let cell of row; index as col">
+        <cell
+          [ngClass]="{dark: ( (r + col)%2 ===1 )}"
+          [piece]="cell.p"
+          [color]="cell.c"
+          [row]="r"
+          [col]="col">
+        </cell>
+      </td>
+    </tr>
+  </tbody>
+</table>

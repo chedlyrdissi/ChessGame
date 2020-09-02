@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PieceColor } from './piece-color.enum';
-import { PieceName } from './piece-name.enum';
+import { PieceName } from './pieces-names.enum';
 
 import { PawnComponent } from './pawn/pawn.component';
 import { RookComponent } from './rook/rook.component';
@@ -18,7 +18,7 @@ import { KnightComponent } from './knight/knight.component';
     KingComponent,
     QueenComponent,
     BishopComponent,
-    KnightComponent
+    KnightComponent,
   ],
   imports: [
     CommonModule
@@ -29,9 +29,7 @@ import { KnightComponent } from './knight/knight.component';
     KingComponent,
     QueenComponent,
     BishopComponent,
-    KnightComponent,
-    PieceName,
-    PieceColor
+    KnightComponent
   ],
   providers: [],
   bootstrap: []

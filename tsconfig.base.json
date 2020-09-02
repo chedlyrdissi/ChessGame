@@ -17,8 +17,8 @@
       "dom"
     ],
     "paths": {
-      "@Board" : ["./src/app/component/board/*"],
-      "@Pieces": ["./src/app/component/pieces/*"]
+      "@Board" : ["src/app/component/board/*"],
+      "@Pieces": ["src/app/component/pieces/*"]
     }
   }
 }

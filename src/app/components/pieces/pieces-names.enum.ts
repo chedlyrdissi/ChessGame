@@ -1,6 +1,6 @@
 export enum PieceName {
   Pawn = 'pawn',
-  Kight = 'knight',
+  Knight = 'knight',
   Bishop = 'bishop',
   King = 'king',
   Queen = 'queen',
