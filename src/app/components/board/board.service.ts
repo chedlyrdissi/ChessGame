@@ -5,6 +5,8 @@ export class BoardService {
 
   gameBoard = START_TABLE;
 
+  selected: BoardCell;
+
   constructor() {}
 
   cellClicked(row: number, column: number): void {
@@ -13,6 +15,7 @@ export class BoardService {
     } else {
       console.log('cell ('+row+','+column+') occupied by '+this.gameBoard[row][column].c+' '+this.gameBoard[row][column].p);
     }
+    this.selected = this.gameBoard[row][column];
   }
 }
 

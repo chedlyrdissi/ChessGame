@@ -10,3 +10,7 @@ td {
   border: 0.1px solid;
   text-align: center !important;
 }
+
+.selected {
+  background-color: yellow;
+}

@@ -20,5 +20,8 @@ export class BoardComponent implements OnInit {
   getBoardGame() {
     return this.boardService.gameBoard;
   }
+  
+  isSelected(cell): boolean {
+    return Object.is(cell, this.boardService.selected);
+  }
 }
-
