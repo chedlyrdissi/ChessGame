@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PiecesModule } from '../pieces/pieces.module';
 import { BoardComponent } from './board.component';
 import { CellComponent } from './cell/cell.component';
+import { BoardService } from './board.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { CellComponent } from './cell/cell.component';
     BoardComponent,
     CellComponent
   ],
-  providers: [],
+  providers: [BoardService],
   bootstrap: [BoardComponent]
 })
 

@@ -14,14 +14,4 @@ export class CellComponent {
   @Input() col;
 
   public ref = CellComponent;
-
-  constructor() {
-    if (this.piece) {
-      console.log(this.row + ',' + this.col);    
-    }
-  }
-
-  onClick = (e) => {
-    alert('('+this.row+','+this.col+')clicked')
-  };
 }

@@ -9,7 +9,7 @@ import { ChessPiece } from '../piece.interface';
 })
 export class BishopComponent implements ChessPiece {
 
-  @Input() pieceColor = PieceColor.White;
+  @Input() pieceColor;
 
   isBlack(): boolean {
     return this.pieceColor === PieceColor.Black;
@@ -18,5 +18,4 @@ export class BishopComponent implements ChessPiece {
   isWhite(): boolean {
     return this.pieceColor === PieceColor.White;
   }
-
 }

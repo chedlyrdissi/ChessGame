@@ -1,7 +1,7 @@
 <table ng-class="table table-bordered">
   <tbody>
-    <tr *ngFor="let row of this.gameBoard; index as r">
-      <td *ngFor="let cell of row; index as col">
+    <tr *ngFor="let row of this.getBoardGame(); index as r">
+      <td *ngFor="let cell of row; index as col" (click)="this.cellClicked(r, col)">
         <cell
           [ngClass]="{dark: ( (r + col)%2 ===1 )}"
           [piece]="cell.p"
