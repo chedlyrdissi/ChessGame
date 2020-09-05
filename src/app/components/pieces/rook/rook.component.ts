@@ -18,4 +18,9 @@ export class RookComponent implements ChessPiece {
   isWhite(): boolean {
     return this.pieceColor === PieceColor.White;
   }
+  
+  possibleSteps(row: number, column: number): {row: number, column: number}[] {
+    let steps = [];
+    return null;
+  }
 }
