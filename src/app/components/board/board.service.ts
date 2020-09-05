@@ -1,27 +1,29 @@
 import { PieceColor } from '../pieces/piece-color.enum';
 import { PieceName } from '../pieces/pieces-names.enum';
+import { PieceWatcher } from '../pieces/piece.interface';
 
-export class BoardService {
+export class BoardService extends PieceWatcher {
 
   gameBoard = START_TABLE;
 
   selected: BoardCell;
 
-  constructor() {}
-
   cellClicked(row: number, column: number): void {
-    if (!this.gameBoard[row][column].p) {
-      console.log('empty cell');
-    } else {
-      console.log('cell ('+row+','+column+') occupied by '+this.gameBoard[row][column].c+' '+this.gameBoard[row][column].p);
-    }
-    if( this.selected ) {
+    // if (!this.gameBoard[row][column].p) {
+     //  console.log('empty cell');
+    // } else {
+      // console.log('cell ('+row+','+column+') occupied by '+this.gameBoard[row][column].c+' '+this.gameBoard[row][column].p);
+    // }
+
+    // console.log(this.gameBoard[row][column] !== {});
+
+    if( this.selected && (row != this.selected.row || column != this.selected.col) ) {
       // move piece
       this.gameBoard[row][column] = {c: this.selected.c,p: this.selected.p};
       this.gameBoard[this.selected.row][this.selected.col] = {};
       // deselect
       this.selected = undefined;
-    } else {
+    } else if (this.gameBoard[row][column].p) {
       // set selected piece
       this.selected = this.gameBoard[row][column];
       this.selected.row = row;

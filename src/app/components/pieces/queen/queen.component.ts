@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PieceColor } from '../piece-color.enum';
-import { ChessPiece } from '../piece.interface';
+import { ChessPiece, PieceWatcher } from '../piece.interface';
 
 @Component({
   selector: 'queen',
@@ -11,7 +11,7 @@ export class QueenComponent implements ChessPiece {
 
   @Input() pieceColor = PieceColor.White;
 
-  constructor(private boardService: BoardService) {}
+  constructor(private boardService: PieceWatcher) {}
 
   isBlack(): boolean {
     return this.pieceColor === PieceColor.Black;

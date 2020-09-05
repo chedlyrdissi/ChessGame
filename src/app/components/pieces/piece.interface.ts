@@ -4,7 +4,7 @@ export interface ChessPiece {
   possibleSteps(row: number, column: number): {row: number, column: number}[];
 }
 
-export interface PieceWatcher {
+export abstract class PieceWatcher {
 
 }
 

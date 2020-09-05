@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PieceColor } from './piece-color.enum';
 import { PieceName } from './pieces-names.enum';
+import { PieceWatcher } from './piece.interface';
 
 import { PawnComponent } from './pawn/pawn.component';
 import { RookComponent } from './rook/rook.component';

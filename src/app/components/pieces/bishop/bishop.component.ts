@@ -11,7 +11,7 @@ export class BishopComponent implements ChessPiece {
 
   @Input() pieceColor;
 
-  constructor(private boardService: BoardService) {}
+  constructor(private boardService: PieceWatcher) {}
 
   isBlack(): boolean {
     return this.pieceColor === PieceColor.Black;
