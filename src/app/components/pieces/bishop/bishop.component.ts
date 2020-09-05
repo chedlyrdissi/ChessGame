@@ -10,7 +10,8 @@ import { ChessPiece, PieceWatcher } from '../piece.interface';
 export class BishopComponent implements ChessPiece {
 
   @Input() pieceColor;
-  @Input() boardService;
+
+  constructor(private boardService: BoardService) {}
 
   isBlack(): boolean {
     return this.pieceColor === PieceColor.Black;

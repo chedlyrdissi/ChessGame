@@ -10,7 +10,9 @@ import { ChessPiece } from '../piece.interface';
 export class QueenComponent implements ChessPiece {
 
   @Input() pieceColor = PieceColor.White;
-  
+
+  constructor(private boardService: BoardService) {}
+
   isBlack(): boolean {
     return this.pieceColor === PieceColor.Black;
   }

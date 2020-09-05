@@ -15,7 +15,18 @@ export class BoardService {
     } else {
       console.log('cell ('+row+','+column+') occupied by '+this.gameBoard[row][column].c+' '+this.gameBoard[row][column].p);
     }
-    this.selected = this.gameBoard[row][column];
+    if( this.selected ) {
+      // move piece
+      this.gameBoard[row][column] = {c: this.selected.c,p: this.selected.p};
+      this.gameBoard[this.selected.row][this.selected.col] = {};
+      // deselect
+      this.selected = undefined;
+    } else {
+      // set selected piece
+      this.selected = this.gameBoard[row][column];
+      this.selected.row = row;
+      this.selected.col = column;
+    }
   }
 }
 
@@ -31,6 +42,8 @@ const queen = PieceName.Queen;
 class BoardCell {
   c?: PieceColor;
   p?: PieceName;
+  row?: number;
+  col?: number;
 }
 
 const START_TABLE: BoardCell[][] = [

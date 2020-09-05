@@ -11,6 +11,8 @@ export class RookComponent implements ChessPiece {
 
   @Input() pieceColor = PieceColor.White;
 
+  constructor(private boardService: BoardService) {}
+
   isBlack(): boolean {
     return this.pieceColor === PieceColor.Black;
   }
