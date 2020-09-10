@@ -1,6 +1,7 @@
 import { PieceColor } from './cell/pieces/piece-color.enum';
 import { PieceName } from './cell/pieces/pieces-names.enum';
 import { BishopController } from './cell/pieces/bishop/bishop.controller';
+import { ControllerMap } from './board-piece.controller';
 
 export class BoardService {
 
@@ -16,9 +17,11 @@ export class BoardService {
     } else if( this.selected
       && (row != this.selected.row || column != this.selected.col)
       && (this.selected.c !== this.gameBoard[row][column].c) ) {
-      // move piece
-      this.gameBoard[row][column] = {c: this.selected.c,p: this.selected.p};
-      this.gameBoard[this.selected.row][this.selected.col] = {};
+      // move piece if possible
+      if(this.possibleSteps.filter((elem) => {return elem.row === row && elem.column === column}).length > 0) {
+        this.gameBoard[row][column] = {c: this.selected.c,p: this.selected.p};
+        this.gameBoard[this.selected.row][this.selected.col] = {};
+      }
       // deselect
       this.selected = null;
       this.possibleSteps = [];
@@ -27,7 +30,7 @@ export class BoardService {
       this.selected = this.gameBoard[row][column];
       this.selected.row = row;
       this.selected.col = column;
-      this.possibleSteps = this.selected.p === bishop ? BishopController(row, column, this.gameBoard) : [];
+      this.possibleSteps = ControllerMap[this.selected.p] ? ControllerMap[this.selected.p](row, column, this.gameBoard) : [];
     }
   }
 
@@ -60,6 +63,19 @@ const START_TABLE: BoardCell[][] = [
   [{}, {}, {}, {}, {}, {}, {}, {}],
   [{}, {}, {}, {}, {}, {}, {}, {}],
   [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{},{},{c:w,p:pawn},{},{c:w,p:pawn},{c:w,p:pawn},{c:w,p:pawn},{c:w,p:pawn}],
+  [{c:w,p:rook},{c:w,p:knight},{c:w,p:bishop},{c:w,p:queen},{c:w,p:king},{c:w,p:bishop},{c:w,p:knight},{c:w,p:rook}]
+];
+
+/*
+const START_TABLE: BoardCell[][] = [
+  [{c:b,p:rook},{c:b,p:knight},{c:b,p:bishop},{c:b,p:queen},{c:b,p:king},{c:b,p:bishop},{c:b,p:knight},{c:b,p:rook}],
+  [{c:b,p:pawn},{c:b,p:pawn},{c:b,p:pawn},{c:b,p:pawn},{c:b,p:pawn},{c:b,p:pawn},{c:b,p:pawn},{c:b,p:pawn}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
   [{c:w,p:pawn},{c:w,p:pawn},{c:w,p:pawn},{c:w,p:pawn},{c:w,p:pawn},{c:w,p:pawn},{c:w,p:pawn},{c:w,p:pawn}],
   [{c:w,p:rook},{c:w,p:knight},{c:w,p:bishop},{c:w,p:queen},{c:w,p:king},{c:w,p:bishop},{c:w,p:knight},{c:w,p:rook}]
 ];
+*/

@@ -1,5 +1,3 @@
-import { PieceName } from '../pieces-names.enum';
-
 export function BishopController(row: number, column: number, board): {row: number, column: number}[] {
   let steps = [];
   const color = board[row][column].c;
