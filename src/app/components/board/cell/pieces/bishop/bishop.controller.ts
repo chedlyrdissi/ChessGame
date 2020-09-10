@@ -8,7 +8,7 @@ export function BishopController(row: number, column: number, board): {row: numb
   for(let i=1; i<8; i++) {
     if (row+i < 8 && column+i < 8 && (!board[row+i][column+i].p || board[row+i][column+i].p && board[row+i][column+i].c !== color)) {
       steps.push({row: row+i, column: column+i});
-      if (board[row+i][column+i].c !== color) {
+      if (board[row+i][column+i].p && board[row+i][column+i].c !== color) {
         break;
       }
     } else {
@@ -17,8 +17,11 @@ export function BishopController(row: number, column: number, board): {row: numb
   }
   // left
   for(let i=1; i<8; i++) {
-    if (row+i < 8 && column-i >= 0 && (!board[row+i][column+i].p || board[row+i][column+i].p && board[row+i][column+i].c !== color)) {
+    if (row+i < 8 && column-i >= 0 && (!board[row+i][column-i].p || board[row+i][column-i].p && board[row+i][column-i].c !== color)) {
       steps.push({row: row+i, column: column-i});
+      if (board[row+i][column-i].p && board[row+i][column-i].c !== color) {
+        break;
+      }
     } else {
       break;
     }
@@ -26,16 +29,22 @@ export function BishopController(row: number, column: number, board): {row: numb
   // top
   // right
   for(let i=1; i<8; i++) {
-    if (row-i >= 0 && column+i < 8 && (!board[row+i][column+i].p || board[row+i][column+i].p && board[row+i][column+i].c !== color)) {
+    if (row-i >= 0 && column+i < 8 && (!board[row-i][column+i].p || board[row-i][column+i].p && board[row-i][column+i].c !== color)) {
       steps.push({row: row-i, column: column+i});
+      if (board[row-i][column+i].p && board[row-i][column+i].c !== color) {
+        break;
+      }
     } else {
       break;
     }
   }
   // left
   for(let i=1; i<8; i++) {
-    if (row-i >= 0 && column-i >= 0 && (!board[row+i][column+i].p || board[row+i][column+i].p && board[row+i][column+i].c !== color)) {
+    if (row-i >= 0 && column-i >= 0 && (!board[row-i][column-i].p || board[row-i][column-i].p && board[row-i][column-i].c !== color)) {
       steps.push({row: row-i, column: column-i});
+      if (board[row-i][column-i].p && board[row-i][column-i].c !== color) {
+        break;
+      }
     } else {
       break;
     }
