@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PiecesModule } from './components/pieces/pieces.module';
 import { BoardModule } from './components/board/board.module';
 
 @NgModule({
@@ -15,7 +14,6 @@ import { BoardModule } from './components/board/board.module';
     CommonModule,
     BrowserModule,
     AppRoutingModule,
-    PiecesModule,
     BoardModule
   ],
   providers: [],

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PieceColor } from './components/pieces/piece-color.enum';
+import { PieceColor } from './components/board/cell/pieces/piece-color.enum';
 
 @Component({
   selector: 'app-root',

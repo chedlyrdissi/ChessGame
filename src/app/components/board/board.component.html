@@ -2,7 +2,7 @@
   <tbody>
     <tr *ngFor="let row of this.getBoardGame(); index as r">
       <td
-        [ngClass]="{'selected': this.isSelected(cell) }"
+        [ngClass]="{'selected': this.isPossibleStep(r, col) || this.isSelected(cell) }"
         *ngFor="let cell of row; index as col"
         (click)="this.cellClicked(r, col)">
           <cell
@@ -10,7 +10,9 @@
             [piece]="cell.p"
             [color]="cell.c"
             [row]="r"
-            [col]="col">
+            [col]="col"
+            [isSelected]="this.isPossibleStep(r, col) || this.isSelected(cell)"
+            [service]="this.boardService">
           </cell>
       </td>
     </tr>

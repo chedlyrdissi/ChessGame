@@ -1,34 +1,39 @@
-import { PieceColor } from '../pieces/piece-color.enum';
-import { PieceName } from '../pieces/pieces-names.enum';
-import { PieceWatcher } from '../pieces/piece.interface';
+import { PieceColor } from './cell/pieces/piece-color.enum';
+import { PieceName } from './cell/pieces/pieces-names.enum';
+import { BishopController } from './cell/pieces/bishop/bishop.controller';
 
-export class BoardService extends PieceWatcher {
+export class BoardService {
 
   gameBoard = START_TABLE;
+  possibleSteps: {row: number, column: number}[] = [];
 
-  selected: BoardCell;
+  selected: BoardCell = null;
 
   cellClicked(row: number, column: number): void {
-    // if (!this.gameBoard[row][column].p) {
-     //  console.log('empty cell');
-    // } else {
-      // console.log('cell ('+row+','+column+') occupied by '+this.gameBoard[row][column].c+' '+this.gameBoard[row][column].p);
-    // }
-
-    // console.log(this.gameBoard[row][column] !== {});
-
-    if( this.selected && (row != this.selected.row || column != this.selected.col) ) {
+    if( this.selected && this.gameBoard[row][column] === this.selected) {
+      this.selected = null;
+      this.possibleSteps = [];
+    } else if( this.selected
+      && (row != this.selected.row || column != this.selected.col)
+      && (this.selected.c !== this.gameBoard[row][column].c) ) {
       // move piece
       this.gameBoard[row][column] = {c: this.selected.c,p: this.selected.p};
       this.gameBoard[this.selected.row][this.selected.col] = {};
       // deselect
-      this.selected = undefined;
+      this.selected = null;
+      this.possibleSteps = [];
     } else if (this.gameBoard[row][column].p) {
       // set selected piece
       this.selected = this.gameBoard[row][column];
       this.selected.row = row;
       this.selected.col = column;
+      this.possibleSteps = this.selected.p === bishop ? BishopController(row, column, this.gameBoard) : [];
     }
+  }
+
+  setSteps(possibleSteps: {row: number, column: number}[]): void {
+    console.log('setting steps');
+    this.possibleSteps = possibleSteps;
   }
 }
 

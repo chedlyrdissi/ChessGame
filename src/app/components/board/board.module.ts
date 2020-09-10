@@ -1,25 +1,35 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PiecesModule } from '../pieces/pieces.module';
-import { PieceWatcher } from '../pieces/piece.interface';
-import { BoardComponent } from './board.component';
+
+import { PawnComponent } from './cell/pieces/pawn/pawn.component';
+import { RookComponent } from './cell/pieces/rook/rook.component';
+import { KingComponent } from './cell/pieces/king/king.component';
+import { QueenComponent } from './cell/pieces/queen/queen.component';
+import { BishopComponent } from './cell/pieces/bishop/bishop.component';
+import { KnightComponent } from './cell/pieces/knight/knight.component';
 import { CellComponent } from './cell/cell.component';
+import { BoardComponent } from './board.component';
+
 import { BoardService } from './board.service';
 
 @NgModule({
   declarations: [
+    PawnComponent,
+    RookComponent,
+    KingComponent,
+    QueenComponent,
+    BishopComponent,
+    KnightComponent,
     BoardComponent,
     CellComponent
   ],
   imports: [
-    CommonModule,
-    PiecesModule
+    CommonModule
   ],
   exports: [
-    BoardComponent,
-    CellComponent
+    BoardComponent
   ],
-  providers: [BoardService, { provide: PieceWatcher, useClass: BoardService }],
+  providers: [BoardService],
   bootstrap: [BoardComponent]
 })
 

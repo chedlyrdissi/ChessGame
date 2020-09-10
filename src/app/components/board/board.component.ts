@@ -24,4 +24,12 @@ export class BoardComponent implements OnInit {
   isSelected(cell): boolean {
     return Object.is(cell, this.boardService.selected);
   }
+
+  isPossibleStep(row: number, col: number): boolean {
+    for(let step of this.boardService.possibleSteps){
+      if(step.row === row && step.column === col) {
+        return true;
+      }
+    }
+  }
 }

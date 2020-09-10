@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PieceName } from '../../pieces/pieces-names.enum';
+import { PieceName } from './pieces/pieces-names.enum';
 
 @Component({
   selector: 'cell',
@@ -8,10 +8,8 @@ import { PieceName } from '../../pieces/pieces-names.enum';
 })
 export class CellComponent {
   static pieces = PieceName;
-  @Input() piece;
+  @Input() piece: PieceName;
   @Input() color;
-  @Input() row;
-  @Input() col;
 
   public ref = CellComponent;
 }
