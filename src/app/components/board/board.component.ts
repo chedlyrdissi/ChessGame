@@ -25,6 +25,10 @@ export class BoardComponent implements OnInit {
     return Object.is(cell, this.boardService.selected);
   }
 
+  hasCheck(): boolean {
+    return this.boardService.check;
+  }
+
   isPossibleStep(row: number, col: number): boolean {
     for(let step of this.boardService.possibleSteps){
       if(step.row === row && step.column === col) {

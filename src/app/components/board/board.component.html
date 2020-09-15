@@ -1,20 +1,23 @@
-<table ng-class="table table-bordered">
-  <tbody>
-    <tr *ngFor="let row of this.getBoardGame(); index as r">
-      <td
-        [ngClass]="{'selected': this.isPossibleStep(r, col) || this.isSelected(cell) }"
-        *ngFor="let cell of row; index as col"
-        (click)="this.cellClicked(r, col)">
-          <cell
-            [ngClass]="{dark: ( (r + col)%2 ===1 )}"
-            [piece]="cell.p"
-            [color]="cell.c"
-            [row]="r"
-            [col]="col"
-            [isSelected]="this.isPossibleStep(r, col) || this.isSelected(cell)"
-            [service]="this.boardService">
-          </cell>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div id="game-board" class="container-fluid">
+  <table ng-class="table table-bordered">
+    <tbody>
+      <tr *ngFor="let row of this.getBoardGame(); index as r">
+        <td
+          [ngClass]="{'selected': this.isPossibleStep(r, col) || this.isSelected(cell) }"
+          *ngFor="let cell of row; index as col"
+          (click)="this.cellClicked(r, col)">
+            <cell
+              [ngClass]="{dark: ( (r + col)%2 ===1 )}"
+              [piece]="cell.p"
+              [color]="cell.c"
+              [row]="r"
+              [col]="col"
+              [isSelected]="this.isPossibleStep(r, col) || this.isSelected(cell)"
+              [service]="this.boardService">
+            </cell>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h3 id="check-text" *ngIf="this.hasCheck()">check</h3>
