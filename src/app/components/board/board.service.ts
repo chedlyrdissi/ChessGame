@@ -5,7 +5,7 @@ import { ControllerMap } from './board-piece.controller';
 
 export class BoardService {
 
-  gameBoard = START_TABLE;
+  gameBoard: BoardCell[][];
   possibleSteps: {row: number, column: number}[] = [];
   currentPlayer: PieceColor = PieceColor.White;
   selected: BoardCell = null;
@@ -13,6 +13,42 @@ export class BoardService {
 
   constructor() {
     this.check = false;
+    this.gameBoard = START_TABLE;
+  }
+
+  findKings(): BoardCell[] {
+    let piece;
+    let kings = [];
+    // find ennemy king
+    for(let r=0; r<8; r++) {
+      for(let c=0; c<8; c++) {
+        piece = this.gameBoard[r][c];
+        if(piece && piece.p && piece.p === PieceName.King) { // cell occupied
+          kings.push({row: r,col: c,c: piece.c,p: PieceName.King});
+          if(kings.length === 2) {
+            break;
+          }
+        }
+      }
+      if(kings.length === 2) {
+        break;
+      }
+    }
+    return kings;
+  }
+
+  findSpecificKing(color: PieceColor, kings: BoardCell[]): BoardCell {
+    if(kings.length !== 2) throw "parameter error, the array must have 2 kings";
+    let king1 = kings[0];
+    let king2 = kings[1];
+    if(king1.c === king2.c) throw "the array must contain 2 different kings";
+    if(king1.c === color) {
+      return king1;
+    } else if(king2.c === color) {
+      return king2;
+    } else {
+      throw "no king of specific color found";
+    }
   }
 
   cellClicked(row: number, column: number): void {
@@ -28,30 +64,25 @@ export class BoardService {
         this.gameBoard[row][column] = {c: this.selected.c,p: this.selected.p};
         this.gameBoard[this.selected.row][this.selected.col] = {};
         // check for checks
-        let piece;
+        
         let pos;
-        let ennemyPosition;
-        this.check = false;
         // find ennemy king
-        for(let r=0; r<8; r++) {
-          for(let c=0; c<8; c++) {
-            piece = this.gameBoard[r][c];
-            if(piece && piece.p && piece.p === PieceName.King && piece.c !== this.currentPlayer) { // cell occupied
-              ennemyPosition = {row: r,column: c};
-              break;
-            }
-          }
-          if(ennemyPosition) {
-            break;
-          }
-        }
-        if(ennemyPosition) { // check for checks
+        let kings = this.findKings();
+        this.check = false;
+        /*
+        // TODO moving can only put ennemy king in check
+        if(kings.length === 2) { // check for checks
           for(let r=0; r<8; r++) {
             for(let c=0; c<8; c++) {
               piece = this.gameBoard[r][c];
-              if(piece && piece.p) { // cell occupied
+              if(piece && piece.p && piece.c === currentPlayer) { // cell occupied
+                console.log("piece "+JSON.stringify(piece)+" row "+r+" col "+c);
                 pos = ControllerMap[piece.p](r,c,this.gameBoard);
-                if(pos.filter((elem) => {return elem.row === ennemyPosition.row && elem.column === ennemyPosition.column}).length > 0) {
+                console.log("possibilities");
+                console.log(pos);
+                const cond = pos.filter((elem) => {return elem.row === ennemyKing.row && elem.column === ennemyKing.column}).length > 0;
+                console.log(cond);
+                if(cond) {
                   this.check = true;
                 }
               }
@@ -59,6 +90,7 @@ export class BoardService {
           }
         } else { // error  
         }
+        */
         // switch players
         this.switchPlayer();
       }
@@ -70,7 +102,24 @@ export class BoardService {
       this.selected = this.gameBoard[row][column];
       this.selected.row = row;
       this.selected.col = column;
+      // get possible moves
       this.possibleSteps = ControllerMap[this.selected.p] ? ControllerMap[this.selected.p](row, column, this.gameBoard) : [];
+      // filter possibilites: remove steps that lead to current king checks
+      let safeSteps = [];
+
+      for(let step of this.possibleSteps) {       
+        if(!checksKing(
+          row,
+          column,
+          this.gameBoard,
+          this.findSpecificKing(this.selected.c, this.findKings()),
+          step.row,
+          step.column)) {
+
+          safeSteps.push(step);
+        }
+      }
+      this.possibleSteps = safeSteps;
     }
   }
 
@@ -81,6 +130,66 @@ export class BoardService {
       this.currentPlayer = PieceColor.White;
     }
   }
+
+  getClone() {
+    return copyBoard(this.gameBoard);
+  }
+}
+
+function checksKing(row: number, column: number, board: BoardCell[][], allyKing: BoardCell, nextRow: number, nextColumn: number): boolean { // TODO implement
+  let boardClone = copyBoard(board);
+  let buff;
+  let posBuf;
+  const ennemyColor = (allyKing.c === PieceColor.White) ? PieceColor.Black: PieceColor.White;
+  // move piece
+  boardClone[nextRow][nextColumn] = boardClone[row][column];
+  // check safety
+  // parse through all ennemy pieces and check if ally king is a feeding possibility
+  for(let br=0; br<8; br++) {
+    for(let bc=0; bc<8; bc++) {
+      buff = boardClone[br][bc];
+      if(buff && buff.p && buff.c !== allyKing.c) { // found ennemy piece
+        posBuf = ControllerMap[buff.p] ? ControllerMap[buff.p](br, bc, boardClone) : [];
+        let cond;
+        if(buff.p === PieceName.King) { // king has to be treated differently because he moves
+          cond = posBuf.filter((elem)=>{return allyKing.row === elem.row && allyKing.col === elem.column;});
+        } else {
+          cond = posBuf.filter((elem)=>{return allyKing.row === elem.row && allyKing.col === elem.column;});
+        }
+        if(cond.length > 0) {
+          // ally king checked
+          console.log('ally king checked');
+          return true;
+        }
+      } else {
+      
+      }
+    }
+  }
+  return false;
+}
+
+function copyBoard(board: BoardCell[][]): BoardCell[][] {
+  let clone: BoardCell[][];
+  clone = [];
+  let piece: BoardCell;
+  for(let r=0; r<8; r++) {
+    clone.push([]);
+    for(let c=0; c<8; c++) {
+      piece = {};
+      if(board[r][c].c !== undefined) {
+        piece.c = board[r][c].c;
+      }
+      if(board[r][c].p !== undefined) {
+        piece.p = board[r][c].p;
+      }
+      if(board[r][c].f !== undefined) {
+        piece.f = board[r][c].f;
+      }
+      clone[r][c] = piece;
+    }
+  }
+  return clone;
 }
 
 const b = PieceColor.Black;

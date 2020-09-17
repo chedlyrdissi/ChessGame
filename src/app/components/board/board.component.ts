@@ -29,6 +29,13 @@ export class BoardComponent implements OnInit {
     return this.boardService.check;
   }
 
+  test() {
+    console.log(this.boardService.gameBoard);
+    let clone = this.boardService.getClone();
+    console.log(clone);
+
+  }
+
   isPossibleStep(row: number, col: number): boolean {
     for(let step of this.boardService.possibleSteps){
       if(step.row === row && step.column === col) {
