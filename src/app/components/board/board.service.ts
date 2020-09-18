@@ -16,41 +16,6 @@ export class BoardService {
     this.gameBoard = START_TABLE;
   }
 
-  findKings(): BoardCell[] {
-    let piece;
-    let kings = [];
-    // find ennemy king
-    for(let r=0; r<8; r++) {
-      for(let c=0; c<8; c++) {
-        piece = this.gameBoard[r][c];
-        if(piece && piece.p && piece.p === PieceName.King) { // cell occupied
-          kings.push({row: r,col: c,c: piece.c,p: PieceName.King});
-          if(kings.length === 2) {
-            break;
-          }
-        }
-      }
-      if(kings.length === 2) {
-        break;
-      }
-    }
-    return kings;
-  }
-
-  findSpecificKing(color: PieceColor, kings: BoardCell[]): BoardCell {
-    if(kings.length !== 2) throw "parameter error, the array must have 2 kings";
-    let king1 = kings[0];
-    let king2 = kings[1];
-    if(king1.c === king2.c) throw "the array must contain 2 different kings";
-    if(king1.c === color) {
-      return king1;
-    } else if(king2.c === color) {
-      return king2;
-    } else {
-      throw "no king of specific color found";
-    }
-  }
-
   cellClicked(row: number, column: number): void {
     if( this.selected && this.gameBoard[row][column] === this.selected) {
       // selecting same piece => deselect
@@ -67,7 +32,7 @@ export class BoardService {
         
         let pos;
         // find ennemy king
-        let kings = this.findKings();
+        let kings = findKings(this.gameBoard);
         this.check = false;
         /*
         // TODO moving can only put ennemy king in check
@@ -106,13 +71,13 @@ export class BoardService {
       this.possibleSteps = ControllerMap[this.selected.p] ? ControllerMap[this.selected.p](row, column, this.gameBoard) : [];
       // filter possibilites: remove steps that lead to current king checks
       let safeSteps = [];
-
+      // can't move unless the ally king will be safe 
       for(let step of this.possibleSteps) {       
         if(!checksKing(
           row,
           column,
           this.gameBoard,
-          this.findSpecificKing(this.selected.c, this.findKings()),
+          findSpecificKing(this.selected.c, findKings(this.gameBoard)),
           step.row,
           step.column)) {
 
@@ -136,6 +101,41 @@ export class BoardService {
   }
 }
 
+function findSpecificKing(color: PieceColor, kings: BoardCell[]): BoardCell {
+  if(kings.length !== 2) throw "parameter error, the array must have 2 kings";
+  let king1 = kings[0];
+  let king2 = kings[1];
+  if(king1.c === king2.c) throw "the array must contain 2 different kings";
+  if(king1.c === color) {
+    return king1;
+  } else if(king2.c === color) {
+    return king2;
+  } else {
+    throw "no king of specific color found";
+  }
+}
+
+function findKings(gameBoard: BoardCell[][]): BoardCell[] {
+  let piece;
+  let kings = [];
+  // find ennemy king
+  for(let r=0; r<8; r++) {
+    for(let c=0; c<8; c++) {
+      piece = gameBoard[r][c];
+      if(piece && piece.p && piece.p === PieceName.King) { // cell occupied
+        kings.push({row: r,col: c,c: piece.c,p: PieceName.King});
+        if(kings.length === 2) {
+          break;
+        }
+      }
+    }
+    if(kings.length === 2) {
+      break;
+    }
+  }
+  return kings;
+}
+
 function checksKing(row: number, column: number, board: BoardCell[][], allyKing: BoardCell, nextRow: number, nextColumn: number): boolean { // TODO implement
   let boardClone = copyBoard(board);
   let buff;
@@ -143,19 +143,21 @@ function checksKing(row: number, column: number, board: BoardCell[][], allyKing:
   const ennemyColor = (allyKing.c === PieceColor.White) ? PieceColor.Black: PieceColor.White;
   // move piece
   boardClone[nextRow][nextColumn] = boardClone[row][column];
+  boardClone[row][column] = {};
+  if(boardClone[nextRow][nextColumn].p === PieceName.King) {
+    allyKing = findSpecificKing(allyKing.c, findKings(boardClone));
+  }
   // check safety
   // parse through all ennemy pieces and check if ally king is a feeding possibility
   for(let br=0; br<8; br++) {
     for(let bc=0; bc<8; bc++) {
       buff = boardClone[br][bc];
       if(buff && buff.p && buff.c !== allyKing.c) { // found ennemy piece
+        const debug = buff.p === PieceName.Queen;        
         posBuf = ControllerMap[buff.p] ? ControllerMap[buff.p](br, bc, boardClone) : [];
-        let cond;
-        if(buff.p === PieceName.King) { // king has to be treated differently because he moves
-          cond = posBuf.filter((elem)=>{return allyKing.row === elem.row && allyKing.col === elem.column;});
-        } else {
-          cond = posBuf.filter((elem)=>{return allyKing.row === elem.row && allyKing.col === elem.column;});
-        }
+        let cond = posBuf.filter((elem)=>{
+          return allyKing.row === elem.row && allyKing.col === elem.column;
+        });
         if(cond.length > 0) {
           // ally king checked
           console.log('ally king checked');
