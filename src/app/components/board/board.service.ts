@@ -10,9 +10,11 @@ export class BoardService {
   currentPlayer: PieceColor = PieceColor.White;
   selected: BoardCell = null;
   check: boolean;
+  checkMate: boolean;
 
   constructor() {
     this.check = false;
+    this.checkMate = false;
     this.gameBoard = START_TABLE;
   }
 
@@ -34,32 +36,19 @@ export class BoardService {
         // find ennemy king
         let kings = findKings(this.gameBoard);
         this.check = false;
-        /*
-        // TODO moving can only put ennemy king in check
-        if(kings.length === 2) { // check for checks
-          for(let r=0; r<8; r++) {
-            for(let c=0; c<8; c++) {
-              piece = this.gameBoard[r][c];
-              if(piece && piece.p && piece.c === currentPlayer) { // cell occupied
-                console.log("piece "+JSON.stringify(piece)+" row "+r+" col "+c);
-                pos = ControllerMap[piece.p](r,c,this.gameBoard);
-                console.log("possibilities");
-                console.log(pos);
-                const cond = pos.filter((elem) => {return elem.row === ennemyKing.row && elem.column === ennemyKing.column}).length > 0;
-                console.log(cond);
-                if(cond) {
-                  this.check = true;
-                }
-              }
-            }
-          }
-        } else { // error  
-        }
-        */
+
+        // getting to this point means that ally king is safe
+        // all there's to do is to do is check if ennemy king is checked or checkmated
+        // you need to parse throught all ally pieces to see if ennemy king is checked if ennemy king is checked => notify
+        this.check = kingCheck(this.currentPlayer, this.gameBoard);
+
+        // parse through all ennemy pieces to see if they can move, if they can't it's checkmate => game over
+        this.checkMate = checkMate(this.currentPlayer, this.gameBoard);
+        
         // switch players
         this.switchPlayer();
       }
-      // deselect
+      // deselect, clean up
       this.selected = null;
       this.possibleSteps = [];
     } else if (this.gameBoard[row][column].p && this.gameBoard[row][column].c === this.currentPlayer) {
@@ -71,7 +60,8 @@ export class BoardService {
       this.possibleSteps = ControllerMap[this.selected.p] ? ControllerMap[this.selected.p](row, column, this.gameBoard) : [];
       // filter possibilites: remove steps that lead to current king checks
       let safeSteps = [];
-      // can't move unless the ally king will be safe 
+      // can't move unless the ally king will be safe
+      // const start = new Date(); 
       for(let step of this.possibleSteps) {       
         if(!checksKing(
           row,
@@ -84,6 +74,8 @@ export class BoardService {
           safeSteps.push(step);
         }
       }
+      // const end = new Date(); 
+      // console.log('Elapsed time during the steps search: '+ (end - start));
       this.possibleSteps = safeSteps;
     }
   }
@@ -94,10 +86,6 @@ export class BoardService {
     } else if(this.currentPlayer === PieceColor.Black) {
       this.currentPlayer = PieceColor.White;
     }
-  }
-
-  getClone() {
-    return copyBoard(this.gameBoard);
   }
 }
 
@@ -115,6 +103,9 @@ function findSpecificKing(color: PieceColor, kings: BoardCell[]): BoardCell {
   }
 }
 
+/**
+* this function finds the kings on the board
+**/
 function findKings(gameBoard: BoardCell[][]): BoardCell[] {
   let piece;
   let kings = [];
@@ -136,6 +127,49 @@ function findKings(gameBoard: BoardCell[][]): BoardCell[] {
   return kings;
 }
 
+/**
+* this function returns true if there's a checkmate on the board
+**/
+function checkMate(currentPlayer: PieceColor, board: BoardCell[][]): boolean {
+  let br, bc, piece, posSteps, step;
+  let ennemyColor = (currentPlayer === PieceColor.White) ? PieceColor.Black: PieceColor.White;
+  for(br = 0; br<8; br++) {
+    for(bc = 0; bc<8; bc++) {
+      piece = board[br][bc];
+      if(piece && piece.p && piece.c !== currentPlayer) {
+        posSteps = ControllerMap[piece.p] ? ControllerMap[piece.p](br, bc, board) : [];
+        for(step of posSteps) {
+          if(!checksKing(br, bc, board, findSpecificKing(ennemyColor, findKings(board)), step.row, step.column)) {
+            return false;
+          }
+        }
+      }      
+    }
+  }
+  return true;
+}
+
+function kingCheck(currentPlayer: PieceColor, board: BoardCell[][]): boolean {
+  let br, bc, piece, posSteps, step;  
+  let ennemyColor = (currentPlayer === PieceColor.White) ? PieceColor.Black: PieceColor.White;
+  for(br = 0; br<8; br++) {
+    for(bc = 0; bc<8; bc++) {
+      piece = board[br][bc];
+      if(piece && piece.p && piece.c === currentPlayer) {
+        posSteps = ControllerMap[piece.p] ? ControllerMap[piece.p](br, bc, board) : [];
+        for(step of posSteps) {
+          if(checksKing(br, bc, board, findSpecificKing(ennemyColor, findKings(board)), step.row, step.column)) {
+            return true;
+          }
+        }
+      }      
+    }
+  }
+  return false;
+}
+/**
+* this function returns true if the ally king is checked
+**/
 function checksKing(row: number, column: number, board: BoardCell[][], allyKing: BoardCell, nextRow: number, nextColumn: number): boolean { // TODO implement
   let boardClone = copyBoard(board);
   let buff;
@@ -160,7 +194,6 @@ function checksKing(row: number, column: number, board: BoardCell[][], allyKing:
         });
         if(cond.length > 0) {
           // ally king checked
-          console.log('ally king checked');
           return true;
         }
       } else {
@@ -171,6 +204,9 @@ function checksKing(row: number, column: number, board: BoardCell[][], allyKing:
   return false;
 }
 
+/**
+* this function makes a copy of the board
+**/
 function copyBoard(board: BoardCell[][]): BoardCell[][] {
   let clone: BoardCell[][];
   clone = [];
@@ -206,6 +242,17 @@ class BoardCell {
 }
 
 const START_TABLE: BoardCell[][] = [
+  [{c:b,p:king}, {}, {}, {}, {}, {}, {},{c:w,p:rook}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true}],
+  [{c:w,p:rook},{c:w,p:knight},{c:w,p:bishop},{c:w,p:queen},{c:w,p:king},{c:w,p:bishop},{c:w,p:knight},{c:w,p:rook}]
+];
+/*
+const START_TABLE: BoardCell[][] = [
   [{c:b,p:rook},{c:b,p:knight},{c:b,p:bishop},{c:b,p:queen},{c:b,p:king},{c:b,p:bishop},{c:b,p:knight},{c:b,p:rook}],
   [{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true}],
   [{}, {}, {}, {}, {}, {}, {}, {}],
@@ -215,3 +262,4 @@ const START_TABLE: BoardCell[][] = [
   [{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true}],
   [{c:w,p:rook},{c:w,p:knight},{c:w,p:bishop},{c:w,p:queen},{c:w,p:king},{c:w,p:bishop},{c:w,p:knight},{c:w,p:rook}]
 ];
+*/

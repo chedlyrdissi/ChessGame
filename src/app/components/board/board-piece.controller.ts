@@ -14,14 +14,3 @@ export const ControllerMap = {
   bishop: BishopController,
   knight: KnightController
 }
-
-/*
-export const ControllerMap = {
-  PieceName.Pawn = 'pawn',
-  PieceName.Knight = 'knight',
-  PieceName.King = 'king',
-  PieceName.Queen = 'queen',
-  PieceName.Bishop: BishopController,
-  PieceName.Rook: RookController
-}
-*/

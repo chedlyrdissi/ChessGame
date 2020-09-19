@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BoardService } from './board.service';
 
 @Component({
@@ -6,12 +6,9 @@ import { BoardService } from './board.service';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent {
 
   constructor(private boardService: BoardService) {}
-
-  ngOnInit(): void {
-  }
 
   cellClicked = (row: number, column: number) => {
     this.boardService.cellClicked(row, column);    
@@ -29,11 +26,8 @@ export class BoardComponent implements OnInit {
     return this.boardService.check;
   }
 
-  test() {
-    console.log(this.boardService.gameBoard);
-    let clone = this.boardService.getClone();
-    console.log(clone);
-
+  hasCheckMate(): boolean {
+    return this.boardService.checkMate;
   }
 
   isPossibleStep(row: number, col: number): boolean {
