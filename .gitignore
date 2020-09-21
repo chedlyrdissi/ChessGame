@@ -1,0 +1,52 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+game/dist
+game/tmp
+game/out-tsc
+# Only exists if Bazel was run
+game/bazel-out
+
+# dependencies
+game/node_modules
+
+# profiling files
+game/chrome-profiler-events*.json
+game/speed-measure-plugin*.json
+
+# IDEs and editors
+game/.idea
+game/.project
+game/.classpath
+game/.c9/
+game/*.launch
+game/.settings/
+game/*.sublime-workspace
+
+# IDE - VSCode
+game/.vs/
+game/.vscode/*
+!game/.vscode/settings.json
+!game/.vscode/tasks.json
+!game/.vscode/launch.json
+!game/.vscode/extensions.json
+game/.history/*
+
+# misc
+game/.sass-cache
+game/connect.lock
+game/coverage
+game/libpeerconnection.log
+game/npm-debug.log
+game/yarn-error.log
+game/testem.log
+game/typings
+
+# System Files
+game/.DS_Store
+game/Thumbs.db
+
+
+API/.idea
+API/__pycache__
+API/venv
