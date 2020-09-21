@@ -1,4 +1,4 @@
-<div id="game-board" ng-class="container-fluid">
+<div id="game-board" class="container-fluid position-absolute">
   <table ng-class="table table-bordered">
     <tbody>
       <tr *ngFor="let row of this.getBoardGame(); index as r">
@@ -19,5 +19,5 @@
     </tbody>
   </table>
 </div>
-<h3 id="check-text" *ngIf="this.hasCheck()">check</h3>
-<h3 *ngIf="this.hasCheckMate()">checkmate</h3>
+<h3 class="position-relative center" id="check-text" *ngIf="this.hasCheck()">check</h3>
+<h3 class="position-relative center" *ngIf="this.hasCheckMate()">checkmate</h3>
