@@ -4,7 +4,10 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { BoardModule } from './components/board/board.module';
+
+import { AuthModule } from './components/auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,8 @@ import { BoardModule } from './components/board/board.module';
     CommonModule,
     BrowserModule,
     AppRoutingModule,
-    BoardModule
+    BoardModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

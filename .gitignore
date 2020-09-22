@@ -50,3 +50,5 @@ game/Thumbs.db
 API/.idea
 API/__pycache__
 API/venv
+API/instance
+API/flaskr/__pycache__

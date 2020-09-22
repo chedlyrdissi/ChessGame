@@ -1,6 +1,16 @@
 import os
 from flask import Flask
 
+# database
+from . import db
+
+# blueprints
+from . import main
+from . import multiplayer
+from . import auth
+
+# tuto: https://flask.palletsprojects.com/en/1.1.x/tutorial/database/
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -8,7 +18,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
-    # TODO to be changed to firebase
+    # TODO to be changed to firebase, or not
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -22,6 +32,12 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    db.app_init(app)
+    # registering the blueprints aka routes
+    app.register_blueprint(main.bp)
+    app.register_blueprint(auth.bp)
+    app.register_blueprint(multiplayer.bp)
 
     # a simple page that says hello
     @app.route('/hello')

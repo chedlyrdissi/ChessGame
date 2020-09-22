@@ -14,3 +14,6 @@ For Windows PowerShell, use $env: instead of export:
 > $env:FLASK_APP = "flaskr"
 > $env:FLASK_ENV = "development"
 > flask run
+
+To initialize db:
+> flask db-init

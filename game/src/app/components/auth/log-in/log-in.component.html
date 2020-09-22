@@ -1,0 +1,14 @@
+<p>log in</p>
+<form #logInForm method="POST" (submit)="this.submit($event, logInForm)">
+	<div class="container-fluid">
+		<div class="row my-1">
+			<input type="text" name="username" [(ngModel)]="username" required="true"/>		
+		</div>
+		<div class="row my-1">
+			<input type="password" name="password" [(ngModel)]="password" required="true"/>		
+		</div>
+		<div class="row">
+			<button>Log in</button>
+		</div>
+	</div>
+</form>
