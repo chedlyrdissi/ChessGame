@@ -1,0 +1,8 @@
+<p>active-games works!</p>
+<ul *ngIf="this.activeGame && this.activeGame.length > 0 else noData">
+  	<li *ngFor="let activegame of this.activeGame">
+      	{{'id: ' + activegame.id + ', white player: '+ activegame.whitePlayer + ', black player: '+ activegame.blackPlayer }}
+  	</li> 
+</ul>
+<ng-template #noData>No active games Available</ng-template>
+<input type="checkbox" name="autoupdate" [(ngModel)]="this.autoUpdate" (change)="this.update(this.autoUpdate)"/><label>auto update</label>

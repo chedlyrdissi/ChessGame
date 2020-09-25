@@ -1,10 +1,36 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { BoardModule } from './components/board/board.module';
+import { AuthModule } from './components/auth/auth.module';
+import { ProfileModule } from './components/profile/profile.module';
+import { LogInComponent } from './components/auth/log-in/log-in.component';
+import { LogOutComponent } from './components/auth/log-out/log-out.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 
-const routes: Routes = [];
+import { BoardComponent } from './components/board/board.component';
+import { ActiveGamesComponent } from './components/profile/active-games/active-games.component';
+
+const routes: Routes = [
+	// { path: '/', component: },
+	{ path: 'auth', children: [
+		{path: 'logIn', component: LogInComponent},
+		{path: 'logOut', component: LogOutComponent},
+		{path: 'register', component: RegisterComponent},
+	]},
+	{ path: 'profile', children: [
+		{path: 'active', component: ActiveGamesComponent}
+	]},
+	{ path: 'board', component: BoardComponent},
+	{ path: '**', redirectTo: '/'},
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  	imports: [
+  		AuthModule,
+  		ProfileModule,
+  		BoardModule,
+  		RouterModule.forRoot(routes)
+	],
+  	exports: [RouterModule]
 })
 export class AppRoutingModule { }

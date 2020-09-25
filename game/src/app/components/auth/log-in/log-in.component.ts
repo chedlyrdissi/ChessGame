@@ -7,11 +7,12 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './log-in.component.html',
   styleUrls: ['./log-in.component.css']
 })
-
 export class LogInComponent {
 
 	username;
 	password;
+
+
 
   	constructor(private httpClient: HttpClient) {}
 
@@ -19,5 +20,6 @@ export class LogInComponent {
   		e.preventDefault();
   		console.log(e);
   		console.log(form);
+  		// this.httpClient.get();
   	}
 }

@@ -1,12 +1,13 @@
 import os
 from flask import Flask
-
+from flask_cors import CORS
 # database
 from . import db
 
 # blueprints
 from . import main
 from . import multiplayer
+from . import active_games
 from . import auth
 
 # tuto: https://flask.palletsprojects.com/en/1.1.x/tutorial/database/
@@ -14,6 +15,7 @@ from . import auth
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -37,6 +39,7 @@ def create_app(test_config=None):
     # registering the blueprints aka routes
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp)
+    app.register_blueprint(active_games.bp)
     app.register_blueprint(multiplayer.bp)
 
     # a simple page that says hello

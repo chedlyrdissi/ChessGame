@@ -6,8 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { BoardModule } from './components/board/board.module';
-
 import { AuthModule } from './components/auth/auth.module';
+import { ProfileModule } from './components/profile/profile.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,8 @@ import { AuthModule } from './components/auth/auth.module';
     BrowserModule,
     AppRoutingModule,
     BoardModule,
-    AuthModule
+    AuthModule,
+    ProfileModule
   ],
   providers: [],
   bootstrap: [AppComponent]
