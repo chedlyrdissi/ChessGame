@@ -4,8 +4,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { RegisterComponent } from './register/register.component';
-import { LogInComponent } from './log-in/log-in.component';
 import { LogOutComponent } from './log-out/log-out.component';
+import { LogInComponent } from './log-in/log-in.component';
+import { LogInService } from './log-in/log-in.service';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 

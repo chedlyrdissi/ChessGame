@@ -9,20 +9,21 @@ import { RegisterComponent } from './components/auth/register/register.component
 
 import { BoardComponent } from './components/board/board.component';
 import { ActiveGamesComponent } from './components/profile/active-games/active-games.component';
+import { FinishedGamesComponent } from './components/profile/finished-games/finished-games.component';
 
 const routes: Routes = [
-	// { path: '/', component: },
-	{ path: 'auth', children: [
-		{path: 'logIn', component: LogInComponent},
-		{path: 'logOut', component: LogOutComponent},
-		{path: 'register', component: RegisterComponent},
-	]},
-	{ path: 'profile', children: [
-		{path: 'active', component: ActiveGamesComponent}
-	]},
-	{ path: 'board', component: BoardComponent},
-	{ path: '**', redirectTo: '/'},
-];
+		{ path: 'auth', children: [
+			{path: 'logIn', component: LogInComponent},
+			{path: 'logOut', component: LogOutComponent},
+			{path: 'register', component: RegisterComponent},
+		]},
+		{ path: 'profile', children: [
+			{path: 'active', component: ActiveGamesComponent},
+			{path: 'finished', component: FinishedGamesComponent}
+		]},
+		{ path: 'board', component: BoardComponent},
+		{ path: '**', redirectTo: '/'},
+	];
 
 @NgModule({
   	imports: [

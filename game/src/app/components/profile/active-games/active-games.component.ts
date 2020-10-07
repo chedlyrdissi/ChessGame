@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 // import { Observable } from "rxjs/Observable";
-import { HttpClient } from "@angular/common/http";
-import * as _ from 'lodash';
+import { HttpClient } from '@angular/common/http';
+import { LogInService } from '@auth/log-in/log-in.service';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 interface ActiveGame {
 	id: number,
 	whitePlayer: string,
-	blackPlayer: string
+	blackPlayer: string,
+	creationDate: Date
 }
 
 @Component({
@@ -14,22 +17,23 @@ interface ActiveGame {
   templateUrl: './active-games.component.html',
   styleUrls: ['./active-games.component.css']
 })
-export class ActiveGamesComponent implements OnInit {
+export class ActiveGamesComponent {
 
-	// activeGame$: Observable<ActiveGame[]>;
 	activeGame: ActiveGame[];
 	updateHandler;
 	autoUpdate: boolean;
 
-  	constructor(private httpClient:HttpClient) {
+  	// constructor(private httpClient:HttpClient, private logInService: LogInService) {
+  	constructor(
+  		private httpClient: HttpClient, 
+  		private logInService: LogInService, 
+  		private actRoute: ActivatedRoute, 
+  		private router: Router) {
   		this.activeGame = [];
   		this.autoUpdate = false;
   		this.update(this.autoUpdate);
+  		console.log(actRoute);
   	}
-
-	ngOnInit(): void {
-		
-	}
 
 	getGames = () => {
 		this.httpClient
@@ -50,5 +54,20 @@ export class ActiveGamesComponent implements OnInit {
 			}
 			this.getGames();
 		}
+	}
+	
+	joinGame(gameId: number): void {
+		if(this.logInService.isLoggedIn()) {
+			this.httpClient
+		        .put("http://127.0.0.1:5000/active-games", {'gameId': gameId})
+		        .subscribe((data) => {
+		        	console.log(data);
+		        });		
+		} 
+		// else {
+		// 	this.router.navigate(['/', 'auth', 'logIn']);
+		// }
+		console.log(this.actRoute);
+		console.log(this.logInService);
 	}
 }

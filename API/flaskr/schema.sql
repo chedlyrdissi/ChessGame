@@ -13,7 +13,7 @@ CREATE TABLE user (
 CREATE TABLE active_game (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     player_white_id INTEGER NOT NULL,
-    player_black_id INTEGER NOT NULL,
+    player_black_id INTEGER,
     current_player INTEGER NOT NULL,
     current_cell_row INTEGER,
     current_cell_column INTEGER,

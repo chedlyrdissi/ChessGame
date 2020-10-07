@@ -6,9 +6,10 @@ from . import db
 
 # blueprints
 from . import main
+from . import auth
 from . import multiplayer
 from . import active_games
-from . import auth
+from . import finished_games
 
 # tuto: https://flask.palletsprojects.com/en/1.1.x/tutorial/database/
 
@@ -40,6 +41,7 @@ def create_app(test_config=None):
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(active_games.bp)
+    app.register_blueprint(finished_games.bp)
     app.register_blueprint(multiplayer.bp)
 
     # a simple page that says hello

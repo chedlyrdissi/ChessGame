@@ -10,6 +10,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
+
         username = request.form['username']
         password = request.form['password']
         db = db_get()
@@ -43,24 +44,31 @@ def register():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        data = eval(request.data)
+
         db = db_get()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
 
-        if user is None:
-            error = 'Incorrect username.'
-        elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
+        if (data['username'] and data['password']):
+            user = db.execute(
+                'SELECT id, username, created, last_modified FROM user WHERE username = ? AND password = ?;', (data['username'], data['password'])
+            ).fetchone()
 
-        if error is None:
-            session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            if user is None:
+                error = 'Invalid credentials.'
+
+            if error is None:
+                return {
+                    'id': user['id'],
+                    'username': user['username'],
+                    'created': user['created'],
+                    'last_modified': user['last_modified']
+                }
+
+        elif not data['username']:
+            error = 'username hasn\'t been provided'
+        elif not data['password']:
+            error = 'password hasn\'t been provided'
 
         flash(error)
-
     return ""

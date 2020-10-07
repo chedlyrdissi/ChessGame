@@ -8,6 +8,7 @@ import { ActiveGamesComponent } from './active-games/active-games.component';
 import { FinishedGamesComponent } from './finished-games/finished-games.component';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
     FinishedGamesComponent
   ],
   imports: [
+    AuthModule,
     FormsModule,
     CommonModule,
     BrowserModule,

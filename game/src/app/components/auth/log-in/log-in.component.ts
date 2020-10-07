@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-// import { FormControl } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { LogInService } from './log-in.service';
 
 @Component({
   selector: 'logIn',
@@ -9,17 +8,16 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LogInComponent {
 
-	username;
-	password;
+	username: string;
+	password: string;
 
+	constructor(private logInService: LogInService) {
+		console.log(logInService);
+	}
 
-
-  	constructor(private httpClient: HttpClient) {}
-
-  	submit(e, form) {
-  		e.preventDefault();
-  		console.log(e);
-  		console.log(form);
-  		// this.httpClient.get();
-  	}
+	submit(e, form) {
+		e.preventDefault();
+    	this.logInService.logIn(this.username, this.password);
+		console.log(this.logInService);
+	}
 }
