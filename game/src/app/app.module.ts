@@ -9,9 +9,15 @@ import { BoardModule } from './components/board/board.module';
 import { AuthModule } from './components/auth/auth.module';
 import { ProfileModule } from './components/profile/profile.module';
 
+import { LogInService } from '@auth/log-in/log-in.service';
+import { HeaderComponent } from './components/header/header.component';
+import { HomeComponent } from './components/home/home.component';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +27,7 @@ import { ProfileModule } from './components/profile/profile.module';
     AuthModule,
     ProfileModule
   ],
-  providers: [],
+  providers: [LogInService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

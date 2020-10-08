@@ -1,0 +1,41 @@
+#navbar {
+  background-color: white; /* Black background color */
+  position: fixed; /* Make it stick/fixed */
+  top: 0; /* Stay on top */
+  width: 100%; /* Full width */
+  transition: top 0.3s; /* Transition effect when sliding down (and up) */
+  margin-bottom: 10px;
+}
+
+/* Style the navbar links */
+#navbar a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 15px;
+  text-decoration: none;
+}
+
+#navbar a:hover {
+  opacity: 0.5;
+  color: black;
+}
+
+header {
+  max-height: 50px;
+}
+
+img {
+  max-height: 48px;
+}
+
+.active {
+  /*opacity: 0.5;*/
+  border-bottom: 4px solid #80ced6;
+}
+
+.user {
+  text-align: end;
+  max-height: 48px;
+}

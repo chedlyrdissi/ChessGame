@@ -1,0 +1,19 @@
+<header class="mt-1">
+	<div id="navbar">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-1">
+					<img src="/assets/images/chess-logo-v2.jpg" alt="logo"/>
+				</div>
+				<div class="col-sm-8">
+	  				<a href="#" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+	  				<a href="#" [routerLink]="['/', 'profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Profile</a>
+				</div>
+				<div class="col-sm-3 user">
+					<user-menu></user-menu>
+				</div>
+			</div>
+		</div>
+	  	<!-- <a href="#" [routerLink]="['/path']">Contact</a> -->
+	</div>
+</header>

@@ -9,12 +9,14 @@ import { FinishedGamesComponent } from './finished-games/finished-games.componen
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AuthModule } from '../auth/auth.module';
+import { UserMenuComponent } from './user-menu/user-menu.component';
 
 @NgModule({
   declarations: [
     ProfileComponent,
     ActiveGamesComponent,
-    FinishedGamesComponent
+    FinishedGamesComponent,
+    UserMenuComponent
   ],
   imports: [
     AuthModule,
@@ -26,7 +28,8 @@ import { AuthModule } from '../auth/auth.module';
   exports: [
     ActiveGamesComponent,
     FinishedGamesComponent,
-    ProfileComponent
+    ProfileComponent,
+    UserMenuComponent
   ],
   providers: [HttpClient],
   bootstrap: []

@@ -11,7 +11,10 @@ import { BoardComponent } from './components/board/board.component';
 import { ActiveGamesComponent } from './components/profile/active-games/active-games.component';
 import { FinishedGamesComponent } from './components/profile/finished-games/finished-games.component';
 
+import { HomeComponent } from './components/home/home.component';
+
 const routes: Routes = [
+		{ path: '', component: HomeComponent, pathMatch: 'full'},
 		{ path: 'auth', children: [
 			{path: 'logIn', component: LogInComponent},
 			{path: 'logOut', component: LogOutComponent},
