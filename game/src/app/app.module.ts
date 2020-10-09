@@ -20,12 +20,12 @@ import { HomeComponent } from './components/home/home.component';
     HomeComponent
   ],
   imports: [
+    AuthModule,
+    BoardModule,
     CommonModule,
     BrowserModule,
-    AppRoutingModule,
-    BoardModule,
-    AuthModule,
-    ProfileModule
+    ProfileModule,
+    AppRoutingModule
   ],
   providers: [LogInService],
   bootstrap: [AppComponent]

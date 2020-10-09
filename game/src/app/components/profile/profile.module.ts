@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { ProfileComponent } from './profile.component';
@@ -10,26 +11,36 @@ import { FinishedGamesComponent } from './finished-games/finished-games.componen
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AuthModule } from '../auth/auth.module';
 import { UserMenuComponent } from './user-menu/user-menu.component';
+import { GameCardComponent } from './game-card/game-card.component';
+import { ActiveGameCardComponent } from './active-game-card/active-game-card.component';
+import { FinishedGameCardComponent } from './finished-game-card/finished-game-card.component';
 
 @NgModule({
   declarations: [
     ProfileComponent,
     ActiveGamesComponent,
     FinishedGamesComponent,
-    UserMenuComponent
+    UserMenuComponent,
+    GameCardComponent,
+    ActiveGameCardComponent,
+    FinishedGameCardComponent
   ],
   imports: [
     AuthModule,
     FormsModule,
+    RouterModule,
     CommonModule,
     BrowserModule,
     HttpClientModule
   ],
   exports: [
+    ProfileComponent,
+    UserMenuComponent,
+    GameCardComponent,
     ActiveGamesComponent,
     FinishedGamesComponent,
-    ProfileComponent,
-    UserMenuComponent
+    ActiveGameCardComponent,
+    FinishedGameCardComponent
   ],
   providers: [HttpClient],
   bootstrap: []

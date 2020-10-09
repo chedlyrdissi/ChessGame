@@ -1,16 +1,14 @@
-<div class="container-fluid">
-	<div class="dropdown">
-	    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown">
-				<label class="user-label mx-1 mt-3">User</label>
-				<img src="/assets/images/user.jpg" alt="user">
-	    </button>
-	    <div class="dropdown-menu dropdown-menu-right">
-	      	<h5 class="dropdown-header">Dropdown header</h5>
-	     	<a class="dropdown-item" href="#">Link 1</a>
-	      	<a class="dropdown-item" href="#">Link 2</a>
-	      	<a class="dropdown-item" href="#">Link 3</a>
-	      	<h5 class="dropdown-header">Dropdown header</h5>
-	      	<a class="dropdown-item" href="#">Another link</a>
-	    </div>
-	</div>
+<div class="dropdown">
+    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
+			<label class="user-label mx-1 mt-3 ">User</label>
+			<img src="/assets/images/user.jpg" alt="user">
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      	<!-- <h5 class="dropdown-header">Dropdown header</h5> -->
+     	<a class="dropdown-item" href="#" [routerLink]="['/profile/']">Profile</a>
+      	<!-- <a class="dropdown-item" href="#">Link 2</a> -->
+      	<!-- <a class="dropdown-item" href="#">Link 3</a> -->
+      	<!-- <h5 class="dropdown-header">Dropdown header</h5> -->
+      	<!-- <a class="dropdown-item" href="#">Another link</a> -->
+    </div>
 </div>

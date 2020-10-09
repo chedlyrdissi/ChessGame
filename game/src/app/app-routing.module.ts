@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BoardModule } from './components/board/board.module';
-import { AuthModule } from './components/auth/auth.module';
-import { ProfileModule } from './components/profile/profile.module';
-import { LogInComponent } from './components/auth/log-in/log-in.component';
-import { LogOutComponent } from './components/auth/log-out/log-out.component';
-import { RegisterComponent } from './components/auth/register/register.component';
+import { BoardModule } from '@board/board.module';
+import { AuthModule } from '@auth/auth.module';
+import { ProfileModule } from '@profile/profile.module';
 
-import { BoardComponent } from './components/board/board.component';
-import { ActiveGamesComponent } from './components/profile/active-games/active-games.component';
-import { FinishedGamesComponent } from './components/profile/finished-games/finished-games.component';
+import { LogInComponent } from '@auth/log-in/log-in.component';
+import { LogOutComponent } from '@auth/log-out/log-out.component';
+import { RegisterComponent } from '@auth/register/register.component';
+
+import { BoardComponent } from '@board/board.component';
+import { ActiveGamesComponent } from '@profile/active-games/active-games.component';
+import { FinishedGamesComponent } from '@profile/finished-games/finished-games.component';
+import { ProfileComponent } from '@profile/profile.component';
 
 import { HomeComponent } from './components/home/home.component';
 
@@ -20,10 +22,9 @@ const routes: Routes = [
 			{path: 'logOut', component: LogOutComponent},
 			{path: 'register', component: RegisterComponent},
 		]},
-		{ path: 'profile', children: [
-			{path: 'active', component: ActiveGamesComponent},
-			{path: 'finished', component: FinishedGamesComponent}
-		]},
+		{path: 'active', component: ActiveGamesComponent},
+		{path: 'finished', component: FinishedGamesComponent},
+		{ path: 'profile', component: ProfileComponent},
 		{ path: 'board', component: BoardComponent},
 		{ path: '**', redirectTo: '/'},
 	];
