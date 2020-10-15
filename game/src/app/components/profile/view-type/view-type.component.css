@@ -1,0 +1,30 @@
+li:first-child {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 0.5px solid black;
+	border-bottom-left-radius: 1rem;
+	border-top-left-radius: 1rem;
+}
+
+li:last-child {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	border-left: 0.5px solid black;
+	border-bottom-right-radius: 1rem;
+	border-top-right-radius: 1rem;	
+}
+
+li {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	border-right: 0.5px solid black;
+	border-left: 0.5px solid black;
+	list-style-type: none;
+	max-width: fit-content;
+}
+
+li:hover {
+	opacity: 0.5;
+}

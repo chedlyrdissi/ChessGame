@@ -14,14 +14,16 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 import { GameCardComponent } from './game-card/game-card.component';
 import { ActiveGameCardComponent } from './active-game-card/active-game-card.component';
 import { FinishedGameCardComponent } from './finished-game-card/finished-game-card.component';
+import { ViewTypeComponent } from './view-type/view-type.component';
 
 @NgModule({
   declarations: [
     ProfileComponent,
+    UserMenuComponent,
+    ViewTypeComponent,
+    GameCardComponent,
     ActiveGamesComponent,
     FinishedGamesComponent,
-    UserMenuComponent,
-    GameCardComponent,
     ActiveGameCardComponent,
     FinishedGameCardComponent
   ],
@@ -35,6 +37,7 @@ import { FinishedGameCardComponent } from './finished-game-card/finished-game-ca
   ],
   exports: [
     ProfileComponent,
+    ViewTypeComponent,
     UserMenuComponent,
     GameCardComponent,
     ActiveGamesComponent,

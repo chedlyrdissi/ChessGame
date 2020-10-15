@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -7,25 +8,29 @@ import { AppComponent } from './app.component';
 
 import { BoardModule } from './components/board/board.module';
 import { AuthModule } from './components/auth/auth.module';
-import { ProfileModule } from './components/profile/profile.module';
 
-import { LogInService } from '@auth/log-in/log-in.service';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
+import { LogInService } from '@auth/log-in/log-in.service';
+
+import { ProfileModule } from '@profile/profile.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    HeaderComponent
   ],
   imports: [
     AuthModule,
     BoardModule,
+    RouterModule,
     CommonModule,
     BrowserModule,
     ProfileModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FontAwesomeModule
   ],
   providers: [LogInService],
   bootstrap: [AppComponent]

@@ -31,7 +31,11 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/@fortawesome/fontawesome-svg-core/index.js",
+              "node_modules/@fortawesome/free-solid-svg-icons/index.js",
+              "node_modules/@fortawesome/free-brands-svg-icons/index.js",
+              "node_modules/@fortawesome/free-regular-svg-icons/index.js",
             ]
           },
           "configurations": {

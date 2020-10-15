@@ -23,6 +23,7 @@ getActiveGamesQuery = """select ac.id,
 
 @bp.route('/active-games', methods=('GET', 'POST', 'PUT'))
 def activeGames():
+    print("active games")
     if request.method == 'POST':
         # create game
         return jsonify(username='some username', pw='some pw')

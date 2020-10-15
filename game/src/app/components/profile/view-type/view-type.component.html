@@ -1,0 +1,5 @@
+<ul class="row">
+	<li class="col btn btn-outline-light text-dark"
+	*ngFor="let option of this.viewOptions"
+	(click)="this.pickChoice(option.action)"><i [ngClass]="option.icons"></i></li>
+</ul>

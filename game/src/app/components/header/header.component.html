@@ -1,14 +1,16 @@
 <header class="mt-1" id="navbar">
 	<div class="row">		
 		<img class="m-1" src="/assets/images/chess-logo-v2.jpg" alt="logo"/>
-		<div class="col-ms">
+		<div class="col">
 			<a href="#" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-			<a href="#" [routerLink]="['/profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="this.log(profile)" #profile>Profile</a>
-			<a href="#" [routerLink]="['/auth/logIn']" routerLinkActive="active">Log in</a>
-			<a href="#" [routerLink]="['/auth/logOut']" routerLinkActive="active">Log out</a>
-			<a href="#" [routerLink]="['/auth/register']" routerLinkActive="active">sign up</a>
+			<a href="#" [routerLink]="['/profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="this.log(profile)" [hidden]="!this.isActive(profile)" #profile>Profile</a>
+			<a href="#" [routerLink]="['/auth/logIn']" routerLinkActive="active" [hidden]="!this.isActive(login)" #login>Log in</a>
+			<a href="#" [routerLink]="['/auth/logOut']" routerLinkActive="active" [hidden]="!this.isActive(logout)" #logout>Log out</a>
+			<a href="#" [routerLink]="['/auth/register']" routerLinkActive="active" [hidden]="!this.isActive(signup)" #signup>sign up</a>
+			<a href="#" [routerLink]="['/active']" routerLinkActive="active" [hidden]="!this.isActive(activegame)" #activegame>active games</a>
+			<a href="#" [routerLink]="['/finished']" routerLinkActive="active" [hidden]="!this.isActive(finished)" #finished>finished games</a>
 		</div>
-		<div class="col user">
+		<div class="user pr-2">
 			<user-menu></user-menu>
 		</div>
 	</div>
