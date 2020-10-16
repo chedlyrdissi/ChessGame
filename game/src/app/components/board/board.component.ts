@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { BoardService } from './board.service';
 
 @Component({
@@ -8,7 +10,14 @@ import { BoardService } from './board.service';
 })
 export class BoardComponent {
 
-  constructor(private boardService: BoardService) {}
+  constructor(private boardService: BoardService,  private actRoute: ActivatedRoute) {
+    boardService.gameData = {id: this.actRoute.snapshot.params['gameId']};
+    console.log(boardService.gameData);
+    this.actRoute.params.subscribe((params) => {
+      boardService.gameData = {id: params['gameId']};
+      console.log(boardService.gameData);
+    });
+  }
 
   cellClicked = (row: number, column: number) => {
     this.boardService.cellClicked(row, column);    
@@ -36,5 +45,9 @@ export class BoardComponent {
         return true;
       }
     }
+  }
+
+  move(): void {
+    this.boardService.getMove();
   }
 }

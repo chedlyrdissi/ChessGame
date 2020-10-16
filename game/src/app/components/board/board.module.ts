@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { PawnComponent } from './cell/pieces/pawn/pawn.component';
 import { RookComponent } from './cell/pieces/rook/rook.component';
@@ -11,6 +12,7 @@ import { CellComponent } from './cell/cell.component';
 import { BoardComponent } from './board.component';
 
 import { BoardService } from './board.service';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,12 +26,14 @@ import { BoardService } from './board.service';
     CellComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
+    HttpClientModule
   ],
   exports: [
     BoardComponent
   ],
-  providers: [BoardService],
+  providers: [BoardService, HttpClient],
   bootstrap: [BoardComponent]
 })
 

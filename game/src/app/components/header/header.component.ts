@@ -1,23 +1,16 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
   constructor() {}
 
-  log(elem: ElementRef<HTMLInputElement>) {
-  	console.log(this.isActive(elem));
-  };
-
-  ngOnInit(): void {
-  }
-
-  isActive(elem: ElementRef<HTMLInputElement>): boolean {
-  	if(elem.attributes['class'] && elem.attributes['class'].value) {
+  isActive(elem): boolean {
+  	if(elem.attributes.class && elem.attributes['class'].value) {
   		// console.log(typeof elem.attributes['class'].value);
   		if(typeof elem.attributes['class'].value === 'string') {
   			return elem.attributes['class'].value === 'active';

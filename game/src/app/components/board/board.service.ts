@@ -1,10 +1,27 @@
-import { PieceColor } from './cell/pieces/piece-color.enum';
-import { PieceName, pawn, knight, rook, bishop, king, queen } from './cell/pieces/pieces-names.enum';
-import { BishopController } from './cell/pieces/bishop/bishop.controller';
-import { ControllerMap } from './board-piece.controller';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
+import { PieceColor } from './cell/pieces/piece-color.enum';
+import { ControllerMap } from './board-piece.controller';
+import { BishopController } from './cell/pieces/bishop/bishop.controller';
+import { PieceName, pawn, knight, rook, bishop, king, queen } from './cell/pieces/pieces-names.enum';
+
+
+class ActiveGameData {
+  id: number;
+  whitePlayer?: string;
+  blackPlayer?: string;
+  currentPlayer?: string;
+  currentRow?: number;
+  currentCol?: number;
+  nextRow?: number;
+  nextCol?: number;
+}
+
+@Injectable()
 export class BoardService {
 
+  gameData: ActiveGameData;
   gameBoard: BoardCell[][];
   possibleSteps: {row: number, column: number}[] = [];
   currentPlayer: PieceColor = PieceColor.White;
@@ -12,7 +29,7 @@ export class BoardService {
   check: boolean;
   checkMate: boolean;
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
     this.check = false;
     this.checkMate = false;
     this.gameBoard = START_TABLE;
@@ -86,6 +103,14 @@ export class BoardService {
     } else if(this.currentPlayer === PieceColor.Black) {
       this.currentPlayer = PieceColor.White;
     }
+  }
+
+  getMove(): void {
+    this.httpClient.get<ActiveGameData>('http://127.0.0.1:5000/game/'+this.gameData.id)
+      .subscribe((data) => {
+        console.log(data);
+        this.gameData = data;
+      })
   }
 }
 

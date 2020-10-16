@@ -18,14 +18,14 @@ import { HomeComponent } from './components/home/home.component';
 const routes: Routes = [
 		{ path: '', component: HomeComponent, pathMatch: 'full'},
 		{ path: 'auth', children: [
-			{path: 'logIn', component: LogInComponent},
-			{path: 'logOut', component: LogOutComponent},
-			{path: 'register', component: RegisterComponent},
+			{ path: 'logIn', component: LogInComponent},
+			{ path: 'logOut', component: LogOutComponent},
+			{ path: 'register', component: RegisterComponent},
 		]},
-		{path: 'active', component: ActiveGamesComponent},
-		{path: 'finished', component: FinishedGamesComponent},
+		{ path: 'active', component: ActiveGamesComponent},
+		{ path: 'finished', component: FinishedGamesComponent},
 		{ path: 'profile', component: ProfileComponent},
-		{ path: 'board', component: BoardComponent},
+		{ path: 'game/:gameId', component: BoardComponent},
 		{ path: '**', redirectTo: '/'},
 	];
 
