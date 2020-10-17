@@ -1,0 +1,13 @@
+<form method="POST" (submit)="this.submit($event)">
+	<div class="container-fluid">
+		<div class="row my-2">
+			<input type="text" name="username" [(ngModel)]="this.username" placeholder="username" (keypress)="this.textChanged()" required="true"/>
+		</div>
+		<div class="row my-2">
+			<input type="password" name="password" [(ngModel)]="this.password" placeholder="password" (keypress)="this.textChanged()" required="true"/>
+		</div>
+		<div class="row">
+			<button class="btn btn-outline-light text-dark" [disabled]="this.btnDisabled">{{this.btnText}}</button>
+		</div>
+	</div>
+</form>

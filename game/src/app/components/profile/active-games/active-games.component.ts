@@ -32,14 +32,12 @@ export class ActiveGamesComponent {
   		this.activeGame = [];
   		this.autoUpdate = false;
   		this.update(this.autoUpdate);
-  		console.log(actRoute);
   	}
 
 	getGames = () => {
 		this.httpClient
 	        .get<{games: ActiveGame[]}>("http://127.0.0.1:5000/active-games")
 	        .subscribe((data) => {
-	        	console.log(data);
 	        	this.activeGame = data.games;
 	        })
 	}
@@ -61,13 +59,9 @@ export class ActiveGamesComponent {
 			this.httpClient
 		        .put("http://127.0.0.1:5000/active-games", {'gameId': gameId})
 		        .subscribe((data) => {
-		        	console.log(data);
 		        });		
-		} 
-		// else {
-		// 	this.router.navigate(['/', 'auth', 'logIn']);
-		// }
-		console.log(this.actRoute);
-		console.log(this.logInService);
+		} else {
+			this.router.navigate(['/', 'auth', 'logIn']);
+		}
 	}
 }

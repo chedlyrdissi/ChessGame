@@ -12,8 +12,6 @@ class UserData {
 @Injectable()
 export class LogInService {
 
-	private user: UserData;
-
 	constructor(private httpClient: HttpClient, private router: Router) {}
 
 	logIn(username: string, password: string) {
@@ -21,38 +19,28 @@ export class LogInService {
 	        	username: username,
 	        	password: password
 	      	}).subscribe((data: UserData) => {
-	         	console.log(data);
-	         	this.user = data;
 	         	window.sessionStorage.setItem('user', JSON.stringify(data));
-	         	this.router.navigate(['/profile/active']);
+	         	this.router.navigate(['/profile']);
 	       	});
 	}
 
 	isLoggedIn(): boolean {
-		if(!this.user) {
-			this.user = JSON.parse(window.sessionStorage.getItem('user'));
-		}
-		return this.user !== undefined && this.user !== null;
+		const user = JSON.parse(window.sessionStorage.getItem('user'));
+		return user !== undefined && user !== null;
 	}
 
 	getUsername(): string {
-		if(!this.user) {
-			this.user = JSON.parse(window.sessionStorage.getItem('user'));
-		}
-		return this.user.username;
+		const user = JSON.parse(window.sessionStorage.getItem('user'));
+		return user.username;
 	}
 
 	getCreationDate(): Date {
-		if(!this.user) {
-			this.user = JSON.parse(window.sessionStorage.getItem('user'));
-		}
-		return this.user.created;
+		const user = JSON.parse(window.sessionStorage.getItem('user'));
+		return user.created;
 	}
 
 	getLastModified(): Date {
-		if(!this.user) {
-			this.user = JSON.parse(window.sessionStorage.getItem('user'));
-		}
-		return this.user.last_modified;
+		const user = JSON.parse(window.sessionStorage.getItem('user'));
+		return user.last_modified;
 	}
 }

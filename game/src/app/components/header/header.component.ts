@@ -11,7 +11,6 @@ export class HeaderComponent {
 
   isActive(elem): boolean {
   	if(elem.attributes.class && elem.attributes['class'].value) {
-  		// console.log(typeof elem.attributes['class'].value);
   		if(typeof elem.attributes['class'].value === 'string') {
   			return elem.attributes['class'].value === 'active';
   		} else {

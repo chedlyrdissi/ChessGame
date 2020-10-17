@@ -11,13 +11,10 @@ export class LogInComponent {
 	username: string;
 	password: string;
 
-	constructor(private logInService: LogInService) {
-		console.log(logInService);
-	}
+	constructor(private logInService: LogInService) {}
 
 	submit(e, form) {
 		e.preventDefault();
     	this.logInService.logIn(this.username, this.password);
-		console.log(this.logInService);
 	}
 }

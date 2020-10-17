@@ -2,31 +2,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-import { RegisterComponent } from './register/register.component';
-import { LogOutComponent } from './log-out/log-out.component';
-import { LogInComponent } from './log-in/log-in.component';
-import { LogInService } from './log-in/log-in.service';
-
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { AuthComponent } from './auth.component';
 
 @NgModule({
-  declarations: [
-    LogInComponent,
-    LogOutComponent,
-    RegisterComponent
-  ],
+  declarations: [AuthComponent],
   imports: [
     FormsModule,
     CommonModule,
     BrowserModule,
     HttpClientModule
   ],
-  exports: [
-    LogInComponent,
-    LogOutComponent,
-    RegisterComponent
-  ],
+  exports: [AuthComponent],
   providers: [HttpClient],
   bootstrap: []
 })

@@ -16,6 +16,8 @@ import { ActiveGameCardComponent } from './active-game-card/active-game-card.com
 import { FinishedGameCardComponent } from './finished-game-card/finished-game-card.component';
 import { ViewTypeComponent } from './view-type/view-type.component';
 
+import { LogInService } from '@auth/log-in/log-in.service';
+
 @NgModule({
   declarations: [
     ProfileComponent,
@@ -45,7 +47,7 @@ import { ViewTypeComponent } from './view-type/view-type.component';
     ActiveGameCardComponent,
     FinishedGameCardComponent
   ],
-  providers: [HttpClient],
+  providers: [HttpClient, LogInService],
   bootstrap: []
 })
 export class ProfileModule { }

@@ -11,11 +11,9 @@ import { BoardService } from './board.service';
 export class BoardComponent {
 
   constructor(private boardService: BoardService,  private actRoute: ActivatedRoute) {
-    boardService.gameData = {id: this.actRoute.snapshot.params['gameId']};
-    console.log(boardService.gameData);
+    // boardService.gameData = {id: this.actRoute.snapshot.params['gameId']};
     this.actRoute.params.subscribe((params) => {
       boardService.gameData = {id: params['gameId']};
-      console.log(boardService.gameData);
     });
   }
 

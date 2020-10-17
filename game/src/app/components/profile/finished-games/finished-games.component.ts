@@ -31,14 +31,12 @@ export class FinishedGamesComponent {
   		this.finishedGame = [];
   		this.autoUpdate = false;
   		this.update(this.autoUpdate);
-  		console.log(actRoute);
   	}
 
 	getGames = () => {
 		this.httpClient
 	        .get<{games: FinishedGame[]}>("http://127.0.0.1:5000/finished-games")
 	        .subscribe((data) => {
-	        	console.log(data);
 	        	this.finishedGame = data.games.map((game) => {
 	        		return {
 	        			id: game.id,

@@ -1,15 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { LogInService } from '@auth/log-in/log-in.service';
+import { LogOutService } from '@auth/log-out/log-out.service';
+import { RegistrationService } from '@auth/register/registration.service';
 
 @Component({
   selector: 'user-menu',
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.css']
 })
-export class UserMenuComponent implements OnInit {
+export class UserMenuComponent {
 
-  constructor() { }
+  	constructor(
+      private logInService: LogInService,
+      private logOutService: LogOutService,
+      private registrationService: RegistrationService) {}
 
-  ngOnInit(): void {
-  }
+   	isLoggedIn(): boolean {
+   		return this.logInService.isLoggedIn();
+   	}
 
+    logIn(credentials: {username: string, password: string}): void {
+      this.logInService.logIn(credentials.username, credentials.password);
+    }
+
+    register(credentials: {username: string, password: string}): void {
+      this.registrationService.register(credentials.username, credentials.password);
+    }
+
+   	logOut(): void {
+   	  this.logOutService.logOut();
+   	}
 }

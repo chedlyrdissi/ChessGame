@@ -266,17 +266,6 @@ class BoardCell {
   f?: boolean; // first move
 }
 
-// const START_TABLE: BoardCell[][] = [
-//   [{c:b,p:king}, {}, {}, {}, {}, {}, {},{c:w,p:rook}],
-//   [{}, {}, {}, {}, {}, {}, {}, {}],
-//   [{}, {}, {}, {}, {}, {}, {}, {}],
-//   [{}, {}, {}, {}, {}, {}, {}, {}],
-//   [{}, {}, {}, {}, {}, {}, {}, {}],
-//   [{}, {}, {}, {}, {}, {}, {}, {}],
-//   [{},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true}],
-//   [{c:w,p:rook},{c:w,p:knight},{c:w,p:bishop},{c:w,p:queen},{c:w,p:king},{c:w,p:bishop},{c:w,p:knight},{c:w,p:rook}]
-// ];
-
 const START_TABLE: BoardCell[][] = [
   [{c:b,p:rook},{c:b,p:knight},{c:b,p:bishop},{c:b,p:queen},{c:b,p:king},{c:b,p:bishop},{c:b,p:knight},{c:b,p:rook}],
   [{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true}],
