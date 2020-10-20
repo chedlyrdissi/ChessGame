@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as $ from 'jquery/dist/jquery.min.js';
 import { LogInService } from '@auth/log-in/log-in.service';
 import { LogOutService } from '@auth/log-out/log-out.service';
 import { RegistrationService } from '@auth/register/registration.service';
@@ -19,8 +20,9 @@ export class UserMenuComponent {
    		return this.logInService.isLoggedIn();
    	}
 
-    logIn(credentials: {username: string, password: string}): void {
+    logIn(credentials: {username: string, password: string}, modalId: string): void {
       this.logInService.logIn(credentials.username, credentials.password);
+      $('#'+modalId).modal('hide');
     }
 
     register(credentials: {username: string, password: string}): void {

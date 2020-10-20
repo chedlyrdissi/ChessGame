@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ActiveGame } from '@profile/active-games/active-games.component';
 
 @Component({
   selector: 'app-active-game-card',
   templateUrl: './active-game-card.component.html',
   styleUrls: ['./active-game-card.component.css']
 })
-export class ActiveGameCardComponent implements OnInit {
+export class ActiveGameCardComponent {
 
-  constructor() { }
+  	@Output() join = new EventEmitter<number>();
 
-  ngOnInit(): void {
-  }
+	@Input() activeGame: ActiveGame[];
 
+  	constructor() {}
+
+  	joinGame(gameId: number): void {
+  		this.join.emit(gameId);
+  	}
 }

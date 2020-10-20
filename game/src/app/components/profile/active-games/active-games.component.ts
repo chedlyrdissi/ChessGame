@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 // import { Observable } from "rxjs/Observable";
 import { HttpClient } from '@angular/common/http';
 import { LogInService } from '@auth/log-in/log-in.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
-interface ActiveGame {
+export interface ActiveGame {
 	id: number,
 	whitePlayer: string,
 	blackPlayer: string,
@@ -34,7 +34,7 @@ export class ActiveGamesComponent {
   		this.update(this.autoUpdate);
   	}
 
-	getGames = () => {
+	getGames() {
 		this.httpClient
 	        .get<{games: ActiveGame[]}>("http://127.0.0.1:5000/active-games")
 	        .subscribe((data) => {
@@ -42,7 +42,7 @@ export class ActiveGamesComponent {
 	        })
 	}
 
-	update(auto) {
+	update(auto: boolean) {
 		console.log(auto);
 		if(auto) {			
 			this.updateHandler = setInterval(this.getGames, 1000, this);

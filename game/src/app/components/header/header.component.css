@@ -2,7 +2,6 @@
   background-color: white; /* Black background color */
   /*position: fixed;  Make it stick/fixed */
   top: 0; /* Stay on top */
-  width: 100%; /* Full width */
   transition: top 0.3s; /* Transition effect when sliding down (and up) */
   margin-bottom: 10px;
 }
@@ -27,7 +26,10 @@ header {
 }
 
 img {
-  max-height: 48px;
+  /*max-height: 48px;*/
+  height: -webkit-fill-available;
+  /*width: -webkit-fill-available;*/
+  max-width: -webkit-fill-available;
 }
 
 .active {

@@ -1,25 +1,3 @@
-<div class="table-responsive p-4">
-	<table
-		class="table table-bordered table-hover" 
-		*ngIf="this.activeGame && this.activeGame.length > 0 else noData">
-		<thead class="thead-light">		
-			<tr>
-				<th>game id</th>
-				<th>white player</th>
-				<th>black player</th>
-				<th>creation date</th>
-			</tr>
-		</thead>
-		<tbody>		
-			<tr *ngFor="let activegame of this.activeGame" [routerLink]="['/game', activegame.id]">
-				<td>{{activegame.id}}</td>
-				<td>{{activegame.whitePlayer}}</td>
-				<td>{{activegame.blackPlayer}}</td>
-				<td>{{activegame.creationDate}}</td>
-				<td *ngIf="!activegame.blackPlayer"><button class="btn btn-outline-primary" (click)="this.joinGame(activegame.id)">Join</button></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+<app-active-game-list [activeGame]="this.activeGame" (join)="this.joinGame($event)" *ngIf="this.activeGame && this.activeGame.length > 0 else noData"></app-active-game-list>
 <ng-template #noData>No Active Games Available At The Moment</ng-template>
 <input type="checkbox" name="autoupdate" [(ngModel)]="this.autoUpdate" (change)="this.update(this.autoUpdate)"/><label>auto update</label>

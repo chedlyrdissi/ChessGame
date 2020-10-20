@@ -13,7 +13,7 @@ export class AuthComponent {
 	btnDisabled: boolean;
 	
 	@Input() btnText: string = '';
-	@Output('submit') submitted = new EventEmitter<{username: string, password: string}>();  
+	@Output('authsubmit') submitted = new EventEmitter<{username: string, password: string}>();  
 
 	constructor() {
 		this.username = '';
@@ -24,6 +24,7 @@ export class AuthComponent {
 	submit(e) {
 		e.preventDefault();
 		this.submitted.emit({username: this.username, password: this.password});
+		return false;
 	}
 
 	textChanged(): void {

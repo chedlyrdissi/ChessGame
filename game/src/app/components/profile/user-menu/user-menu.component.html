@@ -1,5 +1,5 @@
-<div class="dropdown" *ngIf="this.isLoggedIn(); else userNotLoggedInBlock">
-    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
+<div class="dropdown p-0" *ngIf="this.isLoggedIn(); else userNotLoggedInBlock">
+    <button type="button" class="btn btn-light dropdown-toggle pt-0 px-0 pb-1" data-toggle="dropdown">
 			<label class="user-label mx-1 mt-3 ">User</label>
 			<img src="/assets/images/user.jpg" alt="user">
     </button>
@@ -11,10 +11,10 @@
     </div>
 </div>
 <ng-template #userNotLoggedInBlock>
-  <button class="btn btn-light text-dark m-2" data-toggle="modal" data-target="#logInModal">log in</button>
-  <button class="btn btn-light text-dark m-2" data-toggle="modal" data-target="#registrationModal">register</button>
+  <button class="btn btn-light text-dark my-2 mx-1" data-toggle="modal" data-target="#logInModal">log in</button>
+  <button class="btn btn-light text-dark my-2 mx-1" data-toggle="modal" data-target="#registrationModal">register</button>
 
-  <div class="modal m-2" id="logInModal">
+  <div class="modal m-2" id="logInModal" #logInModal>
     <div class="modal-dialog">
       <div class="modal-content">
         <!-- Modal Header -->
@@ -24,12 +24,12 @@
         </div>
         <!-- Modal body -->
         <div class="modal-body">
-          <app-auth btnText="Log In" (submit)="this.logIn($event)"></app-auth>
+          <app-auth btnText="Log In" (authsubmit)="this.logIn($event, 'logInModal', registrationModal)"></app-auth>
         </div>
       </div>
     </div>
   </div>
-  <div class="modal m-2" id="registrationModal">
+  <div class="modal m-2" id="registrationModal" #registrationModal>
     <div class="modal-dialog">
       <div class="modal-content">
         <!-- Modal Header -->
@@ -39,7 +39,7 @@
         </div>
         <!-- Modal body -->
         <div class="modal-body">
-          <app-auth btnText="Register" (submit)="this.register($event)"></app-auth>
+          <app-auth btnText="Register" (authsubmit)="this.register($event, 'registrationModal')"></app-auth>
         </div>
       </div>
     </div>

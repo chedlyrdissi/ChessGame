@@ -1,0 +1,22 @@
+<div class="table-responsive p-4">
+	<table
+		class="table table-bordered table-hover">
+		<thead class="thead-light">		
+			<tr>
+				<th>game id</th>
+				<th>white player</th>
+				<th>black player</th>
+				<th>creation date</th>
+			</tr>
+		</thead>
+		<tbody>		
+			<tr *ngFor="let activegame of this.activeGame" [routerLink]="['/game', activegame.id]">
+				<td>{{activegame.id}}</td>
+				<td>{{activegame.whitePlayer}}</td>
+				<td>{{activegame.blackPlayer}}</td>
+				<td>{{activegame.creationDate}}</td>
+				<td *ngIf="!activegame.blackPlayer"><button class="btn btn-outline-primary" (click)="this.joinGame(activegame.id)">Join</button></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

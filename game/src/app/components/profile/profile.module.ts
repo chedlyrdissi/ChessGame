@@ -17,6 +17,8 @@ import { FinishedGameCardComponent } from './finished-game-card/finished-game-ca
 import { ViewTypeComponent } from './view-type/view-type.component';
 
 import { LogInService } from '@auth/log-in/log-in.service';
+import { ActiveGameListComponent } from './active-game-list/active-game-list.component';
+import { FinishedGameListComponent } from './finished-game-list/finished-game-list.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { LogInService } from '@auth/log-in/log-in.service';
     ActiveGamesComponent,
     FinishedGamesComponent,
     ActiveGameCardComponent,
-    FinishedGameCardComponent
+    FinishedGameCardComponent,
+    ActiveGameListComponent,
+    FinishedGameListComponent
   ],
   imports: [
     AuthModule,

@@ -1,17 +1,26 @@
-<header class="mt-1" id="navbar">
-	<div class="row">		
-		<img class="m-1" src="/assets/images/chess-logo-v2.jpg" alt="logo"/>
-		<div class="col">
-			<a href="#" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-			<a href="#" [routerLink]="['/profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [hidden]="!this.isActive(profile)" #profile>Profile</a>
-			<a href="#" [routerLink]="['/auth/logIn']" routerLinkActive="active" [hidden]="!this.isActive(login)" #login>Log in</a>
-			<a href="#" [routerLink]="['/auth/logOut']" routerLinkActive="active" [hidden]="!this.isActive(logout)" #logout>Log out</a>
-			<a href="#" [routerLink]="['/auth/register']" routerLinkActive="active" [hidden]="!this.isActive(signup)" #signup>Register</a>
-			<a href="#" [routerLink]="['/active']" routerLinkActive="active" [hidden]="!this.isActive(activegame)" #activegame>Active games</a>
-			<a href="#" [routerLink]="['/finished']" routerLinkActive="active" [hidden]="!this.isActive(finished)" #finished>Finished games</a>
+<header class="row mt-1 mx-0 p-0" id="navbar">
+	<div class="col-3 p-0">
+		<img src="/assets/images/chess-logo-v2.jpg" alt="logo"/>
+	</div>
+	<div class="col-6 p-0">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col p-0">				
+					<a href="#" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+				</div>
+				<div class="col p-0" [hidden]="!this.isActive(profile)">
+					<a href="#" [routerLink]="['/profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" #profile>Profile</a>
+				</div>
+				<div class="col p-0" [hidden]="!this.isActive(activegame)">
+					<a href="#" [routerLink]="['/active']" routerLinkActive="active" #activegame>Active games</a>
+				</div>
+				<div class="col p-0" [hidden]="!this.isActive(finished)">
+					<a href="#" [routerLink]="['/finished']" routerLinkActive="active" #finished>Finished games</a>
+				</div>
+			</div>
 		</div>
-		<div class="user pr-2">
-			<user-menu></user-menu>
-		</div>
+	</div>
+	<div class="col-3 user p-0">
+		<user-menu></user-menu>
 	</div>
 </header>
