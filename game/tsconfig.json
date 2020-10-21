@@ -17,6 +17,7 @@
       "dom"
     ],
     "paths": {
+      "@app/*" : ["src/app/*", "src/app/app.module.ts"],
       "@board/*" : ["src/app/components/board/*", "src/app/components/board/board.module.ts"],
       "@pieces/*": ["src/app/components/board/cell/pieces/*", "src/app/components/board/cell/pieces/pieces.module.ts"],
       "@auth/*": ["src/app/components/auth/*", "src/app/components/auth/auth.module.ts"],

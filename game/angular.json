@@ -25,6 +25,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
@@ -35,7 +36,7 @@
               "node_modules/@fortawesome/fontawesome-svg-core/index.js",
               "node_modules/@fortawesome/free-solid-svg-icons/index.js",
               "node_modules/@fortawesome/free-brands-svg-icons/index.js",
-              "node_modules/@fortawesome/free-regular-svg-icons/index.js",
+              "node_modules/@fortawesome/free-regular-svg-icons/index.js"
             ]
           },
           "configurations": {
@@ -72,7 +73,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ChessGame:build"
+            "browserTarget": "ChessGame:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -98,6 +100,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -129,6 +132,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "ChessGame"
 }

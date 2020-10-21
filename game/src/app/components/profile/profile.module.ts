@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { ProfileComponent } from './profile.component';
 import { ActiveGamesComponent } from './active-games/active-games.component';
@@ -39,7 +40,8 @@ import { FinishedGameListComponent } from './finished-game-list/finished-game-li
     RouterModule,
     CommonModule,
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSlideToggleModule
   ],
   exports: [
     ProfileComponent,

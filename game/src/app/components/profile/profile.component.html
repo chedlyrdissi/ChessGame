@@ -1,13 +1,14 @@
-<div class="container-fuild p-2">
-	<div class="row">
-		<div class="col">
-			<app-active-game-card></app-active-game-card>
-		</div>
-		<div class="col">
-			<app-finished-game-card></app-finished-game-card>
-		</div>
-		<div class="col">
-			<app-view-type (optionPicked)="this.log($event)"></app-view-type>
-		</div>
+<div class="card-columns">
+	<div class="card text-center" [routerLink]="['/active']">
+		<img class="card-img-top card-icon p-2" src="/assets/images/active-game.jpg" alt="Card image">
+	  	<div class="card-footer">
+	  		<a class="btn btn-light" href="#" [routerLink]="['/active']">See Active Games</a>
+	  	</div>
+	</div>
+	<div class="card text-center" [routerLink]="['/finished']">
+		<img class="card-img-top card-icon p-2" src="/assets/images/finished-game.jpg" alt="Card image">
+	  	<div class="card-footer">
+	  		<a class="btn btn-light" href="#" [routerLink]="['/finished']">See Finished Games</a>
+	  	</div>
 	</div>
 </div>

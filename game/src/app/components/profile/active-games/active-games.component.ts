@@ -1,8 +1,10 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-// import { Observable } from "rxjs/Observable";
 import { HttpClient } from '@angular/common/http';
 import { LogInService } from '@auth/log-in/log-in.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ViewTypeOptions } from '@profile/view-type/view-type-options';
+import { CachingService } from '@app/caching.service';
+import { CachingOptions } from '@app/caching.options';
 
 
 export interface ActiveGame {
@@ -11,6 +13,12 @@ export interface ActiveGame {
 	blackPlayer: string,
 	creationDate: Date
 }
+
+/*
+	Querry params:
+		v: view type : ViewTypeOptions
+
+*/
 
 @Component({
   selector: 'activeGames',
@@ -22,19 +30,37 @@ export class ActiveGamesComponent {
 	activeGame: ActiveGame[];
 	updateHandler;
 	autoUpdate: boolean;
+	viewType: ViewTypeOptions;
 
-  	// constructor(private httpClient:HttpClient, private logInService: LogInService) {
+	options = ViewTypeOptions;
+
   	constructor(
   		private httpClient: HttpClient, 
-  		private logInService: LogInService, 
+  		private logInService: LogInService,
+  		private cachingService: CachingService,
   		private actRoute: ActivatedRoute, 
   		private router: Router) {
+
   		this.activeGame = [];
   		this.autoUpdate = false;
   		this.update(this.autoUpdate);
+  		this.actRoute.queryParams.subscribe((params) => {
+  			if(params.v && validViewType(params.v)) {
+  				this.viewType = params.v;
+  			} else {
+  				if(this.cachingService.has(CachingOptions.VIEWTYPE)) {
+	  				// get from cache
+  					this.viewType = this.cachingService.get(CachingOptions.VIEWTYPE)
+  				} else {
+  					// set default
+  					this.viewType = ViewTypeOptions.LIST;
+  					this.viewType = this.cachingService.set(CachingOptions.VIEWTYPE, ViewTypeOptions.LIST);
+  				}
+  			}
+  		});
   	}
 
-	getGames() {
+	getGames = () => {
 		this.httpClient
 	        .get<{games: ActiveGame[]}>("http://127.0.0.1:5000/active-games")
 	        .subscribe((data) => {
@@ -43,8 +69,7 @@ export class ActiveGamesComponent {
 	}
 
 	update(auto: boolean) {
-		console.log(auto);
-		if(auto) {			
+		if(auto) {
 			this.updateHandler = setInterval(this.getGames, 1000, this);
 		} else {
 			if(this.updateHandler) {
@@ -64,4 +89,25 @@ export class ActiveGamesComponent {
 			this.router.navigate(['/', 'auth', 'logIn']);
 		}
 	}
+
+	changeView(view: ViewTypeOptions): void {
+		this.viewType = view;
+  		this.cachingService.set(CachingOptions.VIEWTYPE, view);
+  		const queryParams: Params = { 'v': null };
+  		this.router.navigate([], 
+		    {
+		      relativeTo: this.actRoute,
+		      queryParams: queryParams, 
+		      queryParamsHandling: 'merge', // remove to replace all query params by provided
+		    });
+	}
+}
+
+function validViewType(view: string): boolean {
+	for(let v in ViewTypeOptions) {
+		if(ViewTypeOptions[v] === view) {
+			return true;
+		}
+	}
+	return false;
 }

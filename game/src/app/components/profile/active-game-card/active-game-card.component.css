@@ -1,3 +1,9 @@
-.card-icon {
+.active-game-icon {
+	filter: contrast(2);
+	width: 6rem;
+	align-self: center;
+}
+
+.card {
 	border-radius: 3rem;
 }

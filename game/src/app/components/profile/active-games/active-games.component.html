@@ -1,3 +1,17 @@
-<app-active-game-list [activeGame]="this.activeGame" (join)="this.joinGame($event)" *ngIf="this.activeGame && this.activeGame.length > 0 else noData"></app-active-game-list>
-<ng-template #noData>No Active Games Available At The Moment</ng-template>
-<input type="checkbox" name="autoupdate" [(ngModel)]="this.autoUpdate" (change)="this.update(this.autoUpdate)"/><label>auto update</label>
+<div class="container-fluid">
+	<div class="row d-flex flex-row-reverse mr-2">
+		<app-view-type (optionPicked)="this.changeView($event)"></app-view-type><label class="ml-1">realtime update</label>
+		<mat-slide-toggle [(ngModel)]="this.autoUpdate" name="autoupdate" (change)="this.update(this.autoUpdate)"></mat-slide-toggle>
+	</div>
+	<div class="row">
+		<div class="col">
+			<div *ngIf="this.viewType === this.options.LIST">
+				<app-active-game-list [activeGame]="this.activeGame" (join)="this.joinGame($event)" *ngIf="this.activeGame && this.activeGame.length > 0 else noData"></app-active-game-list>
+			</div>
+			<div *ngIf="this.viewType === this.options.CARD">
+				<app-active-game-card [activeGame]="this.activeGame" (join)="this.joinGame($event)" *ngIf="this.activeGame && this.activeGame.length > 0 else noData"></app-active-game-card>				
+			</div>
+			<ng-template #noData>No Active Games Available At The Moment</ng-template>
+		</div>
+	</div>	
+</div>

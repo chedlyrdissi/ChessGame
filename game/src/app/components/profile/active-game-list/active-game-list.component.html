@@ -1,6 +1,5 @@
 <div class="table-responsive p-4">
-	<table
-		class="table table-bordered table-hover">
+	<table class="table table-bordered table-hover">
 		<thead class="thead-light">		
 			<tr>
 				<th>game id</th>
@@ -9,7 +8,7 @@
 				<th>creation date</th>
 			</tr>
 		</thead>
-		<tbody>		
+		<tbody class="bg-white">		
 			<tr *ngFor="let activegame of this.activeGame" [routerLink]="['/game', activegame.id]">
 				<td>{{activegame.id}}</td>
 				<td>{{activegame.whitePlayer}}</td>
