@@ -1,7 +1,7 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LogInService } from '@auth/log-in/log-in.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { ViewTypeOptions } from '@profile/view-type/view-type-options';
 import { CachingService } from '@app/caching.service';
 import { CachingOptions } from '@app/caching.options';
@@ -54,7 +54,7 @@ export class ActiveGamesComponent {
   				} else {
   					// set default
   					this.viewType = ViewTypeOptions.LIST;
-  					this.viewType = this.cachingService.set(CachingOptions.VIEWTYPE, ViewTypeOptions.LIST);
+  					this.cachingService.set(CachingOptions.VIEWTYPE, ViewTypeOptions.LIST);
   				}
   			}
   		});

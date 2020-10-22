@@ -1,15 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FinishedGame } from '@profile/finished-games/finished-games.component';
 
 @Component({
   selector: 'app-finished-game-list',
   templateUrl: './finished-game-list.component.html',
   styleUrls: ['./finished-game-list.component.css']
 })
-export class FinishedGameListComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class FinishedGameListComponent {
+	@Input() finishedGame: FinishedGame[] = [];
 }

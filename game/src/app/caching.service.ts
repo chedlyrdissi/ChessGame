@@ -9,16 +9,22 @@ export class CachingService {
 
   	constructor() {}
 
-  	has(cacheOpt: CachingOptions) {
-  		const val = localStorage.getItem(cacheOpt.key);
+  	has<T>(cacheKey: string): boolean {
+  		const val = localStorage.getItem(cacheKey);
   		return val !== undefined && val !== null && val !== '';
   	}
 
-  	get(cacheOpt: CachingOptions) {
-  		return localStorage.getItem(cacheOpt.key);
+  	get<T>(cacheKey: string): T {
+  		// if(typeof T !== 'object') {
+  		// 	return eval(localStorage.getItem(cacheKey));
+  		// } else {
+  		// 	return JSON.parse(localStorage.getItem(cacheKey));
+  		// }
+  		// return eval(localStorage.getItem(cacheKey));
+  		return JSON.parse(localStorage.getItem(cacheKey)).value;
   	}
 
-  	set(cacheOpt: CachingOptions, cacheVal: Object) {
-  		return localStorage.setItem(cacheOpt.key, cacheVal);
+  	set<T>(cacheKey: string, cacheVal: Object): void {
+  		localStorage.setItem(cacheKey, JSON.stringify({value: cacheVal}));
   	}
 }

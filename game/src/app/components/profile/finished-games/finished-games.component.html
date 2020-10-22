@@ -1,30 +1,17 @@
-<div class="table-responsive p-4">
-	<table
-		class="table table-bordered table-hover" 
-		*ngIf="this.finishedGame && this.finishedGame.length > 0 else noData">
-		<thead class="thead-light">		
-			<tr>
-				<th>game id</th>
-				<th>white player</th>
-				<th>black player</th>
-				<th>winner</th>
-				<th>start</th>
-				<th>finish</th>
-				<th>duration</th>
-			</tr>
-		</thead>
-		<tbody>		
-			<tr *ngFor="let finishedgame of this.finishedGame">
-				<td>{{finishedgame.id}}</td>
-				<td>{{finishedgame.whitePlayer}}</td>
-				<td>{{finishedgame.blackPlayer}}</td>
-				<td>{{finishedgame.winner}}</td>
-				<td>{{finishedgame.start}}</td>
-				<td>{{finishedgame.finish}}</td>
-				<td>{{finishedgame.finish.getTime() - finishedgame.start.getTime()}}</td>
-			</tr>
-		</tbody>
-	</table>
+<div class="container-fluid">
+	<div class="row d-flex flex-row-reverse mr-2">
+		<app-view-type (optionPicked)="this.changeView($event)"></app-view-type><label class="ml-1">realtime update</label>
+		<mat-slide-toggle [(ngModel)]="this.autoUpdate" name="autoupdate" (change)="this.update(this.autoUpdate)"></mat-slide-toggle>
+	</div>
+	<div class="row">
+		<div class="col">
+			<div *ngIf="this.viewType === this.options.LIST">
+				<app-finished-game-list [finishedGame]="this.finishedGame" *ngIf="this.finishedGame && this.finishedGame.length > 0 else noData"></app-finished-game-list>
+			</div>
+			<div *ngIf="this.viewType === this.options.CARD">
+				<app-finished-game-card [finishedGame]="this.finishedGame" *ngIf="this.finishedGame && this.finishedGame.length > 0 else noData"></app-finished-game-card>				
+			</div>
+			<ng-template #noData>No Finished Games Available At The Moment</ng-template>
+		</div>
+	</div>	
 </div>
-<ng-template #noData>No Finished Games Available At The Moment</ng-template>
-<input type="checkbox" name="autoupdate" [(ngModel)]="this.autoUpdate" (change)="this.update(this.autoUpdate)"/><label>auto update</label>

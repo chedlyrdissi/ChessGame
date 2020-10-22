@@ -1,17 +1,17 @@
-<!-- <div class="card-columns">
+<div class="card-columns">
 	<div 
 		class="card text-center" 
 		[routerLink]="['/finished']"
-		*ngFor="let activegame of this.activeGame">
-		<img class="card-img-top card-icon p-2" src="/assets/images/finished-game.jpg" alt="Card image">
+		*ngFor="let finishedgame of this.finishedGame">
+		<img class="card-img-top card-icon finished-game-icon p-2" src="/assets/images/chess-game-icon.png" alt="Card image">
 	  	<div class="card-body text-center">
-	      	<p class="card-text">game id: {{activegame.id}}</p>
-	      	<p class="card-text">white player: {{activegame.whitePlayer}}</p>
-	      	<p class="card-text">black player: {{activegame.blackPlayer}}</p>
-	      	<p class="card-text">creation date: {{activegame.creationDate}}</p>
+	      	<p class="card-text">game id: {{finishedgame.id}}</p>
+	      	<p class="card-text">white player: {{finishedgame.whitePlayer}}</p>
+	      	<p class="card-text">black player: {{finishedgame.blackPlayer}}</p>
+	      	<p class="card-text"><i class="fa fa-crown"></i> Winner: {{finishedgame.winner}}</p>
 	    </div>
-	    <div class="card-footer" *ngIf="!activegame.blackPlayer">
-	    	<button class="btn btn-outline-primary" (click)="this.joinGame(activegame.id)">Join</button>
+	    <div class="card-footer" *ngIf="!finishedgame.blackPlayer">
+	    	<button class="btn btn-outline-primary" (click)="this.joinGame(finishedgame.id)">Join</button>
 	    </div>
 	</div>
-</div> -->
+</div>
