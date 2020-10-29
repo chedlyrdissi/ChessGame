@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { BoardService } from './board.service';
@@ -11,12 +11,23 @@ import { BoardCell } from './abstractplayer.controller';
 })
 export class BoardComponent {
 
+  check: EventEmitter<void>;
+  checkMate: EventEmitter<void>;
+
   constructor(private boardService: BoardService,  private actRoute: ActivatedRoute) {
     // boardService.gameData = {id: this.actRoute.snapshot.params['gameId']};
     this.actRoute.params.subscribe((params) => {
       this.boardService.setGameId(params['gameId']);
       this.boardService.getMove();
     });
+    
+    this.check = new EventEmitter<void>();
+    this.check.subscribe(() => {console.log('check');});
+    boardService.setCheck(this.check);
+
+    this.checkMate = new EventEmitter<void>();
+    this.checkMate.subscribe(() => {console.log('checkMate');});
+    boardService.setCheckMate(this.checkMate);
   }
 
   cellClicked = (row: number, column: number) => {
@@ -29,14 +40,6 @@ export class BoardComponent {
   
   isSelected(cell): boolean {
     return Object.is(cell, this.boardService.controller.selected);
-  }
-
-  hasCheck(): boolean {
-    return this.boardService.controller.check;
-  }
-
-  hasCheckMate(): boolean {
-    return this.boardService.controller.checkMate;
   }
 
   isPossibleStep(row: number, col: number): boolean {
@@ -54,4 +57,6 @@ export class BoardComponent {
   getGameId(): number {
     return this.boardService.getGameId();
   }
+
+  hasCheckMate(): boolean {return false;}
 }

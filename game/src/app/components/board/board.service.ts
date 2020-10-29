@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { PieceColor } from './cell/pieces/piece-color.enum';
@@ -41,5 +41,13 @@ export class BoardService {
 
   getMove(): void {
     this.controller.getMove();
+  }
+
+  setCheck(checkEventEmitter: EventEmitter<void>): void {
+    this.controller.setCheck(checkEventEmitter);
+  }
+
+  setCheckMate(checkMateEventEmitter: EventEmitter<void>): void {
+    this.controller.setCheckMate(checkMateEventEmitter);
   }
 }

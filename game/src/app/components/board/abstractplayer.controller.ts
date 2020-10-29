@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { PieceColor } from './cell/pieces/piece-color.enum';
@@ -24,8 +24,9 @@ export abstract class AbstractController {
   possibleSteps: {row: number, column: number}[] = [];
   currentPlayer: PieceColor;
   selected: BoardCell = null;
-  check: boolean = false;
-  checkMate: boolean = false;
+  
+  check: EventEmitter<void>;
+  checkMate: EventEmitter<void>;
 
   constructor(protected httpClient: HttpClient) {}
 
@@ -79,6 +80,14 @@ export abstract class AbstractController {
   abstract getMove(): void;
 
   abstract movePiece(row: number, column: number): void;
+
+  setCheck(checkEventEmitter: EventEmitter<void>): void {
+    this.check = checkEventEmitter;
+  }
+
+  setCheckMate(checkMateEventEmitter: EventEmitter<void>): void {
+    this.checkMate = checkMateEventEmitter;
+  }
 }
 
 export function findSpecificKing(color: PieceColor, kings: BoardCell[]): BoardCell {
