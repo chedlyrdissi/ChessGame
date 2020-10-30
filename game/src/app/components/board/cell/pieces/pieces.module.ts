@@ -11,6 +11,7 @@ import { KingComponent } from './king/king.component';
 import { QueenComponent } from './queen/queen.component';
 import { BishopComponent } from './bishop/bishop.component';
 import { KnightComponent } from './knight/knight.component';
+import { EmptyComponent } from './empty/empty.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { KnightComponent } from './knight/knight.component';
     QueenComponent,
     BishopComponent,
     KnightComponent,
+    EmptyComponent,
   ],
   imports: [
     CommonModule

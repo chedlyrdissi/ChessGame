@@ -5,10 +5,15 @@
 }
 
 td {
-  height: 25px;
-  width: 25px;
+  height: 100% !important;
+  width: 12.5% !important;
   border: 0.1px solid;
   text-align: center !important;
+}
+
+tr {
+  height: 12.5% !important;
+  width: 100% !important;	
 }
 
 .selected {
@@ -17,4 +22,15 @@ td {
 
 .checkmated {
 	/*background-color: #FFCCCB;*/
+	pointer-events: none !important;
+}
+
+table {
+	height: 50vw;
+	width: 50vw;
+}
+
+.row {
+	/*height: 50vw;*/
+	width: 50vw;
 }

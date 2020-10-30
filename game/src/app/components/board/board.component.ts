@@ -13,6 +13,7 @@ export class BoardComponent {
 
   check: EventEmitter<void>;
   checkMate: EventEmitter<void>;
+  gameOver: boolean = false;
 
   constructor(private boardService: BoardService,  private actRoute: ActivatedRoute) {
     // boardService.gameData = {id: this.actRoute.snapshot.params['gameId']};
@@ -26,7 +27,10 @@ export class BoardComponent {
     boardService.setCheck(this.check);
 
     this.checkMate = new EventEmitter<void>();
-    this.checkMate.subscribe(() => {console.log('checkMate');});
+    this.checkMate.subscribe(() => {
+      console.log('checkMate');
+      this.gameOver = true;
+    });
     boardService.setCheckMate(this.checkMate);
   }
 
@@ -58,5 +62,27 @@ export class BoardComponent {
     return this.boardService.getGameId();
   }
 
-  hasCheckMate(): boolean {return false;}
+  getCurrentPlayerName(): string {
+    return this.boardService.controller.gameData.currentPlayer;
+  }
+
+  hasCurrentPlayerName(): boolean {
+    return this.boardService.controller && this.boardService.controller.gameData && this.boardService.controller.gameData.currentPlayer;
+  }
+
+  getWhitePlayerName(): string {
+    return this.boardService.controller.gameData.whitePlayer;
+  }
+
+  getBlackPlayerName(): string {
+    return this.boardService.controller.gameData.blackPlayer;
+  }
+
+  hasWhitePlayerName(): boolean {
+    return this.boardService.controller && this.boardService.controller.gameData && this.boardService.controller.gameData.whitePlayer;
+  }
+
+  hasBlackPlayerName(): boolean {
+    return this.boardService.controller && this.boardService.controller.gameData && this.boardService.controller.gameData.blackPlayer;
+  }
 }

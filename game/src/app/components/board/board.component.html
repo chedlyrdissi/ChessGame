@@ -1,21 +1,35 @@
 <div id="game-board" class="container-fluid">
-  <table ng-class="table table-bordered">
-    <tbody>
-      <tr *ngFor="let row of this.getBoardGame(); index as r">
-        <td
-          [ngClass]="{'selected': this.isPossibleStep(r, col) || this.isSelected(cell), 'dark': ( (r + col)%2 ===1 ), 'checkmated': this.hasCheckMate() }"
-          *ngFor="let cell of row; index as col"
-          (click)="this.cellClicked(r, col)">
-            <cell
-              [piece]="cell.p"
-              [color]="cell.c"
-              [row]="r"
-              [col]="col"
-              [isSelected]="this.isPossibleStep(r, col) || this.isSelected(cell)"
-              [service]="this.boardService">
-            </cell>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col"><king pieceColor="w"></king><span *ngIf="this.hasWhitePlayerName()">{{this.getWhitePlayerName()}}</span></div>
+    <div class="col"><king pieceColor="b"></king><span *ngIf="this.hasBlackPlayerName()">{{this.getBlackPlayerName()}}</span></div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div *ngIf="this.hasCurrentPlayerName()">{{this.getCurrentPlayerName()}}'s turn</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table ng-class="table table-bordered">
+        <tbody class="w-100 h-100">
+          <tr *ngFor="let row of this.getBoardGame(); index as r">
+            <td
+              [ngClass]="{'selected': this.isPossibleStep(r, col) || this.isSelected(cell), 'dark': ( (r + col)%2 ===1 ), 'checkmated': this.gameOver}"
+              *ngFor="let cell of row; index as col"
+              (click)="this.cellClicked(r, col)">
+                <cell
+                  class="w-100 h-100"
+                  [piece]="cell.p"
+                  [color]="cell.c"
+                  [row]="r"
+                  [col]="col"
+                  [isSelected]="this.isPossibleStep(r, col) || this.isSelected(cell)"
+                  [service]="this.boardService">
+                </cell>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

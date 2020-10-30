@@ -1,10 +1,10 @@
-<div [ngSwitch]="this.piece" ng-class="border center">
+<div [ngSwitch]="this.piece" ng-class="border center w-100 h-100">
   <pawn *ngSwitchCase="this.ref.pieces.Pawn" [pieceColor]="this.color"></pawn>
   <knight *ngSwitchCase="this.ref.pieces.Knight" [pieceColor]="this.color"></knight>
   <rook *ngSwitchCase="this.ref.pieces.Rook" [pieceColor]="this.color"></rook>
   <queen *ngSwitchCase="this.ref.pieces.Queen" [pieceColor]="this.color"></queen>
   <bishop *ngSwitchCase="this.ref.pieces.Bishop" [pieceColor]="this.color"></bishop>
   <king *ngSwitchCase="this.ref.pieces.King" [pieceColor]="this.color"></king>
- 
-  <span *ngSwitchDefault></span>
+  <empty *ngSwitchDefault></empty>
+  <!-- <span *ngSwitchDefault class="cell-piece"></span> -->
 </div>

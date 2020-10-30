@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import * as $ from 'jquery/dist/jquery';
+// import * as $ from 'jquery/dist/jquery';
 import { LogInService } from '@auth/log-in/log-in.service';
 import { LogOutService } from '@auth/log-out/log-out.service';
 import { RegistrationService } from '@auth/register/registration.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'user-menu',
