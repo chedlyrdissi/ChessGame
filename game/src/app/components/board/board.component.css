@@ -5,15 +5,17 @@
 }
 
 td {
-  height: 100% !important;
+  /*height: 100% !important;*/
   width: 12.5% !important;
   border: 0.1px solid;
   text-align: center !important;
 }
 
 tr {
-  height: 12.5% !important;
-  width: 100% !important;	
+  	height: 12.5% !important;
+  	width: 100% !important;	
+	/*max-width: ;*/
+    max-height: 12.5%;
 }
 
 .selected {
@@ -33,4 +35,17 @@ table {
 .row {
 	/*height: 50vw;*/
 	width: 50vw;
+}
+
+tbody {
+	height: 100%;
+	width: 100%;
+}
+
+.cell-block {
+	overflow: hidden;
+}
+
+.cell-font {
+	font-size: 5vw;
 }

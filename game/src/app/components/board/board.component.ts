@@ -67,7 +67,10 @@ export class BoardComponent {
   }
 
   hasCurrentPlayerName(): boolean {
-    return this.boardService.controller && this.boardService.controller.gameData && this.boardService.controller.gameData.currentPlayer;
+    return this.boardService.controller !== undefined && this.boardService.controller !== null 
+    && this.boardService.controller.gameData !== undefined && this.boardService.controller.gameData !== null 
+    && this.boardService.controller.gameData.currentPlayer !== undefined 
+    && this.boardService.controller.gameData.currentPlayer !== null;
   }
 
   getWhitePlayerName(): string {
@@ -79,10 +82,16 @@ export class BoardComponent {
   }
 
   hasWhitePlayerName(): boolean {
-    return this.boardService.controller && this.boardService.controller.gameData && this.boardService.controller.gameData.whitePlayer;
+    return this.boardService.controller !== undefined && this.boardService.controller !== null 
+    && this.boardService.controller.gameData !== undefined && this.boardService.controller.gameData !== null 
+    && this.boardService.controller.gameData.whitePlayer !== undefined 
+    && this.boardService.controller.gameData.whitePlayer !== null;
   }
 
   hasBlackPlayerName(): boolean {
-    return this.boardService.controller && this.boardService.controller.gameData && this.boardService.controller.gameData.blackPlayer;
+    return this.boardService.controller !== undefined && this.boardService.controller !== null 
+    && this.boardService.controller.gameData !== undefined && this.boardService.controller.gameData !== null 
+    && this.boardService.controller.gameData.blackPlayer !== undefined 
+    && this.boardService.controller.gameData.blackPlayer !== null;
   }
 }

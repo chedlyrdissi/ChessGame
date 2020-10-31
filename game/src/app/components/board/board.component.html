@@ -11,14 +11,14 @@
   <div class="row">
     <div class="col">
       <table ng-class="table table-bordered">
-        <tbody class="w-100 h-100">
+        <tbody>
           <tr *ngFor="let row of this.getBoardGame(); index as r">
             <td
               [ngClass]="{'selected': this.isPossibleStep(r, col) || this.isSelected(cell), 'dark': ( (r + col)%2 ===1 ), 'checkmated': this.gameOver}"
               *ngFor="let cell of row; index as col"
               (click)="this.cellClicked(r, col)">
                 <cell
-                  class="w-100 h-100"
+                  class="w-100 h-100 cell-font"
                   [piece]="cell.p"
                   [color]="cell.c"
                   [row]="r"

@@ -54,6 +54,6 @@ import { FinishedGameListComponent } from './finished-game-list/finished-game-li
     FinishedGameCardComponent
   ],
   providers: [HttpClient, LogInService],
-  bootstrap: []
+  bootstrap: [UserMenuComponent]
 })
 export class ProfileModule { }
