@@ -40,4 +40,14 @@ img {
 .user {
   text-align: end;
   max-height: 48px;
+  flex: auto;
+}
+
+.flex-row {
+  display: flex;
+}
+
+.app-logo {
+  width: 20vw;
+  max-width: 80px;
 }

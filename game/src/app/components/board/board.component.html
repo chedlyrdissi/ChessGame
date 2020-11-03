@@ -2,14 +2,10 @@
   <div class="row">
     <div class="col"><king pieceColor="w"></king><span *ngIf="this.hasWhitePlayerName()">{{this.getWhitePlayerName()}}</span></div>
     <div class="col"><king pieceColor="b"></king><span *ngIf="this.hasBlackPlayerName()">{{this.getBlackPlayerName()}}</span></div>
+    <div class="col"><div *ngIf="this.hasCurrentPlayerName()">{{this.getCurrentPlayerName()}}'s turn</div></div>
   </div>
-  <div class="row">
-    <div class="col">
-      <div *ngIf="this.hasCurrentPlayerName()">{{this.getCurrentPlayerName()}}'s turn</div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
+  <div class="row mt-2">
+    <div class="">
       <table ng-class="table table-bordered">
         <tbody>
           <tr *ngFor="let row of this.getBoardGame(); index as r">

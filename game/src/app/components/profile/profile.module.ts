@@ -21,6 +21,9 @@ import { LogInService } from '@auth/log-in/log-in.service';
 import { ActiveGameListComponent } from './active-game-list/active-game-list.component';
 import { FinishedGameListComponent } from './finished-game-list/finished-game-list.component';
 
+// import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+
 @NgModule({
   declarations: [
     ProfileComponent,

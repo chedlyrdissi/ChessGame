@@ -1,0 +1,10 @@
+.text-area-label {
+    position: absolute;
+    top: -10px;
+    background: white;
+    left: 5px;
+}
+
+.text-area-container {
+    position: relative;
+}
