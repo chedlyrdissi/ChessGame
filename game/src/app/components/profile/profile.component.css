@@ -5,3 +5,7 @@
 .card {
 	border-radius: 3rem;
 }
+
+.card-footer {
+	background-color: transparent;
+}

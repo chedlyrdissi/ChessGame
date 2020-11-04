@@ -6,6 +6,7 @@ import { ViewTypeOptions } from '@profile/view-type/view-type-options';
 import { CachingService } from '@app/caching.service';
 import { CachingOptions } from '@app/caching.options';
 
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 export interface ActiveGame {
 	id: number,
@@ -35,6 +36,7 @@ export class ActiveGamesComponent {
 	options = ViewTypeOptions;
 
   	constructor(
+  		private modalService: NgbModal,
   		private httpClient: HttpClient, 
   		private logInService: LogInService,
   		private cachingService: CachingService,
@@ -100,6 +102,11 @@ export class ActiveGamesComponent {
 		      queryParams: queryParams, 
 		      queryParamsHandling: 'merge', // remove to replace all query params by provided
 		    });
+	}
+
+
+	open(content, titleId: string) {
+	    this.modalService.open(content, {ariaLabelledBy: titleId, scrollable: true});
 	}
 }
 

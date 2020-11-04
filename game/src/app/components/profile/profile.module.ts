@@ -21,8 +21,8 @@ import { LogInService } from '@auth/log-in/log-in.service';
 import { ActiveGameListComponent } from './active-game-list/active-game-list.component';
 import { FinishedGameListComponent } from './finished-game-list/finished-game-list.component';
 
-// import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { ModalModule } from '@modal/modal.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,9 @@ import { FinishedGameListComponent } from './finished-game-list/finished-game-li
     FinishedGameListComponent
   ],
   imports: [
+    NgbModule,
     AuthModule,
+    ModalModule,
     FormsModule,
     RouterModule,
     CommonModule,

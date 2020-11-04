@@ -6,20 +6,19 @@
 				<th>white player</th>
 				<th>black player</th>
 				<th>winner</th>
-				<th>start</th>
-				<th>finish</th>
-				<th>duration</th>
 			</tr>
 		</thead>
 		<tbody class="bg-white">
-			<tr *ngFor="let finishedgame of this.finishedGame" [routerLink]="['/finished', finishedgame.id]">
+			<tr *ngFor="let finishedgame of this.finishedGame" [routerLink]="['/finished', finishedgame.id]" [ngbTooltip]="tipContent">
 				<td>{{finishedgame.id}}</td>
 				<td>{{finishedgame.whitePlayer}}</td>
 				<td>{{finishedgame.blackPlayer}}</td>
 				<td>{{finishedgame.winner}}</td>
-				<td>{{finishedgame.start}}</td>
-				<td>{{finishedgame.finish}}</td>
-				<td>{{finishedgame.finish.getTime() - finishedgame.start.getTime()}}</td>
+				<ng-template #tipContent>
+					<div>{{'Start: '+finishedgame.start}}</div>
+					<div>{{'Finish: '+finishedgame.finish}}</div>
+					<div>{{'Duration: ' + (finishedgame.finish.getTime() - finishedgame.start.getTime())%60 + ' min'}}</div>
+				</ng-template>
 			</tr>
 		</tbody>
 	</table>

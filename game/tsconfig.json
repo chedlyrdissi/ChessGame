@@ -21,6 +21,7 @@
       "@board/*" : ["src/app/components/board/*", "src/app/components/board/board.module.ts"],
       "@pieces/*": ["src/app/components/board/cell/pieces/*", "src/app/components/board/cell/pieces/pieces.module.ts"],
       "@auth/*": ["src/app/components/auth/*", "src/app/components/auth/auth.module.ts"],
+      "@modal/*": ["src/app/components/modal/*", "src/app/components/modal/modal.module.ts"],
       "@profile/*": ["src/app/components/profile/*", "src/app/components/profile/profile.module.ts"]
     }
   }

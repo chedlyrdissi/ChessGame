@@ -2,7 +2,12 @@
 	<div 
 		class="card text-center" 
 		[routerLink]="['/finished']"
-		*ngFor="let finishedgame of this.finishedGame">
+		*ngFor="let finishedgame of this.finishedGame" [ngbTooltip]="tipContent">
+		<ng-template #tipContent>
+			<div>{{'Start: '+finishedgame.start}}</div>
+			<div>{{'Finish: '+finishedgame.finish}}</div>
+			<div>{{'Duration: ' + (finishedgame.finish.getTime() - finishedgame.start.getTime())%60 + ' min'}}</div>
+		</ng-template>
 		<img class="card-img-top card-icon finished-game-icon p-2" src="/assets/images/chess-game-icon.png" alt="Card image">
 	  	<div class="card-body text-center">
 	      	<p class="card-text">game id: {{finishedgame.id}}</p>

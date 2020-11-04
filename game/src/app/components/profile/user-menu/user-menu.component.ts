@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { LogInService } from '@auth/log-in/log-in.service';
 import { LogOutService } from '@auth/log-out/log-out.service';
 import { RegistrationService } from '@auth/register/registration.service';
-import * as $ from 'jquery';
+
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'user-menu',
@@ -11,25 +12,28 @@ import * as $ from 'jquery';
 })
 export class UserMenuComponent {
 
-  	constructor(
-      private logInService: LogInService,
-      private logOutService: LogOutService,
-      private registrationService: RegistrationService) {}
+  subject = new Subject<void>();
 
-   	isLoggedIn(): boolean {
-   		return this.logInService.isLoggedIn();
-   	}
+	constructor(
+    private logInService: LogInService,
+    private logOutService: LogOutService,
+    private registrationService: RegistrationService) {}
 
-    logIn(credentials: {username: string, password: string}, modalId: string): void {
-      this.logInService.logIn(credentials.username, credentials.password);
-      window.$('#'+modalId).modal('hide');
-    }
+ 	isLoggedIn(): boolean {
+ 		return this.logInService.isLoggedIn();
+ 	}
 
-    register(credentials: {username: string, password: string}): void {
-      this.registrationService.register(credentials.username, credentials.password);
-    }
+  logIn(credentials: {username: string, password: string}, modalId: string): void {
+    this.logInService.logIn(credentials.username, credentials.password);
+    // window.$('#'+modalId).modal('hide');
+    this.subject.next();
+  }
 
-   	logOut(): void {
-   	  this.logOutService.logOut();
-   	}
+  register(credentials: {username: string, password: string}): void {
+    this.registrationService.register(credentials.username, credentials.password);
+  }
+
+ 	logOut(): void {
+ 	  this.logOutService.logOut();
+ 	}
 }

@@ -5,16 +5,17 @@
 				<th>game id</th>
 				<th>white player</th>
 				<th>black player</th>
-				<th>creation date</th>
 			</tr>
 		</thead>
 		<tbody class="bg-white">		
-			<tr *ngFor="let activegame of this.activeGame" [routerLink]="['/game', activegame.id]">
+			<tr *ngFor="let activegame of this.activeGame" [routerLink]="['/game', activegame.id]" [ngbTooltip]="tipContent">
 				<td>{{activegame.id}}</td>
 				<td>{{activegame.whitePlayer}}</td>
 				<td>{{activegame.blackPlayer}}</td>
-				<td>{{activegame.creationDate}}</td>
 				<td *ngIf="!activegame.blackPlayer"><button class="btn btn-outline-primary" (click)="this.joinGame(activegame.id)">Join</button></td>
+				<ng-template #tipContent>
+					<div>{{'Created: ' + activegame.creationDate}}</div>
+				</ng-template>
 			</tr>
 		</tbody>
 	</table>
