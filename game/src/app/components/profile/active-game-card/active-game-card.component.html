@@ -1,8 +1,5 @@
-<div class="card-columns">
-	<div 
-		class="card text-center" 
-		[routerLink]="['/finished']"
-		*ngFor="let activegame of this.activeGame" [ngbTooltip]="tipContent">
+<div class="card-columns pt-4">
+	<div class="card text-center" [routerLink]="(activegame.blackPlayer)? ['/game', activegame.id]: null" *ngFor="let activegame of this.activeGame" [ngbTooltip]="tipContent">
 		<ng-template #tipContent>
 			<div>{{'Created: ' + activegame.creationDate}}</div>
 		</ng-template>
@@ -11,9 +8,7 @@
 	      	<p class="card-text">game id: {{activegame.id}}</p>
 	      	<p class="card-text">white player: {{activegame.whitePlayer}}</p>
 	      	<p class="card-text">black player: {{activegame.blackPlayer}}</p>
-	    </div>
-	    <div class="card-footer" *ngIf="!activegame.blackPlayer">
-	    	<button class="btn btn-outline-primary" (click)="this.joinGame(activegame.id)">Join</button>
+	    	<button class="btn btn-light" (click)="this.joinGame(activegame.id)" *ngIf="!activegame.blackPlayer">Join</button>
 	    </div>
 	</div>
 </div>

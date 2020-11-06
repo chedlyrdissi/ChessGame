@@ -5,6 +5,7 @@ import { PieceColor } from './cell/pieces/piece-color.enum';
 import { ControllerMap } from './board-piece.controller';
 import { BishopController } from './cell/pieces/bishop/bishop.controller';
 import { PieceName, pawn, knight, rook, bishop, king, queen } from './cell/pieces/pieces-names.enum';
+import { Router } from '@angular/router';
 
 import { SingleplayerController } from './singleplayer.controller';
 import { MultiplayerController } from './multiplayer.controller';
@@ -15,7 +16,7 @@ export class BoardService {
 
   controller: AbstractController;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     this.controller = new MultiplayerController(httpClient);
   }
 
@@ -25,6 +26,15 @@ export class BoardService {
 
   setGameId(id: number): void {
     this.controller.gameId = id;
+  }
+
+  endGame(): void {
+    this.httpClient.post("http://127.0.0.1:5000/finished-games", {
+            id: this.getGameId()
+          }).subscribe((data: {gameId: number}) => {
+            console.log(data);
+            this.router.navigate(['/finished-games']);
+           });
   }
 
   cellClicked(row: number, column: number): void {

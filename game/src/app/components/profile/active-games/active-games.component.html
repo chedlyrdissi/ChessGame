@@ -4,26 +4,33 @@
 		<mat-slide-toggle [(ngModel)]="this.autoUpdate" name="autoupdate" (change)="this.update(this.autoUpdate)"></mat-slide-toggle>
 	</div>
 	<div class="row justify-content-center">
-		<chess-modal triggerText="New Game" [triggerTextClasses]="['btn', 'btn-light']" title="New Game" submitBtnText="Create" [submitBtnTextClasses]="['btn', 'btn-outline-dark']">
-			<form>
-			    <div class="form-group text-center">
-			  		<chess-modal triggerText="Pick ennemy" [triggerTextClasses]="['btn', 'btn-light']" title="Players" submitBtnText="Challenge" [submitBtnTextClasses]="['btn', 'btn-outline-dark']">
-						<form>
-						    <div class="form-group text-center">
-						  		<p>users</p>
-						    </div>
-					    </form>
-					</chess-modal>
-			    </div>
-		    </form>
+		<chess-modal (submitted)="this.createGameSubmit()" triggerText="New Game" [triggerTextClasses]="['btn', 'btn-light']" title="New Game" submitBtnText="Create" [submitBtnTextClasses]="['btn', 'btn-outline-dark']">
+			<div class="text-center">				
+		  		<chess-modal [closeSub]="this.subject" (opened)="this.modalOpened('Pick ennemy')" triggerText="Pick ennemy" [triggerTextClasses]="['btn', 'btn-light']" title="Players" [hasFooter]="false" *ngIf="!this.ennemyPlayer; else ennemyPicked">
+			  		<table class="table table-bordered table-hover">
+						<tbody class="bg-white">		
+							<tr *ngFor="let ennemy of this.ennemyPlayersList" (click)="this.setEnnemy(ennemy)">
+								<td>{{ennemy.username}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</chess-modal>
+
+				<ng-template #ennemyPicked>
+					<label class="ml-3">
+						{{this.ennemyPlayer?.username}}
+						<button type="button" class="close float-none ml-2" (click)="this.removeEnnemy()"><span aria-hidden="true">&times;</span></button>
+					</label>
+				</ng-template>
+			</div>
 		</chess-modal>
 	</div>
 	<div class="row">
 		<div class="col">
-			<div *ngIf="this.viewType === this.options.LIST">
+			<div *ngIf="this.viewType === this.options.LIST" (scroll)="this.scrolled($event)">
 				<app-active-game-list [activeGame]="this.activeGame" (join)="this.joinGame($event)" *ngIf="this.activeGame && this.activeGame.length > 0 else noData"></app-active-game-list>
 			</div>
-			<div *ngIf="this.viewType === this.options.CARD">
+			<div *ngIf="this.viewType === this.options.CARD" (scroll)="this.scrolled($event)">
 				<app-active-game-card [activeGame]="this.activeGame" (join)="this.joinGame($event)" *ngIf="this.activeGame && this.activeGame.length > 0 else noData"></app-active-game-card>				
 			</div>
 			<ng-template #noData>No Active Games Available At The Moment</ng-template>

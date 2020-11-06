@@ -39,6 +39,7 @@ export class ModalComponent implements OnChanges, OnDestroy {
 
   open(content) {
     // ugly but view content can't get the reference since it's not rendered yet
+    // @ts-ignore
     this.btn = this.modalService.open(content, {scrollable: true})._contentRef.nodes[0][0].childNodes[1];
     this.opened.emit();
   }

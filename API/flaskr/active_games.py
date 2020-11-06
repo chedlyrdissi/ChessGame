@@ -4,6 +4,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.db import db_get
+from flaskr.invalid_exception import InvalidUsage
 
 bp = Blueprint('active_games', __name__, url_prefix='/')
 
@@ -36,19 +37,32 @@ initiateGamePieces = """INSERT INTO piece_positions (game_id, row, col, piece, c
                                     (?,6,2,'pawn', 'w'),(?,6,3,'pawn', 'w'),
                                     (?,6,4,'pawn', 'w'),(?,6,5,'pawn', 'w'),
                                     (?,6,6,'pawn', 'w'),(?,6,7,'pawn', 'w');"""
+getUserQuery = """SELECT * FROM user WHERE id = ?;"""
+getGameQuery = """SELECT * FROM active_game WHERE id = ?;"""
+joinGameQuery = """UPDATE active_game SET player_black_id = ? WHERE id = ? AND NOT (player_white_id = ?);"""
+getEnnemyPlayersQuery = """SELECT id, username FROM user WHERE id <> ?"""
 
 @bp.route('/active-games', methods=('GET', 'POST', 'PUT'))
 def activeGames():
-    print("active games")
     if request.method == 'POST':
-        body = eval(request.data)
-
         # create game
+        body = eval(request.data)
+        print(body)
         db = db_get()
-        if('blackPlayer' in body):
-            cursor = db.execute(createGameFullPlayers, (body['whitePlayer'], body['blackPlayer'], body['whitePlayer']))
+        if len(db.execute(getUserQuery, (body['id'],)).fetchall()) < 1:
+            raise InvalidUsage('Creator does not exist', status_code=501)
+
+        if "ennemyPlayer" in body:
+            # full game
+            if len(db.execute(getUserQuery, (body['ennemyPlayer'],)).fetchall()) < 1:
+                # error = "ennemy player does not exist"
+                raise InvalidUsage('ennemy player does not exist', status_code=502)
+            else:
+                cursor = db.execute(createGameFullPlayers, (body['id'], body['ennemyPlayer'], body['id']))
         else:
-            cursor = db.execute(createGamePartialPlayers, (body['whitePlayer'], body['whitePlayer']))
+            # partial
+            cursor = db.execute(createGamePartialPlayers, (body['id'], body['id']))
+
         gameId = cursor.lastrowid
         print(gameId)
         db.execute(initiateGamePieces, tuple([gameId for i in range(32)]))
@@ -56,7 +70,7 @@ def activeGames():
         db.commit()
         db.close()
 
-        return {'new_game_id': gameId, 'status': 'incomplete'}
+        return {'new_game_id': gameId, 'game_status': 1 if "ennemyPlayer" in body else 0}
     elif request.method == 'GET':
         resp = []
         for row in db_get().execute(getActiveGamesQuery).fetchall():
@@ -65,7 +79,33 @@ def activeGames():
         return json
     elif request.method == 'PUT':
         # adding second player
-        print("putting")
         body = eval(request.data)
         print(body)
-        return {'status': 'ok'}
+        db = db_get()
+
+        if len(db.execute(getUserQuery, (body['id'],)).fetchall()) < 1:
+            print('Player does not exist')
+            raise InvalidUsage('Player does not exist', status_code=503)
+        if len(db.execute(getGameQuery, (body['gameId'],)).fetchall()) < 1:
+            print('Game does not exist')
+            raise InvalidUsage('Game does not exist', status_code=504)
+
+        cursor = db.execute(joinGameQuery, (body['id'], body['gameId'], body['id']))
+        print(cursor.rowcount)
+        db.commit()
+        db.close()
+
+        if cursor.rowcount < 1:
+            raise InvalidUsage('Can\'t play online multiplayer alone', status_code=505)
+
+        return {'gameId': body['gameId']}
+
+
+@bp.route('/ennemy-players/<id>', methods=('GET',))
+def ennemyPlayers(id):
+    if request.method == 'GET':
+        resp = []
+        for row in db_get().execute(getEnnemyPlayersQuery, (id,)).fetchall():
+            resp.append({"id": row["id"], "username": row["username"]})
+
+        return {"ennemyPlayers": resp}

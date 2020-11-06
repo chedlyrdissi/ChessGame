@@ -5,14 +5,23 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { ViewTypeOptions } from '@profile/view-type/view-type-options';
 import { CachingService } from '@app/caching.service';
 import { CachingOptions } from '@app/caching.options';
-
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
 
 export interface ActiveGame {
-	id: number,
-	whitePlayer: string,
-	blackPlayer: string,
-	creationDate: Date
+	id: number;
+	whitePlayer: string;
+	blackPlayer: string;
+	creationDate: Date;
+}
+
+export interface EnnemyUserData {
+	id: number;
+	username: string;
+}
+
+export interface NewGameResponse {
+	new_game_id: number;
+	game_status: number;
 }
 
 /*
@@ -35,8 +44,11 @@ export class ActiveGamesComponent {
 
 	options = ViewTypeOptions;
 
+	ennemyPlayer: EnnemyUserData;
+	ennemyPlayersList: EnnemyUserData[];
+  	subject: Subject<void> = new Subject<void>();
+
   	constructor(
-  		private modalService: NgbModal,
   		private httpClient: HttpClient, 
   		private logInService: LogInService,
   		private cachingService: CachingService,
@@ -84,9 +96,13 @@ export class ActiveGamesComponent {
 	joinGame(gameId: number): void {
 		if(this.logInService.isLoggedIn()) {
 			this.httpClient
-		        .put("http://127.0.0.1:5000/active-games", {'gameId': gameId})
+		        .put("http://127.0.0.1:5000/active-games", {
+		        	gameId: gameId,
+		        	id: this.logInService.getId()
+		        })
 		        .subscribe((data) => {
-		        });		
+					this.router.navigate(['/game', data['gameId']]);
+				}, (error) => {confirm(error.message);});		
 		} else {
 			this.router.navigate(['/', 'auth', 'logIn']);
 		}
@@ -104,9 +120,41 @@ export class ActiveGamesComponent {
 		    });
 	}
 
+	modalOpened(context: string): void {
+		// get list of possible ennemies
+		this.httpClient
+	        .get<{ennemyPlayers: EnnemyUserData[]}>("http://127.0.0.1:5000/ennemy-players/"+this.logInService.getId())
+	        .subscribe((data: {ennemyPlayers: EnnemyUserData[]}) => {
+	        	this.ennemyPlayersList = data.ennemyPlayers;
+	        })
+	}
 
-	open(content, titleId: string) {
-	    this.modalService.open(content, {ariaLabelledBy: titleId, scrollable: true});
+	setEnnemy = (ennemy: EnnemyUserData): void => {
+		this.ennemyPlayer = ennemy;
+		this.subject.next();
+	}
+
+	removeEnnemy(): void {
+		this.ennemyPlayer = null;
+	}
+
+	scrolled = (e) => {
+		console.log(e);
+	};
+
+	createGameSubmit(): void {
+		this.httpClient.post("http://127.0.0.1:5000/active-games",
+			this.ennemyPlayer? {
+	        	id: this.logInService.getId(),
+	        	ennemyPlayer: this.ennemyPlayer.id
+	      	}: {id: this.logInService.getId()}).subscribe((data: NewGameResponse)=>{
+	      		if(data.game_status === 1) {
+	      			this.router.navigate(['/game', data.new_game_id])
+	      		} else {
+	      			console.log('updating');
+	      			this.getGames();
+	      		}
+	      	});
 	}
 }
 

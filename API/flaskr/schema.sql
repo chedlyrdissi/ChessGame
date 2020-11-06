@@ -42,7 +42,7 @@ CREATE TABLE finished_game (
     player_black_id INTEGER     NOT NULL,
     winner          INTEGER     NOT NULL CHECK ( winner == player_black_id OR winner == player_white_id ),
     start_time      TIMESTAMP   NOT NULL,
-    end_time        TIMESTAMP   NOT NULL CHECK ( end_time > start_time ),
+    end_time        TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP CHECK ( end_time > start_time ),
     FOREIGN KEY (player_white_id) REFERENCES user (id),
     FOREIGN KEY (player_white_id) REFERENCES user (id),
     FOREIGN KEY (winner) REFERENCES user (id)

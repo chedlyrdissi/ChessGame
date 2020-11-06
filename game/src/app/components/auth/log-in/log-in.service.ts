@@ -43,4 +43,9 @@ export class LogInService {
 		const user = JSON.parse(window.sessionStorage.getItem('user'));
 		return user.last_modified;
 	}
+
+	getId(): number {
+		const user = JSON.parse(window.sessionStorage.getItem('user'));
+		return user.id;
+	}
 }

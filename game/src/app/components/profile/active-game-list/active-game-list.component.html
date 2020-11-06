@@ -8,11 +8,13 @@
 			</tr>
 		</thead>
 		<tbody class="bg-white">		
-			<tr *ngFor="let activegame of this.activeGame" [routerLink]="['/game', activegame.id]" [ngbTooltip]="tipContent">
+			<tr *ngFor="let activegame of this.activeGame" [routerLink]="(activegame.blackPlayer)? ['/game', activegame.id]: null" [ngbTooltip]="tipContent">
 				<td>{{activegame.id}}</td>
 				<td>{{activegame.whitePlayer}}</td>
-				<td>{{activegame.blackPlayer}}</td>
-				<td *ngIf="!activegame.blackPlayer"><button class="btn btn-outline-primary" (click)="this.joinGame(activegame.id)">Join</button></td>
+				<td *ngIf="activegame.blackPlayer">{{activegame.blackPlayer}}</td>
+				<td *ngIf="!activegame.blackPlayer">
+					<button class="btn btn-light" (click)="this.joinGame(activegame.id)">Join</button>
+				</td>
 				<ng-template #tipContent>
 					<div>{{'Created: ' + activegame.creationDate}}</div>
 				</ng-template>

@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 # database
 from . import db
@@ -10,6 +10,9 @@ from . import auth
 from . import multiplayer
 from . import active_games
 from . import finished_games
+
+# error handler
+from flaskr.invalid_exception import InvalidUsage
 
 # tuto: https://flask.palletsprojects.com/en/1.1.x/tutorial/database/
 
@@ -44,9 +47,10 @@ def create_app(test_config=None):
     app.register_blueprint(finished_games.bp)
     app.register_blueprint(multiplayer.bp)
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    @app.errorhandler(InvalidUsage)
+    def handle_invalid_usage(error):
+        response = jsonify(error.to_dict())
+        response.status_code = error.status_code
+        return response
 
     return app

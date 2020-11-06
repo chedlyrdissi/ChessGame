@@ -23,6 +23,10 @@ export class UserMenuComponent {
  		return this.logInService.isLoggedIn();
  	}
 
+  getUsername(): string {
+     return this.logInService.getUsername(); 
+  }
+
   logIn(credentials: {username: string, password: string}, modalId: string): void {
     this.logInService.logIn(credentials.username, credentials.password);
     // window.$('#'+modalId).modal('hide');

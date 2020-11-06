@@ -30,6 +30,7 @@ export class BoardComponent {
     this.checkMate.subscribe(() => {
       console.log('checkMate');
       this.gameOver = true;
+      this.boardService.endGame();
     });
     boardService.setCheckMate(this.checkMate);
   }

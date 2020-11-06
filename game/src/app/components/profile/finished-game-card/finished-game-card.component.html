@@ -1,8 +1,5 @@
 <div class="card-columns">
-	<div 
-		class="card text-center" 
-		[routerLink]="['/finished']"
-		*ngFor="let finishedgame of this.finishedGame" [ngbTooltip]="tipContent">
+	<div class="card text-center" *ngFor="let finishedgame of this.finishedGame" [ngbTooltip]="tipContent">
 		<ng-template #tipContent>
 			<div>{{'Start: '+finishedgame.start}}</div>
 			<div>{{'Finish: '+finishedgame.finish}}</div>

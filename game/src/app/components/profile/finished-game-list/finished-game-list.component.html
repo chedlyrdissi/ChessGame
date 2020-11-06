@@ -9,7 +9,7 @@
 			</tr>
 		</thead>
 		<tbody class="bg-white">
-			<tr *ngFor="let finishedgame of this.finishedGame" [routerLink]="['/finished', finishedgame.id]" [ngbTooltip]="tipContent">
+			<tr *ngFor="let finishedgame of this.finishedGame" [ngbTooltip]="tipContent">
 				<td>{{finishedgame.id}}</td>
 				<td>{{finishedgame.whitePlayer}}</td>
 				<td>{{finishedgame.blackPlayer}}</td>

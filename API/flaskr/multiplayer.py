@@ -3,6 +3,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.db import db_get,db_close
+from flaskr.invalid_exception import InvalidUsage
 
 bp = Blueprint('multiplayer', __name__, url_prefix='/game')
 
@@ -70,9 +71,8 @@ def gameMove(gameId):
             error = e.args
 
         if error != None:
-            flash(error)
+            raise InvalidUsage(error, status_code=506)
         db_close()
-
         return resp
 
 def getBoard(gameId, db):
@@ -85,13 +85,13 @@ def getBoard(gameId, db):
              [{}, {}, {}, {}, {}, {}, {}, {}],
              [{}, {}, {}, {}, {}, {}, {}, {}]]
 
-    for pos in db.execute(piecePositionQuery, gameId).fetchall():
+    for pos in db.execute(piecePositionQuery, (gameId,)).fetchall():
         board[pos['row']][pos['col']] = {'c': pos['color'], 'p': pos['piece'], 'f': pos['first_move'] == 1}
 
     return board
 
 def getBoardResponse(gameId, db):
-    activeGame = db.execute(getActiveGamesQuery, gameId).fetchone()
+    activeGame = db.execute(getActiveGamesQuery, (gameId,)).fetchone()
 
     if activeGame['id'] == None:
         raise Exception('game does not exist')
