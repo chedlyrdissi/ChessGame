@@ -1,8 +1,8 @@
-<button class="btn btn-light" [ngClass]="this.triggerTextClasses" (click)="open(content)">{{this.triggerText}}</button>
-<ng-template #content let-modal>
+<button type="button" class="btn btn-light" [ngClass]="this.triggerTextClasses" (click)="open(content)">{{this.triggerText}}</button>
+<ng-template #content let-modal (open)="print($event)">
 	<div class="modal-header">
 	    <h4 class="modal-title" [ngClass]="this.titleClasses">{{this.title}}</h4>
-	    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')" #crossButton>
+	    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
 	      	<span aria-hidden="true">&times;</span>
 	    </button>
 	</div>
@@ -10,7 +10,7 @@
 		<ng-content></ng-content>
 	</div>
 	<div class="modal-footer" *ngIf="this.hasFooter">
-	    <button type="button" class="btn btn-outline-dark" [ngClass]="this.submitBtnTextClasses" (click)="modal.close('done')">{{this.submitBtnText}}</button>
+	    <button class="btn btn-outline-dark" [ngClass]="this.submitBtnTextClasses" (click)="this.submit(modal)">{{this.submitBtnText}}</button>
 	</div>
 </ng-template>
 

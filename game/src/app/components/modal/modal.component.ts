@@ -1,12 +1,13 @@
-import { Component, Input, ViewChild, ElementRef, OnChanges, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'chess-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css']
 })
-export class ModalComponent implements OnChanges, OnInit, OnDestroy {
+export class ModalComponent implements OnChanges, OnDestroy {
 
   @Input() title: string = '';
 	@Input() titleClasses: string[] = [];
@@ -15,42 +16,35 @@ export class ModalComponent implements OnChanges, OnInit, OnDestroy {
   @Input() submitBtnText: string = '';
   @Input() submitBtnTextClasses: string[] = [];
   @Input() hasFooter: boolean = true;
-  @Input() closeSub;
+  @Input() closeSub: Subject<void>;
 
-  @ViewChild('crossButton', {static: true, read: ElementRef}) cross: ElementRef<HTMLElement>;
-  // @ViewChild('crossButton') set crossButton: ElementRef<HTMLElement>;
+  @Output() opened: EventEmitter<void> = new EventEmitter<void>();
+  @Output() submitted: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private modalService: NgbModal) {
-    let interval = setInterval((data)=>{
-      console.log(data);
-    }, 1000, this.crossButton);
-    setTimeout((interval)=>{ clearInterval(interval); }, 20000, interval);
-  }
+  private btn: HTMLElement;
+  
+  constructor(private modalService: NgbModal) {}
   
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['closeSub'] && changes['closeSub'].firstChange) {
       this.closeSub.subscribe(() => {
-        console.log('close');
-        console.log(this.crossButton);
+        this.btn?.click();
       });
     }
   }
 
-  ngOnInit(): void {
-    console.log(this);
-  }
-
   ngOnDestroy(): void {
-    if(this.closeSub) {
-      this.closeSub.unsubscribe();
-    }
+    this.closeSub?.unsubscribe();
   }
 
   open(content) {
-    this.modalService.open(content, {scrollable: true});
+    // ugly but view content can't get the reference since it's not rendered yet
+    this.btn = this.modalService.open(content, {scrollable: true})._contentRef.nodes[0][0].childNodes[1];
+    this.opened.emit();
   }
 
-  print(e) {
-    console.log(e);
+  submit(): void {
+    this.submitted.emit();
+    this.btn?.click();
   }
 }
