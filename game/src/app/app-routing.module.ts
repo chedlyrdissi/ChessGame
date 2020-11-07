@@ -9,12 +9,14 @@ import { FinishedGamesComponent } from '@profile/finished-games/finished-games.c
 import { ProfileComponent } from '@profile/profile.component';
 
 import { HomeComponent } from './components/home/home.component';
+import { TutorialComponent } from './components/tutorial/tutorial.component';
 
 const routes: Routes = [
 		{ path: '', component: HomeComponent, pathMatch: 'full'},
 		{ path: 'active', component: ActiveGamesComponent},
 		{ path: 'finished', component: FinishedGamesComponent},
 		{ path: 'profile', component: ProfileComponent},
+		{ path: 'tuto', component: TutorialComponent},
 		{ path: 'game/:gameId', component: BoardComponent},
 		{ path: '**', redirectTo: '/'},
 	];

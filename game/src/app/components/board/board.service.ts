@@ -33,7 +33,7 @@ export class BoardService {
             id: this.getGameId()
           }).subscribe((data: {gameId: number}) => {
             console.log(data);
-            this.router.navigate(['/finished-games']);
+            this.router.navigate(['/finished']);
            });
   }
 

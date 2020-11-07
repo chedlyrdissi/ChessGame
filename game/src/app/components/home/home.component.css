@@ -24,16 +24,16 @@
 }
 
 .image-container:hover .image {
-  opacity: 0.3;
+  opacity: 0.2;
 }
 
-.container:hover .middle {
+.image-container:hover .middle {
   opacity: 1;
 }
 
 .image-text {
-  background-color: #4CAF50;
-  color: white;
+  /*background-color: #4CAF50;*/
+  /*color: white;*/
   font-size: 16px;
   padding: 16px 32px;
 }

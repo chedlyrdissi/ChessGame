@@ -1,6 +1,16 @@
 <div class="image-container">
   <img src="/assets/images/chess-welcome.jpg" alt="welcome" class="image">
-  <div class="middle">
-    <div class="image-text bg-dark text-primary">John Doe</div>
+  <div class="middle container">
+    <div class="image-text">
+    	<div>
+    		Welcome
+    	</div>
+    	<div>
+    		<button class="btn btn-light" [routerLink]="['/', 'profile']">Play</button>
+    	</div>
+    	<div>
+    		<button class="btn btn-light" [routerLink]="['/', 'tuto']">Tutorial</button>
+    	</div>
+		</div>
   </div>
 </div>

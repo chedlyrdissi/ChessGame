@@ -17,6 +17,7 @@ import { ProfileModule } from '@profile/profile.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from './components/modal/modal.module';
+import { TutorialModule } from './components/tutorial/tutorial.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ModalModule } from './components/modal/modal.module';
     CommonModule,
     BrowserModule,
     ProfileModule,
+    TutorialModule,
     AppRoutingModule,
     FontAwesomeModule,
     BrowserAnimationsModule

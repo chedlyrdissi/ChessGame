@@ -49,7 +49,15 @@ export class MultiplayerController extends AbstractController {
 
     // parse board for checkmate
     // parse through all ennemy pieces to see if they can move, if they can't it's checkmate => game over
-    if(checkMate(this.currentPlayer, this.gameBoard)) {
+    
+    // TODO inspect this section
+    // const c1 = checkMate(this.currentPlayer, this.gameBoard);
+    const c2 = checkMate((this.currentPlayer === PieceColor.White) ? PieceColor.Black: PieceColor.White, this.gameBoard);
+    // console.log('with current');
+    // console.log(c1);
+    // console.log('with ennemy');
+    // console.log(c2);
+    if(c2) {
       this.checkMate.next();
     }
   };
