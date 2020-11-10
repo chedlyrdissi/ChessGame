@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
 
 class UserData {
 	id: number;
@@ -10,9 +11,13 @@ class UserData {
 }
 
 @Injectable()
-export class LogInService {
+export class LogInService implements CanActivate {
 
 	constructor(private httpClient: HttpClient, private router: Router) {}
+
+	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+		return this.isLoggedIn();
+	}
 
 	logIn(username: string, password: string) {
 		this.httpClient.post("http://127.0.0.1:5000/auth/login", {
