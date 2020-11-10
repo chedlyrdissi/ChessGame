@@ -2,7 +2,7 @@
 	<div class="p-0 app-logo">
 		<img src="/assets/images/chess-logo-v2.jpg" alt="logo"/>
 	</div>
-	<div class="p-0">
+	<div class="p-0 d-flex pb-1">
 		<a href="#" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
 		<a href="#" [routerLink]="['/profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [hidden]="!this.isActive(profile)" #profile>Profile</a>
 		<a href="#" [routerLink]="['/tuto']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [hidden]="!this.isActive(tuto)" #tuto>Tutorial</a>

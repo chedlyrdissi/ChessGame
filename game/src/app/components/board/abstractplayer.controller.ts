@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { LogInService } from '@auth/log-in/log-in.service';
 
 import { PieceColor } from './cell/pieces/piece-color.enum';
 import { ControllerMap } from './board-piece.controller';
@@ -28,7 +29,7 @@ export abstract class AbstractController {
   check: EventEmitter<void>;
   checkMate: EventEmitter<void>;
 
-  constructor(protected httpClient: HttpClient) {}
+  constructor(protected httpClient: HttpClient, protected logInService: LogInService) {}
 
   cellClicked(row: number, column: number): void {
     if( this.selected && this.gameBoard[row][column] === this.selected) {
@@ -46,31 +47,33 @@ export abstract class AbstractController {
       this.selected = null;
       this.possibleSteps = [];
     } else if (this.gameBoard[row][column].p && this.gameBoard[row][column].c === this.currentPlayer) {
-      // set selected piece
-      this.selected = this.gameBoard[row][column];
-      this.selected.row = row;
-      this.selected.col = column;
-      // get possible moves
-      this.possibleSteps = ControllerMap[this.selected.p] ? ControllerMap[this.selected.p](row, column, this.gameBoard) : [];
-      // filter possibilites: remove steps that lead to current king checks
-      let safeSteps = [];
-      // can't move unless the ally king will be safe
-      // const start = new Date(); 
-      for(let step of this.possibleSteps) {       
-        if(!checksKing(
-          row,
-          column,
-          this.gameBoard,
-          findSpecificKing(this.selected.c, findKings(this.gameBoard)),
-          step.row,
-          step.column)) {
+      if(this.gameData.currentPlayer === this.logInService.getUsername()) {        
+        // set selected piece
+        this.selected = this.gameBoard[row][column];
+        this.selected.row = row;
+        this.selected.col = column;
+        // get possible moves
+        this.possibleSteps = ControllerMap[this.selected.p] ? ControllerMap[this.selected.p](row, column, this.gameBoard) : [];
+        // filter possibilites: remove steps that lead to current king checks
+        let safeSteps = [];
+        // can't move unless the ally king will be safe
+        // const start = new Date(); 
+        for(let step of this.possibleSteps) {       
+          if(!checksKing(
+            row,
+            column,
+            this.gameBoard,
+            findSpecificKing(this.selected.c, findKings(this.gameBoard)),
+            step.row,
+            step.column)) {
 
-          safeSteps.push(step);
+            safeSteps.push(step);
+          }
         }
+        // const end = new Date(); 
+        // console.log('Elapsed time during the steps search: '+ (end - start));
+        this.possibleSteps = safeSteps;
       }
-      // const end = new Date(); 
-      // console.log('Elapsed time during the steps search: '+ (end - start));
-      this.possibleSteps = safeSteps;
     }
   }
 
@@ -88,6 +91,8 @@ export abstract class AbstractController {
   setCheckMate(checkMateEventEmitter: EventEmitter<void>): void {
     this.checkMate = checkMateEventEmitter;
   }
+
+  destructor(): void {};
 }
 
 export function findSpecificKing(color: PieceColor, kings: BoardCell[]): BoardCell {

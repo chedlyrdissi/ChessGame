@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { LogInService } from '@auth/log-in/log-in.service';
 
 import { PieceColor } from './cell/pieces/piece-color.enum';
 import { ControllerMap } from './board-piece.controller';
@@ -11,8 +12,8 @@ import { AbstractController, ActiveGameData, findKings, kingCheck, checkMate, ST
 @Injectable()
 export class SingleplayerController extends AbstractController {
 
-  constructor(httpClient: HttpClient) {
-    super(httpClient);
+  constructor(httpClient: HttpClient, logInService: LogInService) {
+    super(httpClient, logInService);
     this.gameBoard = START_TABLE;
   }
 

@@ -10,7 +10,7 @@ import { TutorialComponent } from './tutorial.component';
   ],
   imports: [
     CommonModule,
-    BrowserModule,
+    BrowserModule
   ],
   providers: [],
   exports: [TutorialComponent],

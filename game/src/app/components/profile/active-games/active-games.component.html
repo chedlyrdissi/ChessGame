@@ -1,7 +1,9 @@
 <div class="container-fluid">
-	<div class="row d-flex flex-row-reverse mr-2">
-		<app-view-type (optionPicked)="this.changeView($event)"></app-view-type><label class="ml-1">realtime update</label>
-		<mat-slide-toggle [(ngModel)]="this.autoUpdate" name="autoupdate" (change)="this.update(this.autoUpdate)"></mat-slide-toggle>
+	<div class="row mr-2">
+		<div class="col d-flex flex-row-reverse">
+			<app-view-type (optionPicked)="this.changeView($event)"></app-view-type><label class="ml-1">realtime update</label>
+			<mat-slide-toggle [(ngModel)]="this.autoUpdate" name="autoupdate" (change)="this.update(this.autoUpdate)"></mat-slide-toggle>
+		</div>
 	</div>
 	<div class="row justify-content-center">
 		<chess-modal (submitted)="this.createGameSubmit()" triggerText="New Game" [triggerTextClasses]="['btn', 'btn-light']" title="New Game" submitBtnText="Create" [submitBtnTextClasses]="['btn', 'btn-outline-dark']">

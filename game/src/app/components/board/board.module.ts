@@ -14,6 +14,9 @@ import { BoardComponent } from './board.component';
 import { BoardService } from './board.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
+import { AuthModule } from '@auth/auth.module';
+import { LogInService } from '@auth/log-in/log-in.service';
+
 @NgModule({
   declarations: [
     PawnComponent,
@@ -27,13 +30,14 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
   ],
   imports: [
     CommonModule,
+    AuthModule,
     RouterModule,
     HttpClientModule
   ],
   exports: [
     BoardComponent
   ],
-  providers: [BoardService, HttpClient],
+  providers: [BoardService, HttpClient, LogInService],
   bootstrap: [BoardComponent]
 })
 

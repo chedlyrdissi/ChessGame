@@ -21,7 +21,7 @@ getFinishedGamesQuery = """
     left join user as w on w.id = fg.winner"""
 
 deleteBoardQuery = """DELETE FROM piece_positions WHERE game_id = ?;"""
-insertFinishedGameQuery = """INSERT INTO finished_game (player_white_id, player_black_id, winner, start_time, end_time) SELECT ac.player_white_id, ac.player_black_id, ac.current_player, ac.start_time, CURRENT_TIMESTAMP FROM active_game AS ac WHERE ac.id = ?;"""
+insertFinishedGameQuery = """INSERT INTO finished_game (game_id, player_white_id, player_black_id, winner, start_time, end_time) SELECT ac.id, ac.player_white_id, ac.player_black_id, ac.current_player, ac.start_time, CURRENT_TIMESTAMP FROM active_game AS ac WHERE ac.id = ?;"""
 deleteActiveGameQuery = """DELETE FROM active_game WHERE id = ?;"""
 checkActiveGameId = """SELECT * FROM active_game WHERE id = ?;"""
 

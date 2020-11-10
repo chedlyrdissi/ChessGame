@@ -28,3 +28,7 @@ li {
 li:hover {
 	opacity: 0.5;
 }
+
+ul {
+	display: inline-flex;
+}

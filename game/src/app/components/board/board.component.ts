@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter } from '@angular/core';
+import { Component, Input, OnDestroy, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { BoardService } from './board.service';
@@ -9,7 +9,7 @@ import { BoardCell } from './abstractplayer.controller';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent {
+export class BoardComponent implements OnDestroy {
 
   check: EventEmitter<void>;
   checkMate: EventEmitter<void>;
@@ -33,6 +33,10 @@ export class BoardComponent {
       this.boardService.endGame();
     });
     boardService.setCheckMate(this.checkMate);
+  }
+
+  ngOnDestroy(): void {
+    this.boardService.destructor();
   }
 
   cellClicked = (row: number, column: number) => {

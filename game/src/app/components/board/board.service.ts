@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { LogInService } from '@auth/log-in/log-in.service';
 
 import { PieceColor } from './cell/pieces/piece-color.enum';
 import { ControllerMap } from './board-piece.controller';
@@ -16,8 +17,12 @@ export class BoardService {
 
   controller: AbstractController;
 
-  constructor(private httpClient: HttpClient, private router: Router) {
-    this.controller = new MultiplayerController(httpClient);
+  constructor(private httpClient: HttpClient, private logInService: LogInService, private router: Router) {
+    this.controller = new MultiplayerController(httpClient, logInService, router);
+  }
+
+  destructor(): void {
+    this.controller.destructor();
   }
 
   getGameId(): number {

@@ -2,15 +2,17 @@
   <img src="/assets/images/chess-welcome.jpg" alt="welcome" class="image">
   <div class="middle container">
     <div class="image-text">
-    	<div>
     		Welcome
-    	</div>
-    	<div>
-    		<button class="btn btn-light" [routerLink]="['/', 'profile']">Play</button>
-    	</div>
-    	<div>
-    		<button class="btn btn-light" [routerLink]="['/', 'tuto']">Tutorial</button>
-    	</div>
+    		<audio controls autoplay hidden>
+					<source src="/assets/audio/welcome.mp3" type="audio/mpeg">
+					Your browser does not support the audio element.
+				</audio>
+    		<audio controls hidden #second>
+					<source src="/assets/audio/lets-play-original.mp3" type="audio/mpeg">
+					Your browser does not support the audio element.
+				</audio>
+    		<button class="btn btn-light mt-3" [routerLink]="['/', 'profile']">Play</button>
+    		<button class="btn btn-light mt-3" [routerLink]="['/', 'tuto']">Tutorial</button>
 		</div>
   </div>
 </div>

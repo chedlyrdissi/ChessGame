@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { LogInService } from '@auth/log-in/log-in.service';
 
 import { PieceColor } from './cell/pieces/piece-color.enum';
 import { ControllerMap } from './board-piece.controller';
@@ -11,9 +13,15 @@ import { AbstractController, ActiveGameData, kingCheck, checkMate } from './abst
 @Injectable()
 export class MultiplayerController extends AbstractController {
 
-  constructor(httpClient: HttpClient) {
-    super(httpClient);
-    // this.gameBoard = START_TABLE;
+  private updateHandler;
+
+  constructor(httpClient: HttpClient, logInService: LogInService, private router: Router) {
+    super(httpClient, logInService);
+    this.updateHandler = setInterval(this.getMove, 1000);
+  }
+
+  destructor() {
+    clearInterval(this.updateHandler);
   }
 
   switchPlayer(): void {
@@ -24,13 +32,17 @@ export class MultiplayerController extends AbstractController {
     }
   }
 
-  getMove(): void {
+  getMove = (): void => {
     this.httpClient.get<ActiveGameData>('http://127.0.0.1:5000/game/'+this.gameId)
-      .subscribe(this.updateDataFromResp)
+      .subscribe(this.updateDataFromResp, (error: HttpErrorResponse) => {
+        console.log(error);
+        alert('game does not exist');
+        this.router.navigate(['/', 'finished']);
+      })
   }
 
   updateDataFromResp = (data: ActiveGameData) => {
-    console.log(data);
+    // console.log(data);
     this.gameData = data;
     if(this.gameData.currentPlayer === this.gameData.whitePlayer) {
       this.currentPlayer = PieceColor.White;

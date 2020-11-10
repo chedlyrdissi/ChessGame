@@ -38,6 +38,7 @@ CREATE TABLE piece_positions (
 
 CREATE TABLE finished_game (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    game_id         INTEGER     NOT NULL,
     player_white_id INTEGER     NOT NULL,
     player_black_id INTEGER     NOT NULL,
     winner          INTEGER     NOT NULL CHECK ( winner == player_black_id OR winner == player_white_id ),
