@@ -7,23 +7,35 @@
 	</div>
 	<div class="row justify-content-center">
 		<chess-modal (submitted)="this.createGameSubmit()" triggerText="New Game" [triggerTextClasses]="['btn', 'btn-light']" title="New Game" submitBtnText="Create" [submitBtnTextClasses]="['btn', 'btn-outline-dark']">
-			<div class="text-center">				
-		  		<chess-modal [closeSub]="this.subject" (opened)="this.modalOpened('Pick ennemy')" triggerText="Pick ennemy" [triggerTextClasses]="['btn', 'btn-light']" title="Players" [hasFooter]="false" *ngIf="!this.ennemyPlayer; else ennemyPicked">
-			  		<table class="table table-bordered table-hover">
-						<tbody class="bg-white">		
-							<tr *ngFor="let ennemy of this.ennemyPlayersList" (click)="this.setEnnemy(ennemy)">
-								<td>{{ennemy.username}}</td>
-							</tr>
-						</tbody>
-					</table>
-				</chess-modal>
+			<div class="text-center d-flex">
+				<div class="text-left mr-3">					
+					<div (click)="this.toggleRadio(true)">
+						<input type="radio" name="solo" [value]="true" [checked]="this.solo">
+						<label class="ml-2">Solo</label>
+					</div>
+					<div (click)="this.toggleRadio(false)">
+						<input type="radio" name="solo" [value]="false" [checked]="!this.solo">
+						<label class="ml-2">Multiplayer</label>
+					</div>
+				</div>
+				<div class="text-center" *ngIf="!this.solo">					
+			  		<chess-modal [closeSub]="this.subject" (opened)="this.modalOpened('Pick ennemy')" triggerText="Pick ennemy" [triggerTextClasses]="['btn', 'btn-light']" title="Players" [hasFooter]="false" *ngIf="!this.ennemyPlayer; else ennemyPicked">
+				  		<table class="table table-bordered table-hover">
+							<tbody class="bg-white">		
+								<tr *ngFor="let ennemy of this.ennemyPlayersList" (click)="this.setEnnemy(ennemy)">
+									<td>{{ennemy.username}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</chess-modal>
 
-				<ng-template #ennemyPicked>
-					<label class="ml-3">
-						{{this.ennemyPlayer?.username}}
-						<button type="button" class="close float-none ml-2" (click)="this.removeEnnemy()"><span aria-hidden="true">&times;</span></button>
-					</label>
-				</ng-template>
+					<ng-template #ennemyPicked>
+						<label class="ml-3">
+							{{this.ennemyPlayer?.username}}
+							<button type="button" class="close float-none ml-2" (click)="this.removeEnnemy()"><span aria-hidden="true">&times;</span></button>
+						</label>
+					</ng-template>
+				</div>
 			</div>
 		</chess-modal>
 	</div>

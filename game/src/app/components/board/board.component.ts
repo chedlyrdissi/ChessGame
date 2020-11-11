@@ -11,6 +11,7 @@ import { BoardCell } from './abstractplayer.controller';
 })
 export class BoardComponent implements OnDestroy {
 
+  // @Input() solo: boolean = false;
   check: EventEmitter<void>;
   checkMate: EventEmitter<void>;
   gameOver: boolean = false;
@@ -98,5 +99,9 @@ export class BoardComponent implements OnDestroy {
     && this.boardService.controller.gameData !== undefined && this.boardService.controller.gameData !== null 
     && this.boardService.controller.gameData.blackPlayer !== undefined 
     && this.boardService.controller.gameData.blackPlayer !== null;
+  }
+
+  resetGame(): void {
+    this.boardService.resetGame();
   }
 }

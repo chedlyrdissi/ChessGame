@@ -15,8 +15,8 @@ export class MultiplayerController extends AbstractController {
 
   private updateHandler;
 
-  constructor(httpClient: HttpClient, logInService: LogInService, private router: Router) {
-    super(httpClient, logInService);
+  constructor(private httpClient: HttpClient, private logInService: LogInService, private router: Router) {
+    super();
     this.updateHandler = setInterval(this.getMove, 1000);
   }
 
@@ -24,13 +24,11 @@ export class MultiplayerController extends AbstractController {
     clearInterval(this.updateHandler);
   }
 
-  switchPlayer(): void {
-    if(this.currentPlayer === PieceColor.White) {
-      this.currentPlayer = PieceColor.Black;
-    } else if(this.currentPlayer === PieceColor.Black) {
-      this.currentPlayer = PieceColor.White;
-    }
+  validPlayer(row: number, column: number): boolean {
+    return this.gameData.currentPlayer === this.logInService.getUsername();
   }
+
+  switchPlayer(): void {}
 
   getMove = (): void => {
     this.httpClient.get<ActiveGameData>('http://127.0.0.1:5000/game/'+this.gameId)
@@ -75,13 +73,6 @@ export class MultiplayerController extends AbstractController {
   };
 
   movePiece(row: number, column: number): void {
-    console.log({
-            row: row,
-            column: column,
-            piece: this.selected.p,
-            color: this.selected.c,
-            first_move: this.selected.f
-          });
     this.httpClient.post('http://127.0.0.1:5000/game/'+this.gameId, {
             previous_row: this.selected.row,
             previous_col: this.selected.col,

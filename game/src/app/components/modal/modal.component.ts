@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'chess-modal',
@@ -17,24 +17,24 @@ export class ModalComponent implements OnChanges, OnDestroy {
   @Input() submitBtnTextClasses: string[] = [];
   @Input() hasFooter: boolean = true;
   @Input() closeSub: Subject<void>;
-
+  private subscription: Subscription;
   @Output() opened: EventEmitter<void> = new EventEmitter<void>();
   @Output() submitted: EventEmitter<void> = new EventEmitter<void>();
 
   private btn: HTMLElement;
   
   constructor(private modalService: NgbModal) {}
-  
+
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['closeSub'] && changes['closeSub'].firstChange) {
-      this.closeSub.subscribe(() => {
+    if(changes['closeSub']) {
+      this.subscription = this.closeSub.subscribe(() => {
         this.btn?.click();
       });
     }
   }
 
   ngOnDestroy(): void {
-    this.closeSub?.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
   open(content) {

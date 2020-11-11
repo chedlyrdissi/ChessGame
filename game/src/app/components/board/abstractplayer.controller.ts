@@ -29,7 +29,7 @@ export abstract class AbstractController {
   check: EventEmitter<void>;
   checkMate: EventEmitter<void>;
 
-  constructor(protected httpClient: HttpClient, protected logInService: LogInService) {}
+  constructor() {}
 
   cellClicked(row: number, column: number): void {
     if( this.selected && this.gameBoard[row][column] === this.selected) {
@@ -47,7 +47,7 @@ export abstract class AbstractController {
       this.selected = null;
       this.possibleSteps = [];
     } else if (this.gameBoard[row][column].p && this.gameBoard[row][column].c === this.currentPlayer) {
-      if(this.gameData.currentPlayer === this.logInService.getUsername()) {        
+      if(this.validPlayer(row, column)) {        
         // set selected piece
         this.selected = this.gameBoard[row][column];
         this.selected.row = row;
@@ -73,12 +73,13 @@ export abstract class AbstractController {
         // const end = new Date(); 
         // console.log('Elapsed time during the steps search: '+ (end - start));
         this.possibleSteps = safeSteps;
-      }
+      }      
     }
   }
 
-  switchPlayer(): void {
-  }
+  abstract validPlayer(row: number, column: number): boolean;
+
+  switchPlayer(): void {}
  
   abstract getMove(): void;
 
@@ -91,6 +92,8 @@ export abstract class AbstractController {
   setCheckMate(checkMateEventEmitter: EventEmitter<void>): void {
     this.checkMate = checkMateEventEmitter;
   }
+
+  resetGame(): void {}
 
   destructor(): void {};
 }

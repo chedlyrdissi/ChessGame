@@ -42,6 +42,8 @@ export class ActiveGamesComponent {
 	autoUpdate: boolean;
 	viewType: ViewTypeOptions;
 
+	solo: boolean = false;
+
 	options = ViewTypeOptions;
 
 	ennemyPlayer: EnnemyUserData;
@@ -56,7 +58,7 @@ export class ActiveGamesComponent {
   		private router: Router) {
 
   		this.activeGame = [];
-  		this.autoUpdate = false;
+  		this.autoUpdate = true;
   		this.update(this.autoUpdate);
   		this.actRoute.queryParams.subscribe((params) => {
   			if(params.v && validViewType(params.v)) {
@@ -155,6 +157,10 @@ export class ActiveGamesComponent {
 	      			this.getGames();
 	      		}
 	      	});
+	}
+
+	toggleRadio(val: boolean): void {
+		this.solo = val;
 	}
 }
 

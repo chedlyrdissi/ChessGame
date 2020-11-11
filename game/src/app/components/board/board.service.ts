@@ -1,12 +1,13 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+
 import { LogInService } from '@auth/log-in/log-in.service';
 
 import { PieceColor } from './cell/pieces/piece-color.enum';
 import { ControllerMap } from './board-piece.controller';
 import { BishopController } from './cell/pieces/bishop/bishop.controller';
 import { PieceName, pawn, knight, rook, bishop, king, queen } from './cell/pieces/pieces-names.enum';
-import { Router } from '@angular/router';
 
 import { SingleplayerController } from './singleplayer.controller';
 import { MultiplayerController } from './multiplayer.controller';
@@ -17,8 +18,14 @@ export class BoardService {
 
   controller: AbstractController;
 
-  constructor(private httpClient: HttpClient, private logInService: LogInService, private router: Router) {
-    this.controller = new MultiplayerController(httpClient, logInService, router);
+  constructor(private httpClient: HttpClient, private logInService: LogInService, private router: Router, private actRoute: ActivatedRoute) {
+    // console.log(this.actRoute.snapshot.url);
+    console.log();
+    if(this.router.isActive('solo', true)) {
+      this.controller = new SingleplayerController();
+    } else {
+      this.controller = new MultiplayerController(httpClient, logInService, router);
+    }
   }
 
   destructor(): void {
@@ -64,5 +71,9 @@ export class BoardService {
 
   setCheckMate(checkMateEventEmitter: EventEmitter<void>): void {
     this.controller.setCheckMate(checkMateEventEmitter);
+  }
+
+  resetGame(): void {
+    this.controller.resetGame();
   }
 }

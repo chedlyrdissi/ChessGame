@@ -18,6 +18,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from './components/modal/modal.module';
 import { TutorialModule } from './components/tutorial/tutorial.module';
+import { SoloModule } from './components/solo/solo.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { TutorialModule } from './components/tutorial/tutorial.module';
   ],
   imports: [
     AuthModule,
+    SoloModule,
     ModalModule,
     BoardModule,
     RouterModule,

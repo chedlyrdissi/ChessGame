@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { LogInService } from '@auth/log-in/log-in.service';
 
 import { PieceColor } from './cell/pieces/piece-color.enum';
 import { ControllerMap } from './board-piece.controller';
 import { BishopController } from './cell/pieces/bishop/bishop.controller';
 import { PieceName, pawn, knight, rook, bishop, king, queen } from './cell/pieces/pieces-names.enum';
 
-import { AbstractController, ActiveGameData, findKings, kingCheck, checkMate, START_TABLE } from './abstractplayer.controller';
+import { AbstractController, ActiveGameData, findKings, kingCheck, checkMate, START_TABLE, copyBoard } from './abstractplayer.controller';
 
 @Injectable()
 export class SingleplayerController extends AbstractController {
 
-  constructor(httpClient: HttpClient, logInService: LogInService) {
-    super(httpClient, logInService);
-    this.gameBoard = START_TABLE;
+  constructor() {
+    super();
+    this.gameBoard = copyBoard(START_TABLE);
+    this.currentPlayer = PieceColor.White;
   }
 
+  validPlayer(row: number, column: number): boolean {
+    return this.currentPlayer === this.gameBoard[row][column].c;
+  }
+  
   switchPlayer(): void {
     if(this.currentPlayer === PieceColor.White) {
       this.currentPlayer = PieceColor.Black;
@@ -25,8 +28,11 @@ export class SingleplayerController extends AbstractController {
     }
   }
 
-  getMove(): void { 
+  resetGame(): void {
+    this.gameBoard = copyBoard(START_TABLE);
   }
+
+  getMove(): void {}
 
   movePiece(row: number, column: number): void {
     this.gameBoard[row][column] = {c: this.selected.c,p: this.selected.p};
