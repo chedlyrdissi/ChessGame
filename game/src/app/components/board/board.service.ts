@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { LogInService } from '@auth/log-in/log-in.service';
 
@@ -18,9 +18,8 @@ export class BoardService {
 
   controller: AbstractController;
 
-  constructor(private httpClient: HttpClient, private logInService: LogInService, private router: Router, private actRoute: ActivatedRoute) {
-    // console.log(this.actRoute.snapshot.url);
-    console.log();
+  constructor(private httpClient: HttpClient, private logInService: LogInService, private router: Router) {
+
     if(this.router.isActive('solo', true)) {
       this.controller = new SingleplayerController();
     } else {
@@ -41,12 +40,7 @@ export class BoardService {
   }
 
   endGame(): void {
-    this.httpClient.post("http://127.0.0.1:5000/finished-games", {
-            id: this.getGameId()
-          }).subscribe((data: {gameId: number}) => {
-            console.log(data);
-            this.router.navigate(['/finished']);
-           });
+    this.controller.endGame();
   }
 
   cellClicked(row: number, column: number): void {

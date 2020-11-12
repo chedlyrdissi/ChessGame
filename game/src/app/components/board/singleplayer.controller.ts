@@ -5,7 +5,7 @@ import { ControllerMap } from './board-piece.controller';
 import { BishopController } from './cell/pieces/bishop/bishop.controller';
 import { PieceName, pawn, knight, rook, bishop, king, queen } from './cell/pieces/pieces-names.enum';
 
-import { AbstractController, ActiveGameData, findKings, kingCheck, checkMate, START_TABLE, copyBoard } from './abstractplayer.controller';
+import { AbstractController, ActiveGameData, findKings, boardKingsCheck, checkMate, START_TABLE, copyBoard } from './abstractplayer.controller';
 
 @Injectable()
 export class SingleplayerController extends AbstractController {
@@ -30,6 +30,7 @@ export class SingleplayerController extends AbstractController {
 
   resetGame(): void {
     this.gameBoard = copyBoard(START_TABLE);
+    this.currentPlayer = PieceColor.White;
   }
 
   getMove(): void {}
@@ -38,18 +39,26 @@ export class SingleplayerController extends AbstractController {
     this.gameBoard[row][column] = {c: this.selected.c,p: this.selected.p};
     this.gameBoard[this.selected.row][this.selected.col] = {};
 
+    if(this.promitionExists(row, column)) {
+      this.gameBoard[row][column].p = PieceName.Queen;
+    }
+    
     // getting to this point means that ally king is safe
     // all there's to do is to do is check if ennemy king is checked or checkmated
     // you need to parse throught all ally pieces to see if ennemy king is checked if ennemy king is checked => notify
-    if(kingCheck(this.currentPlayer, this.gameBoard)) {
+    if(boardKingsCheck(this.currentPlayer, this.gameBoard)) {
       this.check.next();
+      // parse through all ennemy pieces to see if they can move, if they can't it's checkmate => game over
+      if(checkMate(this.currentPlayer, this.gameBoard)) {
+        this.checkMate.next();
+      }
     }
 
-    // parse through all ennemy pieces to see if they can move, if they can't it's checkmate => game over
-    if(checkMate(this.currentPlayer, this.gameBoard)) {
-      this.checkMate.next();
-    }
     // switch players
     this.switchPlayer();
+  }
+
+  endGame(): void {
+    alert('Game Over')
   }
 }

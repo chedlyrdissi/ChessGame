@@ -58,7 +58,7 @@ export abstract class AbstractController {
         let safeSteps = [];
         // can't move unless the ally king will be safe
         // const start = new Date(); 
-        for(let step of this.possibleSteps) {       
+        for(let step of this.possibleSteps) {
           if(!checksKing(
             row,
             column,
@@ -73,7 +73,7 @@ export abstract class AbstractController {
         // const end = new Date(); 
         // console.log('Elapsed time during the steps search: '+ (end - start));
         this.possibleSteps = safeSteps;
-      }      
+      }
     }
   }
 
@@ -95,7 +95,15 @@ export abstract class AbstractController {
 
   resetGame(): void {}
 
-  destructor(): void {};
+  abstract endGame(): void;
+
+  promitionExists(row: number, column: number): boolean {
+    return this.gameBoard[row][column].p === PieceName.Pawn
+      && (this.gameBoard[row][column].c === PieceColor.White && row === 0 
+        || this.gameBoard[row][column].c === PieceColor.Black && row === 7);
+  }
+
+  destructor(): void {}
 }
 
 export function findSpecificKing(color: PieceColor, kings: BoardCell[]): BoardCell {
@@ -158,16 +166,20 @@ export function checkMate(currentPlayer: PieceColor, board: BoardCell[][]): bool
   return true;
 }
 
-export function kingCheck(currentPlayer: PieceColor, board: BoardCell[][]): boolean {
+/**
+* this function returns true if player's king is checked
+**/
+export function boardKingsCheck(player: PieceColor, board: BoardCell[][]): boolean {
   let br, bc, piece, posSteps, step;  
-  let ennemyColor = (currentPlayer === PieceColor.White) ? PieceColor.Black: PieceColor.White;
+  const kingPos = findSpecificKing((player === PieceColor.White)?PieceColor.Black:PieceColor.White, findKings(board));
   for(br = 0; br<8; br++) {
     for(bc = 0; bc<8; bc++) {
       piece = board[br][bc];
-      if(piece && piece.p && piece.c === currentPlayer) {
+      if(piece && piece.p && piece.c === player) {
         posSteps = ControllerMap[piece.p] ? ControllerMap[piece.p](br, bc, board) : [];
         for(step of posSteps) {
-          if(checksKing(br, bc, board, findSpecificKing(ennemyColor, findKings(board)), step.row, step.column)) {
+          // if(checksKing(br, bc, board, findSpecificKing(player, findKings(board)), step.row, step.column)) {
+          if(step.row === kingPos.row && step.column === kingPos.col) {
             return true;
           }
         }
@@ -177,16 +189,18 @@ export function kingCheck(currentPlayer: PieceColor, board: BoardCell[][]): bool
   return false;
 }
 /**
-* this function returns true if the ally king is checked
+* this function returns true if the ally king will be checked
 **/
 export function checksKing(row: number, column: number, board: BoardCell[][], allyKing: BoardCell, nextRow: number, nextColumn: number): boolean { // TODO implement
   let boardClone = copyBoard(board);
   let buff;
   let posBuf;
+  let cond;
   const ennemyColor = (allyKing.c === PieceColor.White) ? PieceColor.Black: PieceColor.White;
   // move piece
   boardClone[nextRow][nextColumn] = boardClone[row][column];
   boardClone[row][column] = {};
+  // if the king moves his location needs to be updated
   if(boardClone[nextRow][nextColumn].p === PieceName.King) {
     allyKing = findSpecificKing(allyKing.c, findKings(boardClone));
   }
@@ -196,17 +210,14 @@ export function checksKing(row: number, column: number, board: BoardCell[][], al
     for(let bc=0; bc<8; bc++) {
       buff = boardClone[br][bc];
       if(buff && buff.p && buff.c !== allyKing.c) { // found ennemy piece
-        const debug = buff.p === PieceName.Queen;        
         posBuf = ControllerMap[buff.p] ? ControllerMap[buff.p](br, bc, boardClone) : [];
-        let cond = posBuf.filter((elem)=>{
+        cond = posBuf.filter((elem)=>{
           return allyKing.row === elem.row && allyKing.col === elem.column;
         });
         if(cond.length > 0) {
           // ally king checked
           return true;
         }
-      } else {
-      
       }
     }
   }
@@ -217,26 +228,13 @@ export function checksKing(row: number, column: number, board: BoardCell[][], al
 * this function makes a copy of the board
 **/
 export function copyBoard(board: BoardCell[][]): BoardCell[][] {
-  let clone: BoardCell[][];
-  clone = [];
-  let piece: BoardCell;
-  for(let r=0; r<8; r++) {
-    clone.push([]);
-    for(let c=0; c<8; c++) {
-      piece = {};
-      if(board[r][c].c !== undefined) {
-        piece.c = board[r][c].c;
-      }
-      if(board[r][c].p !== undefined) {
-        piece.p = board[r][c].p;
-      }
-      if(board[r][c].f !== undefined) {
-        piece.f = board[r][c].f;
-      }
-      clone[r][c] = piece;
-    }
-  }
-  return clone;
+  return board.map((row)=>{return row.map((cell)=>{
+    return {
+      c: cell.c,
+      p: cell.p,
+      f: cell.f
+    };
+  })});
 }
 
 export const b = PieceColor.Black;
@@ -250,13 +248,26 @@ export class BoardCell {
   f?: boolean; // first move
 }
 
+// export const START_TABLE: BoardCell[][] = [
+//   [{c:b,p:rook,f:true},{c:b,p:knight,f:true},{c:b,p:bishop,f:true},{c:b,p:queen,f:true},{c:b,p:king,f:true},{c:b,p:bishop,f:true},{c:b,p:knight,f:true},{c:b,p:rook,f:true}],
+//   [{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true}],
+//   [{}, {}, {}, {}, {}, {}, {}, {}],
+//   [{}, {}, {}, {}, {}, {}, {}, {}],
+//   [{}, {}, {}, {}, {}, {}, {}, {}],
+//   [{}, {}, {}, {}, {}, {}, {}, {}],
+//   [{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true}],
+//   [{c:w,p:rook,f:true},{c:w,p:knight,f:true},{c:w,p:bishop,f:true},{c:w,p:queen,f:true},{c:w,p:king,f:true},{c:w,p:bishop,f:true},{c:w,p:knight,f:true},{c:w,p:rook,f:true}]
+// ];
+
+
 export const START_TABLE: BoardCell[][] = [
-  [{c:b,p:rook},{c:b,p:knight},{c:b,p:bishop},{c:b,p:queen},{c:b,p:king},{c:b,p:bishop},{c:b,p:knight},{c:b,p:rook}],
-  [{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{c:w,p:pawn,f:true}, {}, {}, {}, {}, {}, {}, {}],
   [{}, {}, {}, {}, {}, {}, {}, {}],
   [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {c:b,p:king,f:true}],
   [{}, {}, {}, {}, {}, {}, {}, {}],
-  [{}, {}, {}, {}, {}, {}, {}, {}],
-  [{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true}],
-  [{c:w,p:rook},{c:w,p:knight},{c:w,p:bishop},{c:w,p:queen},{c:w,p:king},{c:w,p:bishop},{c:w,p:knight},{c:w,p:rook}]
+  [{},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true}],
+  [{c:w,p:rook,f:true},{c:w,p:knight,f:true},{c:w,p:bishop,f:true},{c:w,p:queen,f:true},{c:w,p:king,f:true},{c:w,p:bishop,f:true},{c:w,p:knight,f:true},{c:w,p:rook,f:true}]
 ];
+

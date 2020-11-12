@@ -347,7 +347,7 @@ function checkMate(currentPlayer, board) {
   return true;
 }
 
-function kingCheck(currentPlayer, board) {
+function boardKingsCheck(currentPlayer, board) {
   let br, bc, piece, posSteps, step;  
   let ennemyColor = (currentPlayer === PieceColor.White) ? PieceColor.Black: PieceColor.White;
   for(br = 0; br<8; br++) {
@@ -406,26 +406,33 @@ function checksKing(row, column, board, allyKing, nextRow, nextColumn) { // TODO
 * this function makes a copy of the board
 **/
 function copyBoard(board) {
-  let clone;
-  clone = [];
-  let piece;
-  for(let r=0; r<8; r++) {
-    clone.push([]);
-    for(let c=0; c<8; c++) {
-      piece = {};
-      if(board[r][c].c !== undefined) {
-        piece.c = board[r][c].c;
-      }
-      if(board[r][c].p !== undefined) {
-        piece.p = board[r][c].p;
-      }
-      if(board[r][c].f !== undefined) {
-        piece.f = board[r][c].f;
-      }
-      clone[r][c] = piece;
-    }
-  }
-  return clone;
+  // let clone;
+  // clone = [];
+  // let piece;
+  // for(let r=0; r<8; r++) {
+  //   clone.push([]);
+  //   for(let c=0; c<8; c++) {
+  //     piece = {};
+  //     if(board[r][c].c !== undefined) {
+  //       piece.c = board[r][c].c;
+  //     }
+  //     if(board[r][c].p !== undefined) {
+  //       piece.p = board[r][c].p;
+  //     }
+  //     if(board[r][c].f !== undefined) {
+  //       piece.f = board[r][c].f;
+  //     }
+  //     clone[r][c] = piece;
+  //   }
+  // }
+  // return clone;
+  return board.map((row)=>{return row.map((cell)=>{
+    return {
+      c: cell.c,
+      p: cell.p,
+      f: cell.f
+    };
+  })});
 }
 
 const board = [
@@ -440,5 +447,5 @@ const board = [
 ];
 
 
-// console.log(kingCheck(w,board));
+// console.log(boardKingsCheck(w,board));
 console.log(checkMate(w,board));

@@ -48,8 +48,9 @@ export class BoardComponent implements OnDestroy {
     return this.boardService.getGameBoard();
   }
   
-  isSelected(cell): boolean {
-    return Object.is(cell, this.boardService.controller.selected);
+  isSelected(row: number, column: number): boolean {
+    // return Object.is(cell, this.boardService.controller.selected);
+    return this.boardService?.controller?.selected?.row === row && this.boardService?.controller?.selected?.col === column;
   }
 
   isPossibleStep(row: number, col: number): boolean {

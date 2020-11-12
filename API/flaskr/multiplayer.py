@@ -21,12 +21,12 @@ getActiveGamesQuery = """
 piecePositionQuery = "SELECT row, col, piece, color, first_move FROM piece_positions AS p WHERE p.game_id == ?"
 
 updatePiece = """UPDATE piece_positions
-                            SET row = ?, col = ?, first_move = false
-                            WHERE game_id == ? AND piece == ? AND color == ? AND row = ? AND col = ?;"""
+                    SET row = ?, col = ?, piece == ?, first_move = false
+                    WHERE game_id == ? AND row = ? AND col = ?;"""
 
 deletePiece = "DELETE FROM piece_positions WHERE game_id == ? AND row == ? AND col == ? AND piece != ? AND color != ? ;"
 
-updateCurrentPlayer = """update active_game
+updateCurrentPlayer = """UPDATE active_game
                             SET current_player =
                             CASE    WHEN current_player == player_white_id THEN (SELECT player_black_id FROM active_game WHERE id = ?)
                                     WHEN current_player == player_black_id THEN (SELECT player_white_id FROM active_game WHERE id = ?)
@@ -38,6 +38,7 @@ def gameMove(gameId):
     if request.method == 'POST':
         error = None
         body = eval(request.data)
+        print(body)
         # after every move only 2 operations can be done
         # updating the movement of the moving piece
         # or
@@ -45,8 +46,8 @@ def gameMove(gameId):
         # validate data
 
         db = db_get()
-        db.execute(updatePiece, (body['row'], body['column'], gameId, body['piece'], body['color'], body['previous_row'], body['previous_col']))
         db.execute(deletePiece, (gameId, body['row'], body['column'], body['piece'], body['color']))
+        db.execute(updatePiece, (body['row'], body['column'], body['piece'], gameId, body['previous_row'], body['previous_col']))
         db.execute(updateCurrentPlayer, (gameId, gameId, gameId))
 
         db.commit()
