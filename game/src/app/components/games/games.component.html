@@ -1,0 +1,28 @@
+<div class="group m-3 p-3">
+	<label class="group-label">Multiplayer</label>
+	<div class="card-columns">
+		<div class="card text-center" [routerLink]="['/active']">
+			<img class="card-img-top card-icon p-2" src="/assets/images/active-game.jpg" alt="Card image">
+		  	<div class="card-footer">
+		  		<a class="btn btn-light" href="#" [routerLink]="['/active']">See Active Games</a>
+		  	</div>
+		</div>
+		<div class="card text-center" [routerLink]="['/finished']">
+			<img class="card-img-top card-icon p-2" src="/assets/images/finished-game.jpg" alt="Card image">
+		  	<div class="card-footer">
+		  		<a class="btn btn-light" href="#" [routerLink]="['/finished']">See Finished Games</a>
+		  	</div>
+		</div>
+	</div>
+</div>
+<div class="group m-3 p-3">
+	<label class="group-label">Solo</label>
+	<div class="card-columns">
+		<div class="card text-center" [routerLink]="['/solo']">
+			<img class="card-img-top card-icon p-2" src="/assets/images/active-game.jpg" alt="Card image">
+		  	<div class="card-footer">
+		  		<a class="btn btn-light" href="#" [routerLink]="['/active']">Play Solo</a>
+		  	</div>
+		</div>
+	</div>
+</div>

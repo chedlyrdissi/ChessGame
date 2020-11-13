@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LogInService } from '@auth/log-in/log-in.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { ViewTypeOptions } from '@profile/view-type/view-type-options';
+import { ViewTypeOptions } from '@games/view-type/view-type-options';
 import { CachingService } from '@app/caching.service';
 import { CachingOptions } from '@app/caching.options';
 

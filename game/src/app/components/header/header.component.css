@@ -17,7 +17,7 @@
   height: 100%;
   align-self: center;
   padding-top: 0.5rem;
-  padding-left: 5px;
+  margin-left: max(5px, 5vw);
 }
 
 #navbar a:hover {

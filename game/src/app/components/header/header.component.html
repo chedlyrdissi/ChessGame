@@ -4,8 +4,10 @@
 	</div>
 	<div class="p-0 d-flex pb-1">
 		<a href="#" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-		<a href="#" [routerLink]="['/profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [hidden]="!this.isActive(profile)" #profile>Profile</a>
+		<a href="#" [routerLink]="['/games']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [hidden]="!this.isActive(games)" #games>Games</a>
+		<a href="#" [routerLink]="['/solo']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [hidden]="!this.isActive(solo)" #solo>Solo</a>
 		<a href="#" [routerLink]="['/tuto']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [hidden]="!this.isActive(tuto)" #tuto>Tutorial</a>
+		<a href="#" [routerLink]="['/profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [hidden]="!this.isActive(profile)" #profile>Profile</a>
 		<a href="#" [routerLink]="['/active']" routerLinkActive="active" [hidden]="!this.isActive(activegame)" #activegame>Active games</a>
 		<a href="#" [routerLink]="['/finished']" routerLinkActive="active" [hidden]="!this.isActive(finished)" #finished>Finished games</a>
 	</div>

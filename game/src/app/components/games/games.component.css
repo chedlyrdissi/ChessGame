@@ -1,0 +1,24 @@
+.card-icon {
+	border-radius: 3rem;
+}
+
+.card {
+	border-radius: 3rem;
+}
+
+.card-footer {
+	background-color: transparent;
+}
+
+.group {
+	border: solid 3px black;
+	padding-top: 15px;
+	position: relative;
+}
+
+.group-label {
+	position: absolute;
+	top: -13px;
+	left: 8px;
+	text-shadow: 1px 1px white, -1px -1px white, -1px 1px white, 1px -1px white;
+}

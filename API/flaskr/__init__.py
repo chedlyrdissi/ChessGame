@@ -10,6 +10,7 @@ from . import auth
 from . import multiplayer
 from . import active_games
 from . import finished_games
+from . import profile
 
 # error handler
 from flaskr.invalid_exception import InvalidUsage
@@ -43,9 +44,16 @@ def create_app(test_config=None):
     # registering the blueprints aka routes
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp)
+    app.register_blueprint(profile.bp)
     app.register_blueprint(active_games.bp)
     app.register_blueprint(finished_games.bp)
     app.register_blueprint(multiplayer.bp)
+
+    # Create a directory in a known location to save files to.
+    image_uploads_dir = os.path.join(app.instance_path, 'iamge_uploads')
+    os.makedirs(image_uploads_dir, exist_ok=True)
+
+    profile.setUpload(image_uploads_dir)
 
     @app.errorhandler(InvalidUsage)
     def handle_invalid_usage(error):

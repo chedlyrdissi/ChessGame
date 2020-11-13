@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FinishedGame } from '@profile/finished-games/finished-games.component';
+import { FinishedGame } from '@games/finished-games/finished-games.component';
 
 @Component({
   selector: 'app-finished-game-list',

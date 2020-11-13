@@ -13,12 +13,13 @@ import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { LogInService } from '@auth/log-in/log-in.service';
 
-import { ProfileModule } from '@profile/profile.module';
+import { GamesModule } from '@games/games.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from './components/modal/modal.module';
 import { TutorialModule } from './components/tutorial/tutorial.module';
 import { SoloModule } from './components/solo/solo.module';
+import { ProfileModule } from '@profile/profile.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SoloModule } from './components/solo/solo.module';
     RouterModule,
     CommonModule,
     BrowserModule,
+    GamesModule,
     ProfileModule,
     TutorialModule,
     AppRoutingModule,

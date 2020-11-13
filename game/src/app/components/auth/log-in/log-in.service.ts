@@ -25,7 +25,7 @@ export class LogInService implements CanActivate {
 	        	password: password
 	      	}).subscribe((data: UserData) => {
 	         	window.sessionStorage.setItem('user', JSON.stringify(data));
-	         	this.router.navigate(['/profile']);
+	         	this.router.navigate(['/home']);
 	       	});
 	}
 

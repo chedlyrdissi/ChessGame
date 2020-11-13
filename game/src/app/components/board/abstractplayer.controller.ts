@@ -110,7 +110,7 @@ export function findSpecificKing(color: PieceColor, kings: BoardCell[]): BoardCe
   if(kings.length !== 2) throw "parameter error, the array must have 2 kings";
   let king1 = kings[0];
   let king2 = kings[1];
-  if(king1.c === king2.c) throw "the array must contain 2 different kings";
+  if(king1.c === king2.c) throw "the board must contain 2 different kings";
   if(king1.c === color) {
     return king1;
   } else if(king2.c === color) {
@@ -248,26 +248,26 @@ export class BoardCell {
   f?: boolean; // first move
 }
 
-// export const START_TABLE: BoardCell[][] = [
-//   [{c:b,p:rook,f:true},{c:b,p:knight,f:true},{c:b,p:bishop,f:true},{c:b,p:queen,f:true},{c:b,p:king,f:true},{c:b,p:bishop,f:true},{c:b,p:knight,f:true},{c:b,p:rook,f:true}],
-//   [{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true}],
-//   [{}, {}, {}, {}, {}, {}, {}, {}],
-//   [{}, {}, {}, {}, {}, {}, {}, {}],
-//   [{}, {}, {}, {}, {}, {}, {}, {}],
-//   [{}, {}, {}, {}, {}, {}, {}, {}],
-//   [{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true}],
-//   [{c:w,p:rook,f:true},{c:w,p:knight,f:true},{c:w,p:bishop,f:true},{c:w,p:queen,f:true},{c:w,p:king,f:true},{c:w,p:bishop,f:true},{c:w,p:knight,f:true},{c:w,p:rook,f:true}]
-// ];
-
-
 export const START_TABLE: BoardCell[][] = [
+  [{c:b,p:rook,f:true},{c:b,p:knight,f:true},{c:b,p:bishop,f:true},{c:b,p:queen,f:true},{c:b,p:king,f:true},{c:b,p:bishop,f:true},{c:b,p:knight,f:true},{c:b,p:rook,f:true}],
+  [{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true},{c:b,p:pawn,f:true}],
   [{}, {}, {}, {}, {}, {}, {}, {}],
-  [{c:w,p:pawn,f:true}, {}, {}, {}, {}, {}, {}, {}],
   [{}, {}, {}, {}, {}, {}, {}, {}],
   [{}, {}, {}, {}, {}, {}, {}, {}],
-  [{}, {}, {}, {}, {}, {}, {}, {c:b,p:king,f:true}],
   [{}, {}, {}, {}, {}, {}, {}, {}],
-  [{},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true}],
+  [{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true}],
   [{c:w,p:rook,f:true},{c:w,p:knight,f:true},{c:w,p:bishop,f:true},{c:w,p:queen,f:true},{c:w,p:king,f:true},{c:w,p:bishop,f:true},{c:w,p:knight,f:true},{c:w,p:rook,f:true}]
 ];
+
+
+// export const START_TABLE: BoardCell[][] = [
+//   [{}, {}, {}, {}, {}, {}, {}, {}],
+//   [{c:w,p:pawn,f:true}, {}, {}, {}, {}, {}, {}, {}],
+//   [{}, {}, {}, {}, {}, {}, {}, {}],
+//   [{}, {}, {}, {}, {}, {}, {}, {}],
+//   [{}, {}, {}, {}, {}, {}, {}, {c:b,p:king,f:true}],
+//   [{}, {}, {}, {}, {}, {}, {}, {}],
+//   [{},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true},{c:w,p:pawn,f:true}],
+//   [{c:w,p:rook,f:true},{c:w,p:knight,f:true},{c:w,p:bishop,f:true},{c:w,p:queen,f:true},{c:w,p:king,f:true},{c:w,p:bishop,f:true},{c:w,p:knight,f:true},{c:w,p:rook,f:true}]
+// ];
 

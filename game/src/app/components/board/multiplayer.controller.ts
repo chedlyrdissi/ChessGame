@@ -61,10 +61,6 @@ export class MultiplayerController extends AbstractController {
       // TODO inspect this section
       // const c1 = checkMate(this.currentPlayer, this.gameBoard);
       const c2 = checkMate((this.currentPlayer === PieceColor.White) ? PieceColor.Black: PieceColor.White, this.gameBoard);
-      // console.log('with current');
-      // console.log(c1);
-      // console.log('with ennemy');
-      // console.log(c2);
       if(c2) {
         this.checkMate.next();
       }
@@ -73,18 +69,10 @@ export class MultiplayerController extends AbstractController {
   };
 
   movePiece(row: number, column: number): void {
+    // move piece for promotion to work
     this.gameBoard[row][column] = {c: this.selected.c,p: this.selected.p};
     this.gameBoard[this.selected.row][this.selected.col] = {};
-    
-    console.log({
-            previous_row: this.selected.row,
-            previous_col: this.selected.col,
-            row: row,
-            column: column,
-            piece: this.promitionExists(row, column)? PieceName.Queen: this.selected.p,
-            color: this.selected.c,
-            first_move: this.selected.f? 'True': 'False'
-          });
+
     this.httpClient.post('http://127.0.0.1:5000/game/'+this.gameId, {
             previous_row: this.selected.row,
             previous_col: this.selected.col,

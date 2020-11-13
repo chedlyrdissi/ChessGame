@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ActiveGame } from '@profile/active-games/active-games.component';
+import { ActiveGame } from '@games/active-games/active-games.component';
 
 @Component({
   selector: 'app-active-game-card',
