@@ -1,14 +1,21 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, SimpleChanges, OnChanges } from '@angular/core';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import { LogInService } from '@auth/log-in/log-in.service';
+
+
+interface ProfileData {
+  username: string;
+  id: number;
+  picturePath: string;
+}
 
 @Component({
   selector: 'profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnChanges {
 
 	edit: boolean = false;
 	username: string = '';
@@ -16,7 +23,24 @@ export class ProfileComponent {
 
   constructor(private logInService: LogInService, private httpClient: HttpClient) {
     this.username = this.logInService.getUsername();
+    this.updateProfile();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.updateProfile();
+  }
+
+  updateProfile = () => {
+    this.httpClient.get<ProfileData>('http://127.0.0.1:5000/profile', {headers: new HttpHeaders().set('Cache-Control', 'no-cache') ,params: new HttpParams().set('id', ''+this.logInService.getId())}).subscribe(
+      (data) => {
+        console.log(data);
+        this.file = 'http://127.0.0.1:5000/uploads/'+data.picturePath;
+        this.username = data.username;
+      },
+      (error) => {
+        console.log(error);
+      });
+  };
 
   changePictureSubmit(e): boolean {
   	console.log(e);
@@ -25,18 +49,13 @@ export class ProfileComponent {
     
     const formData = new FormData();
     formData.append('profilePic', pic, ''+this.logInService.getId()+'.'+pic.type.substring(pic.type.lastIndexOf('/')+1));
-    formData.append('id', ''+this.logInService.getId());
+    // formData.append('id', ''+this.logInService.getId());
     formData.append('username', this.logInService.getUsername());
     formData.append('updatedUsername', this.username);
-    
-    const body = {
-      id: this.logInService.getId(),
-      username: this.logInService.getUsername(),
-      updatedUsername: this.username,
-      profilePic: pic
-    };
 
-    this.httpClient.post('http://127.0.0.1:5000/profile', formData).subscribe(
+    const params = new HttpParams().set('id', ''+this.logInService.getId());
+
+    this.httpClient.post('http://127.0.0.1:5000/profile', formData, {'params': params}).subscribe(
       (data)=>{console.log(data)},
       (error)=>{console.log(error)});
 

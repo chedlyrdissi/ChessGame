@@ -12,25 +12,30 @@ bp = Blueprint('profile', __name__, url_prefix='/')
 
 upload = None
 
+usernameIdCheckQuery = """SELECT * FROM user WHERE id = ? AND username = ?;"""
+idCheckQuery = """SELECT * FROM user WHERE id = ?;"""
+updateUsernameQuery = """UPDATE user SET username = ? WHERE id = ? AND username = ?;"""
+
 def setUpload(directory):
     global upload
     upload = directory
 
+def allowedFile(file=None):
+    ALLOWEDFILETYPES = ('image/jpeg')
+    return file.content_type in ALLOWEDFILETYPES
+
 @bp.route('/profile', methods=('GET', 'POST'))
 def profileEdit():
     if request.method == 'POST':
-        body = request.form
+        body = request.form.to_dict()
+        body['id'] = request.args.get('id')
+
         picture = request.files.get('profilePic')
-        print(body)
-        print(picture)
-        for (key, val) in body.items():
-            print('key='+key,' value='+val)
-        print(picture)
-        print(upload)
+        if not allowedFile(picture):
+            raise InvalidUsage('Image type not allowed, please send an jpeg')
+
         resp = {'id': body.get('id')}
         db = db_get()
-        usernameIdCheckQuery = """SELECT * FROM user WHERE id = ? AND username = ?;"""
-        updateUsernameQuery = """UPDATE user SET username = ? WHERE id = ? AND username = ?;"""
         if len(db.execute(usernameIdCheckQuery, (body.get('id'), body.get('username'))).fetchall()) > 0:
             picture.save(os.path.join(upload, secure_filename(picture.filename)))
             if (body.get('updatedUsername') != None) and (len(body.get('updatedUsername')) >= 8) and (body.get('updatedUsername') != body.get('username')):
@@ -41,6 +46,16 @@ def profileEdit():
         else:
             raise InvalidUsage('user does not exist')
 
+        resp['picturePath'] = "{0}.jpeg".format(body['id'])
         return resp
+
     elif request.method == 'GET':
-        return {}
+        body = request.args
+        if not 'id' in body:
+            raise InvalidUsage('user not provided')
+        db = db_get()
+        queryRes = db.execute(idCheckQuery, (body['id'],)).fetchall()
+        if len(queryRes) == 1:
+            return {'picturePath': "{0}.jpeg".format(body['id']), 'username': queryRes[0]['username'], 'id': body['id']}
+        else:
+            raise InvalidUsage('user does not exist')

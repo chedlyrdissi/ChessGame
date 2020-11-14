@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 # database
 from . import db
@@ -50,9 +50,11 @@ def create_app(test_config=None):
     app.register_blueprint(multiplayer.bp)
 
     # Create a directory in a known location to save files to.
-    image_uploads_dir = os.path.join(app.instance_path, 'iamge_uploads')
+    image_uploads_dir = os.path.join(app.instance_path, 'image_uploads')
     os.makedirs(image_uploads_dir, exist_ok=True)
-
+    app.config["UPLOAD_FOLDER"] = image_uploads_dir
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+    
     profile.setUpload(image_uploads_dir)
 
     @app.errorhandler(InvalidUsage)
@@ -60,5 +62,9 @@ def create_app(test_config=None):
         response = jsonify(error.to_dict())
         response.status_code = error.status_code
         return response
+
+    @app.route('/uploads/<path:filename>', methods=('GET',))
+    def download_file(filename):
+        return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
     return app
