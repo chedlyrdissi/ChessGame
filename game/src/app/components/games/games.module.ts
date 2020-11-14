@@ -23,6 +23,7 @@ import { FinishedGameListComponent } from './finished-game-list/finished-game-li
 
 import { ModalModule } from '@modal/modal.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FilterComponent } from './filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ActiveGameCardComponent,
     FinishedGameCardComponent,
     ActiveGameListComponent,
-    FinishedGameListComponent
+    FinishedGameListComponent,
+    FilterComponent
   ],
   imports: [
     NgbModule,

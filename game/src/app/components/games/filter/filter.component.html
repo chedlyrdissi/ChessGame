@@ -1,0 +1,20 @@
+<div class="container-fluid menu-container">
+	<div class="side-menu p-3" sideMenuKeeper [ngClass]="{'active': this.menuOpen}">
+		<div>
+			<span class="fa fa-close right-toggle hamburger-menu" sideMenuKeeper (click)="this.toggleMenu()"></span>
+		</div>
+		<div class="mt-4">
+			Filter
+			<ul *ngIf="this.filterModel">
+				<li *ngFor="let item of this.filterModel.list">
+				{{label}}
+				<input type="radio" name="">
+				</li>
+			</ul>
+		</div>
+	</div>
+	<span class="fa fa-bars hamburger-menu" sideMenuKeeper (click)="this.toggleMenu()"></span>
+	<div class="menu-content" [ngClass]="{'active': this.menuOpen}">
+		<ng-content></ng-content>
+	</div>
+</div>
