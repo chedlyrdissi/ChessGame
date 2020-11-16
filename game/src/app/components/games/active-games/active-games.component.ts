@@ -6,6 +6,7 @@ import { ViewTypeOptions } from '@games/view-type/view-type-options';
 import { CachingService } from '@app/caching.service';
 import { CachingOptions } from '@app/caching.options';
 import { Subject } from 'rxjs';
+import { AppliedFilter, FilterModel } from '../filter/filter.service';
 
 export interface ActiveGame {
 	id: number;
@@ -50,28 +51,70 @@ export class ActiveGamesComponent {
 	ennemyPlayersList: EnnemyUserData[];
   	subject: Subject<void> = new Subject<void>();
 
-  	filterlist = {
+  	filterlist: FilterModel = {
   		groups: [
   			{options: [
   				{
-  					label: 'name', 
+  					label: 'game id', 
   					value: {
-	  					name: 'name',
+	  					name: 'gameid',
+	  					type: 'number',
+	  					defaultValue: '',
+	  					value: ''
+	  				},
+	  				select: {
+	  					choice: '=',
+	  					options: [
+		  					{label: '=', value: '='},
+		  					{label: '>', value: '>'},
+		  					{label: '<', value: '<'},
+		  					{label: '>=', value: '<='},
+		  					{label: '>=', value: '>='},
+		  					{label: '!=', value: '!='}
+		  				]
+	  				}
+  				},
+  			]},
+  			{options: [
+  				{
+  					label: 'white player', 
+  					value: {
+	  					name: 'whiteplayer',
 	  					type: 'text',
 	  					defaultValue: '',
 	  					value: ''
+	  				},
+	  				select: {
+	  					choice: '=',
+	  					options: [
+		  					{label: '=', value: '='}
+		  				]
 	  				}
-  				}
+  				},
   			]},
-  			{
-  				label: 'other',
-  				options: [
+  			{options: [
   				{
-  					label: 'id',
+  					label: 'black player', 
   					value: {
-	  					name: 'idnum',
-	  					type: 'number',
-	  					min: 0,
+	  					name: 'blackplayer',
+	  					type: 'text',
+	  					defaultValue: '',
+	  					value: ''
+	  				},
+	  				select: {
+	  					choice: '=',
+	  					options: [
+		  					{label: '=', value: '='}
+		  				]
+	  				}
+  				},
+  			]},
+  			{options: [
+  				{
+  					label: 'creation date', 
+  					value: {
+	  					name: 'creation',
+	  					type: 'date',
 	  					defaultValue: '',
 	  					value: ''
 	  				},
@@ -86,28 +129,12 @@ export class ActiveGamesComponent {
 		  					{label: '!=', value: '!='}
 		  				]
 	  				}
-	  			},
-  				{
-  					label: 'creation',
-  					value: {
-	  					name: 'creation',
-	  					type: 'date'
-	  				},
-	  				select: {
-	  					choice: '=',
-	  					options: [
-		  					{label: '=', value: '='},
-		  					{label: '>', value: '>'},
-		  					{label: '<', value: '<'},
-		  					{label: '>=', value: '<='},
-		  					{label: '>=', value: '>='},
-		  					{label: '!=', value: '!='}
-		  				]
-	  				}
-	  			}
-  			]}
+  				},
+  			]},
   		]
   	}
+
+  	appliedFilters: AppliedFilter[] = [];
 
   	constructor(
   		private httpClient: HttpClient, 
@@ -224,6 +251,27 @@ export class ActiveGamesComponent {
 
 	log(e): void {
 		console.log(e);
+	}
+
+	addFilter(apfil: AppliedFilter): void {
+		this.clearFilter(apfil);
+		this.appliedFilters.push(apfil);
+		console.log(this.appliedFilters);
+	}
+
+	clearFilter(apfil: AppliedFilter): void {
+		this.appliedFilters = this.appliedFilters.filter((item) => {
+			return apfil.group !== item.group && apfil.option !== item.option;
+		});
+	}
+
+	clearAll(): void {
+		this.appliedFilters = [];
+		for(let group of this.filterlist.groups) {
+			for(let option of group.options) {
+				option.value.value = option.value.defaultValue;
+			}
+		}
 	}
 }
 

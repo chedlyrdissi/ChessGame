@@ -4,13 +4,15 @@ export interface FilterModel {
 
 export interface FilterOption {
 	label: string;
-	property: string;
 	value: FilterOptionValue;
-	propertyVerification: (val: any) => boolean;
+	select?: {
+		choice: any,
+		options: {label: string, value: any}[]
+	};
 }
 
 export interface FilterGroup {
-	label: string;
+	label?: string;
 	options: FilterOption[];
 }
 
@@ -19,14 +21,20 @@ export class FilterApplied {
 }
 
 export class FilterOptionValue {
-	prelabel: boolean;
-	type: string;
-	name: string;
-	min: any;
-	max: any;
-	defaultValue: any;
-	value: any;
-	placeholder: string;
+	prelabel?: boolean = false;
+	type?: string;
+	name?: string;
+	min?: any;
+	max?: any;
+	defaultValue?: any;
+	value?: any;
+	placeholder?: string;
 }
 
+export class AppliedFilter {
+	group: number;
+	option: number;
+	value?: string;
+	select?: string | null;
+} 
 

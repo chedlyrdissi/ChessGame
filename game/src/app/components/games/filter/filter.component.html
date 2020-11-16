@@ -39,10 +39,11 @@
 								[placeholder]="option.value?.placeholder ? option.value?.placeholder : ''"
 								(change)="this.emitOption(gindex, opindex, option.value.value, option.select?.choice)"
 								*ngIf="option.value && !option.value?.prelabel"/>
-							<span class="ml-2 fa fa-close" (click)="clearFilterOption(gindex, opindex)" *ngIf="option.value.value !== option.value.defaultValue"></span>
+							<span class="ml-2 fa fa-close" (click)="clearFilterOption(gindex, opindex, option)" *ngIf="option.value.value !== option.value.defaultValue"></span>
 						</li>
 					</ul>
 				</li>
+				<button class="btn btn-light" (click)="this.clearAllFilters()">Clear all</button>				
 			</ul>
 		</div>
 	</div>

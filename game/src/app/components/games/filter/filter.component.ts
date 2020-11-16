@@ -10,7 +10,8 @@ export class FilterComponent {
 
 	@Input() filterModel: FilterModel;
   @Output() optionClicked: EventEmitter<any> = new EventEmitter<any>();
-	@Output() optionClear: EventEmitter<any> = new EventEmitter<any>();
+  @Output() optionClear: EventEmitter<any> = new EventEmitter<any>();
+	@Output() clearAll: EventEmitter<void> = new EventEmitter<void>();
 	
 	menuOpen: boolean = false;
 
@@ -35,5 +36,9 @@ export class FilterComponent {
   clearFilterOption(group: number, op: number, option: FilterOption): void {
     option.value.value = option.value.defaultValue;
     this.optionClear.emit({group: group, option: op});
+  }
+
+  clearAllFilters(): void {
+    this.clearAll.emit();
   }
 }
