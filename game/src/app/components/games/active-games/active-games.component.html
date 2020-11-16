@@ -1,4 +1,4 @@
-<filter>
+<filter (optionClicked)="this.log($event)" (optionClear)="this.log($event)" [filterModel]="this.filterlist">
 	<div class="container-fluid">
 		<div class="row mr-2">
 			<div class="col d-flex flex-row-reverse">

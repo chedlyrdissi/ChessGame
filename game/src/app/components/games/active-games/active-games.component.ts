@@ -50,6 +50,65 @@ export class ActiveGamesComponent {
 	ennemyPlayersList: EnnemyUserData[];
   	subject: Subject<void> = new Subject<void>();
 
+  	filterlist = {
+  		groups: [
+  			{options: [
+  				{
+  					label: 'name', 
+  					value: {
+	  					name: 'name',
+	  					type: 'text',
+	  					defaultValue: '',
+	  					value: ''
+	  				}
+  				}
+  			]},
+  			{
+  				label: 'other',
+  				options: [
+  				{
+  					label: 'id',
+  					value: {
+	  					name: 'idnum',
+	  					type: 'number',
+	  					min: 0,
+	  					defaultValue: '',
+	  					value: ''
+	  				},
+	  				select: {
+	  					choice: '=',
+	  					options: [
+		  					{label: '=', value: '='},
+		  					{label: '>', value: '>'},
+		  					{label: '<', value: '<'},
+		  					{label: '>=', value: '<='},
+		  					{label: '>=', value: '>='},
+		  					{label: '!=', value: '!='}
+		  				]
+	  				}
+	  			},
+  				{
+  					label: 'creation',
+  					value: {
+	  					name: 'creation',
+	  					type: 'date'
+	  				},
+	  				select: {
+	  					choice: '=',
+	  					options: [
+		  					{label: '=', value: '='},
+		  					{label: '>', value: '>'},
+		  					{label: '<', value: '<'},
+		  					{label: '>=', value: '<='},
+		  					{label: '>=', value: '>='},
+		  					{label: '!=', value: '!='}
+		  				]
+	  				}
+	  			}
+  			]}
+  		]
+  	}
+
   	constructor(
   		private httpClient: HttpClient, 
   		private logInService: LogInService,
@@ -58,7 +117,7 @@ export class ActiveGamesComponent {
   		private router: Router) {
 
   		this.activeGame = [];
-  		this.autoUpdate = true;
+  		this.autoUpdate = false;
   		this.update(this.autoUpdate);
   		this.actRoute.queryParams.subscribe((params) => {
   			if(params.v && validViewType(params.v)) {
@@ -161,6 +220,10 @@ export class ActiveGamesComponent {
 
 	toggleRadio(val: boolean): void {
 		this.solo = val;
+	}
+
+	log(e): void {
+		console.log(e);
 	}
 }
 

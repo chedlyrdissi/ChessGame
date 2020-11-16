@@ -5,10 +5,43 @@
 		</div>
 		<div class="mt-4">
 			Filter
-			<ul *ngIf="this.filterModel">
-				<li *ngFor="let item of this.filterModel.list">
-				{{label}}
-				<input type="radio" name="">
+			<ul class="mt-3" *ngIf="this.filterModel">
+				<li *ngFor="let group of this.filterModel.groups; index as gindex" class="mb-2">
+					{{group.label}}
+					<ul *ngIf="group.options">
+						<li *ngFor="let option of group.options; index as opindex">
+							<input 
+								class="mr-1" 
+								[type]="option.value?.type"
+								[name]="option.value?.name"
+								[min]="option.value?.min"
+								[max]="option.value?.max"
+								[value]="option.value?.defaultValue"
+								[(ngModel)]="option.value.value"
+								[placeholder]="option.value?.placeholder ? option.value?.placeholder : ''"
+								(change)="this.emitOption(gindex, opindex, option.value.value, option.select?.choice)"
+								*ngIf="option.value && option.value.prelabel"/>
+							{{option.label}}
+							<select
+								[value]="option.select.options[0].value"
+								[(ngModel)]="option.select.choice"
+								*ngIf="option.select?.options">
+								<option [value]="selectOption.value" *ngFor=" let selectOption of option.select.options">{{selectOption.label}}</option>
+							</select>
+							<input 
+								class="ml-1" 
+								[type]="option.value?.type"
+								[name]="option.value?.name"
+								[min]="option.value?.min"
+								[max]="option.value?.max"
+								[value]="option.value?.defaultValue"
+								[(ngModel)]="option.value.value"
+								[placeholder]="option.value?.placeholder ? option.value?.placeholder : ''"
+								(change)="this.emitOption(gindex, opindex, option.value.value, option.select?.choice)"
+								*ngIf="option.value && !option.value?.prelabel"/>
+							<span class="ml-2 fa fa-close" (click)="clearFilterOption(gindex, opindex)" *ngIf="option.value.value !== option.value.defaultValue"></span>
+						</li>
+					</ul>
 				</li>
 			</ul>
 		</div>

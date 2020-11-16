@@ -54,7 +54,7 @@ def create_app(test_config=None):
     os.makedirs(image_uploads_dir, exist_ok=True)
     app.config["UPLOAD_FOLDER"] = image_uploads_dir
     app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-    
+
     profile.setUpload(image_uploads_dir)
 
     @app.errorhandler(InvalidUsage)
