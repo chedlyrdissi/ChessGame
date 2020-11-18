@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
-class UserData {
+export class UserData {
 	id: number;
     username: string;
     created: Date;

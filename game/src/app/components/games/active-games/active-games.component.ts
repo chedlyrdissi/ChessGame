@@ -39,6 +39,8 @@ export interface NewGameResponse {
 export class ActiveGamesComponent {
 
 	activeGame: ActiveGame[];
+	activeGameShow: ActiveGame[];
+
 	updateHandler;
 	autoUpdate: boolean;
 	viewType: ViewTypeOptions;
@@ -62,6 +64,7 @@ export class ActiveGamesComponent {
 	  					defaultValue: '',
 	  					value: ''
 	  				},
+	  				property: 'id',
 	  				select: {
 	  					choice: '=',
 	  					options: [
@@ -84,12 +87,7 @@ export class ActiveGamesComponent {
 	  					defaultValue: '',
 	  					value: ''
 	  				},
-	  				select: {
-	  					choice: '=',
-	  					options: [
-		  					{label: '=', value: '='}
-		  				]
-	  				}
+	  				property: 'whitePlayer'
   				},
   			]},
   			{options: [
@@ -101,12 +99,7 @@ export class ActiveGamesComponent {
 	  					defaultValue: '',
 	  					value: ''
 	  				},
-	  				select: {
-	  					choice: '=',
-	  					options: [
-		  					{label: '=', value: '='}
-		  				]
-	  				}
+	  				property: 'blackPlayer'
   				},
   			]},
   			{options: [
@@ -128,7 +121,8 @@ export class ActiveGamesComponent {
 		  					{label: '>=', value: '>='},
 		  					{label: '!=', value: '!='}
 		  				]
-	  				}
+	  				},
+	  				property: 'creationDate'
   				},
   			]},
   		]
@@ -167,6 +161,7 @@ export class ActiveGamesComponent {
 	        .get<{games: ActiveGame[]}>("http://127.0.0.1:5000/active-games")
 	        .subscribe((data) => {
 	        	this.activeGame = data.games;
+	        	this.updateList();
 	        })
 	}
 
@@ -249,20 +244,21 @@ export class ActiveGamesComponent {
 		this.solo = val;
 	}
 
-	log(e): void {
-		console.log(e);
-	}
-
 	addFilter(apfil: AppliedFilter): void {
 		this.clearFilter(apfil);
 		this.appliedFilters.push(apfil);
-		console.log(this.appliedFilters);
+		this.updateList();
 	}
 
 	clearFilter(apfil: AppliedFilter): void {
 		this.appliedFilters = this.appliedFilters.filter((item) => {
-			return apfil.group !== item.group && apfil.option !== item.option;
+			return apfil.group !== item.group || apfil.option !== item.option;
 		});
+	}
+
+	clearFilterAndUpdate(apfil: AppliedFilter): void {
+		this.clearFilter(apfil);
+		this.updateList();
 	}
 
 	clearAll(): void {
@@ -272,6 +268,25 @@ export class ActiveGamesComponent {
 				option.value.value = option.value.defaultValue;
 			}
 		}
+		this.activeGameShow = this.activeGame;
+	}
+
+	updateList(): void {
+		this.activeGameShow = this.activeGame.filter((game: ActiveGame)=>{
+			// either no filters available or game fulfills a condition
+			return this.appliedFilters.length === 0 || this.appliedFilters.filter((apfil: AppliedFilter)=>{
+				let prop;
+				if(apfil.property === 'creationDate') {
+					const buf = new Date(game[apfil.property]);
+					prop = buf.getFullYear() + '-' + buf.getDate() + '-' + buf.getMonth();
+				} else {
+					prop = game[apfil.property] ;
+				}
+				const op = apfil.select? (apfil.select ==='='? '==': apfil.select): '==';
+				const exp = '\'' + prop + '\'' + op + '\'' + apfil.value + '\'';
+				return eval(exp);
+			}).length > 0;
+		});
 	}
 }
 

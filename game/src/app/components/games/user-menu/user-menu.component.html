@@ -7,6 +7,11 @@
       <h5 class="dropdown-header">Account</h5>
       <a class="dropdown-item" href="#" [routerLink]="['/profile']">Profile</a>
       <div class="dropdown-divider"></div>
+      <h5 class="dropdown-header">Games</h5>
+      <a class="dropdown-item" href="#" [routerLink]="['/active']">active</a>
+      <a class="dropdown-item" href="#" [routerLink]="['/finished']">finished</a>
+      <a class="dropdown-item" href="#" [routerLink]="['/solo']">Solo</a>
+      <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="#" [routerLink]="['/auth/logOut']" *ngIf="this.isLoggedIn()" (click)="this.logOut()">log out</a>
     </div>
 </div>
@@ -16,7 +21,7 @@
     <app-auth btnText="Log In" (authsubmit)="this.logIn($event, 'logInModal', registrationModal)" ></app-auth>
   </chess-modal>
 
-  <chess-modal triggerText="register" [triggerTextClasses]="['btn', 'btn-light', 'text-dark', 'my-2', 'mx-1']" title="Register" [hasFooter]="false">
+  <chess-modal [closeSub]="this.subject" triggerText="register" [triggerTextClasses]="['btn', 'btn-light', 'text-dark', 'my-2', 'mx-1']" title="Register" [hasFooter]="false">
     <app-auth btnText="Register" (authsubmit)="this.register($event, 'registrationModal')"></app-auth>
   </chess-modal>
 

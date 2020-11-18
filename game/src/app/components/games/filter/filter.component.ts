@@ -8,7 +8,9 @@ import { FilterModel, FilterOption, FilterGroup, FilterApplied } from './filter.
 })
 export class FilterComponent {
 
-	@Input() filterModel: FilterModel;
+  @Input() filterModel: FilterModel;
+	@Input() appliedFilters = [];
+
   @Output() optionClicked: EventEmitter<any> = new EventEmitter<any>();
   @Output() optionClear: EventEmitter<any> = new EventEmitter<any>();
 	@Output() clearAll: EventEmitter<void> = new EventEmitter<void>();
@@ -29,12 +31,17 @@ export class FilterComponent {
 		this.menuOpen = !this.menuOpen;
   }
 
-  emitOption(group: number, option: number, value: any, select): void {
-  	this.optionClicked.emit({group: group, option: option, value: value, select: select});
+  emitOption(group: number, option: number, value: any, select: string, property: string): void {
+  	this.optionClicked.emit({group: group, option: option, value: value, select: select, property: property});
   }
 
-  clearFilterOption(group: number, op: number, option: FilterOption): void {
-    option.value.value = option.value.defaultValue;
+  // clearFilterOption(group: number, op: number, option: FilterOption): void {
+  //   option.value.value = option.value.defaultValue;
+  //   this.optionClear.emit({group: group, option: op});
+  // }
+
+  clearFilterOption(group: number, op: number): void {
+    this.filterModel.groups[group].options[op].value.value = this.filterModel.groups[group].options[op].value.defaultValue;
     this.optionClear.emit({group: group, option: op});
   }
 

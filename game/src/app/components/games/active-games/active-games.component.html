@@ -1,4 +1,4 @@
-<filter (optionClicked)="this.addFilter($event)" (optionClear)="this.clearFilter($event)" [filterModel]="this.filterlist" (clearAll)="this.clearAll()">
+<filter (optionClicked)="this.addFilter($event)" (optionClear)="this.clearFilterAndUpdate($event)" [filterModel]="this.filterlist" [appliedFilters]="this.appliedFilters" (clearAll)="this.clearAll()">
 	<div class="container-fluid">
 		<div class="row mr-2">
 			<div class="col d-flex flex-row-reverse">
@@ -43,10 +43,10 @@
 		<div class="row">
 			<div class="col">
 				<div *ngIf="this.viewType === this.options.LIST" (scroll)="this.scrolled($event)">
-					<app-active-game-list [activeGame]="this.activeGame" (join)="this.joinGame($event)" *ngIf="this.activeGame && this.activeGame.length > 0 else noData"></app-active-game-list>
+					<app-active-game-list [activeGame]="this.activeGameShow" (join)="this.joinGame($event)" *ngIf="this.activeGame && this.activeGame.length > 0 else noData"></app-active-game-list>
 				</div>
 				<div *ngIf="this.viewType === this.options.CARD" (scroll)="this.scrolled($event)">
-					<app-active-game-card [activeGame]="this.activeGame" (join)="this.joinGame($event)" *ngIf="this.activeGame && this.activeGame.length > 0 else noData"></app-active-game-card>				
+					<app-active-game-card [activeGame]="this.activeGameShow" (join)="this.joinGame($event)" *ngIf="this.activeGame && this.activeGame.length > 0 else noData"></app-active-game-card>				
 				</div>
 				<ng-template #noData>No Active Games Available At The Moment</ng-template>
 			</div>

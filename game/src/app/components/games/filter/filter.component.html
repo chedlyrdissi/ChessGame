@@ -19,7 +19,7 @@
 								[value]="option.value?.defaultValue"
 								[(ngModel)]="option.value.value"
 								[placeholder]="option.value?.placeholder ? option.value?.placeholder : ''"
-								(change)="this.emitOption(gindex, opindex, option.value.value, option.select?.choice)"
+								(change)="this.emitOption(gindex, opindex, option.value.value, option.select?.choice, option.property)"
 								*ngIf="option.value && option.value.prelabel"/>
 							{{option.label}}
 							<select
@@ -37,9 +37,9 @@
 								[value]="option.value?.defaultValue"
 								[(ngModel)]="option.value.value"
 								[placeholder]="option.value?.placeholder ? option.value?.placeholder : ''"
-								(change)="this.emitOption(gindex, opindex, option.value.value, option.select?.choice)"
+								(change)="this.emitOption(gindex, opindex, option.value.value, option.select?.choice, option.property)"
 								*ngIf="option.value && !option.value?.prelabel"/>
-							<span class="ml-2 fa fa-close" (click)="clearFilterOption(gindex, opindex, option)" *ngIf="option.value.value !== option.value.defaultValue"></span>
+							<span class="ml-2 fa fa-close" (click)="clearFilterOption(gindex, opindex)" *ngIf="option.value.value !== option.value.defaultValue"></span>
 						</li>
 					</ul>
 				</li>
@@ -47,8 +47,16 @@
 			</ul>
 		</div>
 	</div>
-	<span class="fa fa-bars hamburger-menu" sideMenuKeeper (click)="this.toggleMenu()"></span>
 	<div class="menu-content" [ngClass]="{'active': this.menuOpen}">
+		<div class="container-fluid mb-2">
+			<div class="d-inline-flex">
+				<span class="fa fa-bars hamburger-menu mr-2" sideMenuKeeper (click)="this.toggleMenu()"></span>
+				<div class="filter-elem m-1" *ngFor="let elem of this.appliedFilters">
+					{{filterModel.groups[elem.group].options[elem.option].label + (elem.select ? elem.select: ":")+ elem.value}}
+					<span class="fa fa-close" (click)="this.clearFilterOption(elem.group, elem.option)"></span>
+				</div>
+			</div>
+		</div>
 		<ng-content></ng-content>
 	</div>
 </div>

@@ -5,6 +5,7 @@ export interface FilterModel {
 export interface FilterOption {
 	label: string;
 	value: FilterOptionValue;
+	property: string;
 	select?: {
 		choice: any,
 		options: {label: string, value: any}[]
@@ -34,6 +35,7 @@ export class FilterOptionValue {
 export class AppliedFilter {
 	group: number;
 	option: number;
+	property: string;
 	value?: string;
 	select?: string | null;
 } 

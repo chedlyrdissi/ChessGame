@@ -29,12 +29,12 @@ export class UserMenuComponent {
 
   logIn(credentials: {username: string, password: string}, modalId: string): void {
     this.logInService.logIn(credentials.username, credentials.password);
-    // window.$('#'+modalId).modal('hide');
     this.subject.next();
   }
 
   register(credentials: {username: string, password: string}): void {
     this.registrationService.register(credentials.username, credentials.password);
+    this.subject.next();
   }
 
  	logOut(): void {
