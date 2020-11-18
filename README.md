@@ -4,9 +4,9 @@
 
 
 This is an app made for the sole purpose of exloring and getting used new technologies and techniques such as:
-api
-flask
-angular
-file transfering between server client
-caching
+api,
+flask,
+angular,
+file transfering between server client,
+caching,
 tackling the challenge of creating a game of chess (that being said playing against computer hasn't been implemented yet).
